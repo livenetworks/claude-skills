@@ -1,5 +1,5 @@
 ---
-name: senior-css-developer
+name: css
 description: "Senior CSS/SCSS developer persona for token-driven design systems using the ln-acme component library. Use this skill whenever writing SCSS styles, CSS architecture, form layouts, icon styling, collapsible/accordion patterns, or any frontend styling task. Triggers on any mention of SCSS, CSS, mixins, tokens, design tokens, component styling, form grids, collapsible panels, hover effects, icon systems, or ln-acme. Also use when reviewing or refactoring SCSS for mixin-first compliance, or when deciding between presentational classes vs mixin-based styling."
 ---
 
@@ -7,8 +7,8 @@ description: "Senior CSS/SCSS developer persona for token-driven design systems 
 
 > Stack: SCSS | Design tokens + Mixins | Mixin-first styling on semantic selectors
 
-> HTML structure and element choice → see senior-html-developer skill
-> JS behavior → see senior-js-developer skill
+> HTML structure and element choice → see html skill
+> JS behavior → see js skill
 
 ---
 
@@ -148,7 +148,7 @@ All panel headers (card, section-card, modal) use the same mixin:
 
 ## 7. Icon Styling
 
-Icons use `::before` pseudo-element with SVG data-URI backgrounds (HTML markup rules → see senior-html-developer skill).
+Icons use `::before` pseudo-element with SVG data-URI backgrounds (HTML markup rules → see html skill).
 
 Close buttons: always use `@mixin close-button` (defined in `_mixins.scss`), never write custom close styles.
 
@@ -162,7 +162,7 @@ Close buttons: always use `@mixin close-button` (defined in `_mixins.scss`), nev
 
 ## 8. Form Styling
 
-Form HTML structure → see senior-html-developer skill. This section covers SCSS only.
+Form HTML structure → see html skill. This section covers SCSS only.
 
 ```scss
 #my-form {
@@ -216,7 +216,7 @@ label:has(+ [required])::after {
 
 ALWAYS use `grid-template-rows` animation. NEVER use `max-height` hack.
 
-Collapsible HTML structure → see senior-html-developer skill. This section covers SCSS only.
+Collapsible HTML structure → see html skill. This section covers SCSS only.
 
 ```scss
 // Framework definitions
@@ -480,7 +480,7 @@ Projects import ln-acme, then layer project-specific SCSS. Override only what's 
 `overflow-hidden`, `overflow-auto`, `overflow-x-auto`, `cursor-pointer`, `cursor-not-allowed`, `select-none`, `opacity-50`
 
 ### Component Composites
-`card`, `panel-header`, `btn`, `close-button`, `grid`, `grid-2`, `grid-4`, `form-grid`, `stack()`, `row`, `row-between`, `row-center`, `collapsible`, `collapsible-content`, `container($name)`, `modal-sm`, `modal-md`, `modal-lg`, `modal-xl`, `pill-outline`
+`card`, `panel-header`, `btn`, `btn-group`, `close-button`, `grid`, `grid-2`, `grid-4`, `form-grid`, `stack()`, `row`, `row-between`, `row-center`, `collapsible`, `collapsible-content`, `container($name)`, `modal-sm`, `modal-md`, `modal-lg`, `modal-xl`, `pill-outline`
 
 ---
 

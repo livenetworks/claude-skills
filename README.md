@@ -8,10 +8,10 @@ Single source of truth across all Live Networks projects.
 | Folder | Skill Name | Description |
 |--------|-----------|-------------|
 | `architecture/` | architecture | Software architecture decisions and patterns |
-| `css/` | senior-css-developer | Token-driven SCSS/CSS architecture with ln-acme |
+| `css/` | css | Token-driven SCSS/CSS architecture with ln-acme |
 | `database/` | database | Database design, queries, and optimization |
-| `html/` | senior-html-developer | Semantic, accessible HTML markup with ln-acme |
-| `js/` | senior-js-developer | Vanilla JS, IIFE, event-driven components with ln-acme |
+| `html/` | html | Semantic, accessible HTML markup with ln-acme |
+| `js/` | js | Vanilla JS, IIFE, event-driven components with ln-acme |
 | `laravel/` | laravel | Laravel conventions, LN-Starter patterns |
 | `ui/` | ui-designer | UI/visual layout and information presentation |
 | `ux/` | ux-designer | Interaction flow and user journey decisions |

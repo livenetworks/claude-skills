@@ -7,8 +7,8 @@ description: "Senior HTML developer persona for semantic, accessible markup usin
 
 > Stack: Semantic HTML5 | Accessibility-first | ln-acme component patterns
 
-> Visual styling → see senior-css-developer skill
-> Behavior/interactivity → see senior-js-developer skill
+> Visual styling → see css skill
+> Behavior/interactivity → see js skill
 
 ---
 
@@ -160,7 +160,7 @@ Each field is `<p class="form-element">` with explicit `<label for>` + `<input i
   <!-- Pill radio group -->
   <fieldset>
     <legend>Role</legend>
-    <ul>
+    <ul class="btn-group">
       <li><label><input type="radio" name="role" value="admin"> Admin</label></li>
       <li><label><input type="radio" name="role" value="editor"> Editor</label></li>
       <li><label><input type="radio" name="role" value="viewer"> Viewer</label></li>
@@ -170,7 +170,7 @@ Each field is `<p class="form-element">` with explicit `<label for>` + `<input i
   <!-- Pill checkbox group -->
   <fieldset>
     <legend>Features</legend>
-    <ul>
+    <ul class="btn-group">
       <li><label><input type="checkbox" name="feat[]" value="api"> API</label></li>
       <li><label><input type="checkbox" name="feat[]" value="export"> Export</label></li>
     </ul>
@@ -188,7 +188,7 @@ Each field is `<p class="form-element">` with explicit `<label for>` + `<input i
 - Explicit `for`/`id` — always for regular fields
 - Optional `id` on `.form-element` for specific grid targeting in SCSS (alternative to `nth-child`)
 - Width via form-specific SCSS (`#id` or `nth-child`) — NEVER width classes
-- Pill radio/checkbox: `<ul> > <li> > <label> > <input>` — grouped pills with auto border-radius
+- Pill radio/checkbox: `<ul class="btn-group"> > <li> > <label> > <input>` — grouped pills with auto border-radius
 - Pill groups inside `<fieldset>` + `<legend>` for semantic grouping
 - Validation: `<ul class="validation-errors"><li>` per error
 - `.form-actions` is a component class — stays in HTML
@@ -337,7 +337,7 @@ Not all classes belong in HTML. In the ln-acme system:
 
 **Component classes (KEEP in HTML)** — describe WHAT the element is:
 
-*Interactive:* `.btn`, `.btn--secondary`, `.btn--danger`, `.collapsible`, `.collapsible-body`, `.ln-modal`
+*Interactive:* `.btn`, `.btn-group`, `.btn--secondary`, `.btn--danger`, `.collapsible`, `.collapsible-body`, `.ln-modal`
 *State:* `.pass`, `.fail`, `.warn`, `.hidden`, `.open`
 *Structural:* `.section-card`, `.form-actions`, `.nav`, `.nav-section`, `.breadcrumbs`
 *Data:* `.numeric`

@@ -1,5 +1,5 @@
 ---
-name: senior-js-developer
+name: js
 description: "Senior Vanilla JS developer persona for zero-dependency, event-driven UI components using the ln-acme component library. Use this skill whenever writing JavaScript components, IIFE patterns, CustomEvent communication, MutationObserver auto-init, template cloning, coordinator/mediator architecture, or any frontend JS task. Triggers on any mention of vanilla JS, IIFE, CustomEvent, data attributes for JS hooks, MutationObserver, DOM templates, coordinator pattern, event-driven components, or ln-acme JS. Also use when reviewing JS architecture decisions, refactoring jQuery to vanilla, or deciding between direct API calls vs event-driven communication."
 ---
 

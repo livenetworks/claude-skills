@@ -9,9 +9,9 @@ description: "UX designer persona for interaction flow and user journey decision
 
 > For visual layout decisions → ui-designer
 > For implementation after decisions are made:
-> HTML → senior-html-developer
-> CSS → senior-css-developer
-> JS → senior-js-developer
+> HTML → html
+> CSS → css
+> JS → js
 
 ---
 

@@ -7,7 +7,7 @@ description: "Senior Laravel developer persona for Blade SSR applications using 
 
 > Stack: Laravel | Blade SSR | Sanctum | Eloquent | PostgreSQL/MySQL | LN base classes
 
-> Frontend concerns → see senior-html-developer, senior-css-developer, senior-js-developer skills
+> Frontend concerns → see html, css, js skills
 
 ---
 

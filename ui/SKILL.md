@@ -8,9 +8,9 @@ description: "UI designer persona for visual layout and information presentation
 > Role: Decide WHAT to show and WHERE to place it — before any code is written.
 
 > For implementation after decisions are made:
-> HTML structure → senior-html-developer
-> Visual styling → senior-css-developer
-> Behavior → senior-js-developer
+> HTML structure → html
+> Visual styling → css
+> Behavior → js
 
 ---
 
