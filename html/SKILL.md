@@ -46,7 +46,35 @@ Use the most meaningful HTML element for the content.
 
 ---
 
-## 3. Heading Rule
+## 3. Button Group Rule — `<ul class="btn-group">/<li>`
+
+**Any group of same-type buttons uses `<ul class="btn-group">/<li>`.** This applies regardless of whether the buttons are actions or inputs.
+
+```html
+<!-- Action buttons (edit/delete/view) -->
+<ul class="btn-group">
+  <li><a href="#" class="ln-icon-view" aria-label="View"></a></li>
+  <li><button class="ln-icon-edit" aria-label="Edit"></button></li>
+  <li><button class="ln-icon-delete" aria-label="Delete"></button></li>
+</ul>
+
+<!-- Pill radio/checkbox inputs -->
+<fieldset>
+  <legend>Role</legend>
+  <ul class="btn-group">
+    <li><label><input type="radio" name="role" value="admin"> Admin</label></li>
+    <li><label><input type="radio" name="role" value="editor"> Editor</label></li>
+  </ul>
+</fieldset>
+```
+
+**Why `<ul>`?** A group of buttons is an unordered list of options — the same semantic as nav items, pill inputs, or any peer-level set. `<div>` has no semantic meaning; `<ul>` communicates "these items belong together as a group."
+
+**Rule:** `<div class="btn-group">` is FORBIDDEN — always `<ul class="btn-group">`.
+
+---
+
+## 4. Heading Rule
 
 The heading is what **NAMES** the content, not what is visually largest.
 
@@ -377,6 +405,7 @@ JS behavior is bound via `data-ln-*` attributes. Classes are for styling only.
 
 - Bare `<div>` without a class
 - `<div>` when a semantic element exists (`<section>`, `<article>`, `<nav>`, `<ul>/<li>`, `<fieldset>`, `<aside>`, `<header>`, `<footer>`, `<main>`)
+- Spaces for indentation — always use tabs
 - HTML entities for icons (`&times;`, `&#9660;`, `&#10005;`)
 - Numbers as headings (`<h2>42</h2>`)
 - Skipping heading levels (`<h1>` → `<h3>`)
@@ -387,6 +416,7 @@ JS behavior is bound via `data-ln-*` attributes. Classes are for styling only.
 - Bare `<label>` with radio/checkbox outside `<ul>/<li>` — use `<ul> > <li> > <label>` for pill groups
 - Manual `*` or `<span>` for required indicators — use `required` attribute + CSS `:has()`
 - `<div>` or `<span>` as clickable elements — use `<button>` or `<a>`
+- `<div class="btn-group">` for grouped buttons — use `<ul class="btn-group">/<li>`
 - Icon buttons without `aria-label`
 - `role` on elements that already have the correct implicit role
 - `aria-required="true"` when `required` attribute works

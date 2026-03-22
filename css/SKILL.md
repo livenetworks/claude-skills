@@ -425,6 +425,7 @@ Projects import ln-acme, then layer project-specific SCSS. Override only what's 
 
 ## 15. Anti-Patterns — NEVER Do These
 
+- Spaces for indentation — always use tabs
 - Hardcoded hex colors (`#2737a1`) — use `hsl(var(--color-primary))`
 - Hardcoded px/rem values — use `var(--spacing-*)` or `var(--radius-*)`
 - Raw CSS properties — use `@include` mixins

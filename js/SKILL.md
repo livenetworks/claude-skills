@@ -405,6 +405,7 @@ Components do NOT know about siblings and do NOT call storage/DB.
 
 ## 12. Anti-Patterns — NEVER Do These
 
+- Spaces for indentation — always use tabs
 - `var` declarations — use `const` (default) or `let` (when reassigning)
 - `createElement` chains — use `<template>` + `cloneNode`
 - Direct component-to-component calls — use CustomEvents
