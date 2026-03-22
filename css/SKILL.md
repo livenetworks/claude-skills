@@ -166,16 +166,14 @@ Form HTML structure → see senior-html-developer skill. This section covers SCS
 
 ```scss
 #my-form {
-  @include form-grid;                              // 6 cols → 1 col on mobile
+  @include form-grid;                                      // 6 cols → 1 col on mobile
 
-  // Grid spans — adapt selectors to your HTML structure
-  > .form-element, > label { grid-column: span 3; }  // default: half width
-  > .form-element:nth-child(3) { grid-column: span 6; } // full width
-  > fieldset { grid-column: span 6; }                // fieldsets typically full width
-  > .form-actions { grid-column: span 6; }
-
-  input[type="checkbox"],
-  input[type="radio"] { width: auto; }
+  .form-element { grid-column: span 3; }                   // default: half
+  #field-notes { grid-column: span 6; }                    // by element id
+  .form-element:has([name="message"]) { grid-column: span 6; }  // by input name
+  .form-element:nth-child(5) { grid-column: span 6; }     // by position
+  > fieldset { grid-column: span 6; }
+  .form-actions { grid-column: span 6; }
 
   .validation-errors {
     list-style: none;
@@ -187,13 +185,21 @@ Form HTML structure → see senior-html-developer skill. This section covers SCS
 }
 ```
 
+### Pill Labels — Two Styles
+
+Checkbox/radio pills inside `<ul> > <li> > <label>` are auto-styled (filled). For outline style:
+
+```scss
+// Switch a container to outline pills (visible input indicator, bordered)
+#my-form fieldset { @include pill-outline; }
+```
+
 ### Required Indicator — CSS-driven
 
 NEVER add `*` manually. CSS detects `[required]` and generates the indicator:
 
 ```scss
-label:has(+ [required])::after,
-label:has(> [required])::after {
+label:has(+ [required])::after {
     content: ' *';
     @include text-error;
 }
@@ -201,6 +207,7 @@ label:has(> [required])::after {
 
 ### Rules
 - `@include form-grid` for layout (6 cols → 1 col on mobile)
+- Width via `#id`, `:has([name="..."])`, or `nth-child` in form-specific SCSS — NEVER width classes on elements
 - Grid spans in SCSS only — NEVER inline `style="grid-column: ..."`
 
 ---
@@ -368,7 +375,55 @@ scss/components/*.scss      → Components using both above
 
 ---
 
-## 14. Anti-Patterns — NEVER Do These
+## 14. Project Integration — Using ln-acme as Base
+
+Projects import ln-acme, then layer project-specific SCSS. Override only what's needed.
+
+### Project SCSS Structure
+
+```scss
+// project/app.scss
+@use 'ln-acme/scss/ln-acme';              // full framework CSS
+@use 'scss/overrides';                      // token + mixin overrides
+@use 'scss/components/tenant-form';         // project components
+@use 'scss/components/dashboard';
+```
+
+### Override Tokens
+
+```scss
+// project/scss/_overrides.scss
+:root {
+    --color-primary: 210 80% 42%;           // project brand color
+    --font-sans: 'Inter', sans-serif;       // project font
+}
+```
+
+### Override per Context
+
+```scss
+// Color cascades via CSS variables — no extra classes needed
+#delete-user { --color-primary: var(--color-error); }
+.admin-panel { --color-primary: var(--color-secondary); }
+
+// Entity-specific colors (project-level tokens)
+:root {
+    --entity-shelf: 7 72% 52%;
+    --entity-book: 155 50% 38%;
+}
+.entity-shelf { --color-primary: var(--entity-shelf); }
+```
+
+### Rules
+- Import `@use 'ln-acme'` first, project SCSS after
+- Override tokens by redefining same `--var` names — never create new token names per theme
+- Override structure by redefining mixins in project `_overrides.scss`
+- All project styling via `@include` on semantic selectors
+- ln-acme does NOT ship variant classes (`.btn--danger`) — projects define their own
+
+---
+
+## 15. Anti-Patterns — NEVER Do These
 
 - Hardcoded hex colors (`#2737a1`) — use `hsl(var(--color-primary))`
 - Hardcoded px/rem values — use `var(--spacing-*)` or `var(--radius-*)`
@@ -392,7 +447,7 @@ scss/components/*.scss      → Components using both above
 
 ---
 
-## 15. Mixin Quick Reference
+## 16. Mixin Quick Reference
 
 ### Spacing
 `p()`, `px()`, `py()`, `pt()`, `pb()`, `pl()`, `pr()`, `m()`, `mx()`, `my()`, `mt()`, `mb()`, `ml()`, `mr()`, `gap()`
@@ -425,11 +480,11 @@ scss/components/*.scss      → Components using both above
 `overflow-hidden`, `overflow-auto`, `overflow-x-auto`, `cursor-pointer`, `cursor-not-allowed`, `select-none`, `opacity-50`
 
 ### Component Composites
-`card`, `panel-header`, `btn`, `close-button`, `grid`, `grid-2`, `grid-4`, `form-grid`, `stack()`, `row`, `row-between`, `row-center`, `collapsible`, `collapsible-content`, `container($name)`
+`card`, `panel-header`, `btn`, `close-button`, `grid`, `grid-2`, `grid-4`, `form-grid`, `stack()`, `row`, `row-between`, `row-center`, `collapsible`, `collapsible-content`, `container($name)`, `modal-sm`, `modal-md`, `modal-lg`, `modal-xl`, `pill-outline`
 
 ---
 
-## 16. Container Queries — Component-Aware Responsive
+## 17. Container Queries — Component-Aware Responsive
 
 Components respond to their **container**, not the viewport.
 

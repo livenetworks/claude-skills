@@ -124,72 +124,72 @@ Icon-only buttons need accessible labels:
 
 ## 6. Form Structure
 
-Forms use semantic containers. The structure is flexible — there is no single mandatory pattern.
+### Pattern
+
+Each field is `<p class="form-element">` with explicit `<label for>` + `<input id>`. Pill radio/checkbox groups use `<ul> > <li> > <label> > <input>`.
 
 ### Principles
 
-1. **Semantic containers** — each field is wrapped in a meaningful element (not a bare `<div>`)
-2. **No obsolete wrappers** — `<div class="form-group">` and `<div class="form-row">` are FORBIDDEN
-3. **Grouped fields** — use `<fieldset>` + `<legend>` for related inputs (checkbox groups, radio groups, address fields)
-4. **Validation errors** — use `<ul class="validation-errors">` with `<li>` per error message
-5. **Required fields** — just add `required` attribute; the `*` indicator is CSS-driven (never add `*` manually)
+1. **`<p class="form-element">`** wraps label + input — NOT wrapping `<label>`
+2. **Explicit `for`/`id`** — always: `<label for="name">` + `<input id="name">`
+3. **No width classes** — column spans come from form-specific SCSS (`nth-child`), not HTML classes
+4. **No obsolete wrappers** — `<div class="form-group">` and `<div class="form-row">` are FORBIDDEN
+5. **Grouped radio/checkbox** — `<fieldset>` + `<legend>` + `<ul>/<li>/<label>`
+6. **Validation errors** — `<ul class="validation-errors">` with `<li>` per error message
+7. **Required fields** — just add `required` attribute; the `*` indicator is CSS-driven
 
-### Example A: Explicit label + input (with `for`/`id`)
+### Example
 ```html
 <form id="my-form">
   <p class="form-element">
-    <label for="fname">Name</label>
-    <input type="text" id="fname" name="fname" required>
+    <label for="name">Name</label>
+    <input type="text" id="name" name="name" required>
     <ul class="validation-errors">
       <li>Required field</li>
     </ul>
   </p>
 
-  <p class="form-element">
+  <p class="form-element" id="field-category">
     <label for="category">Category</label>
     <select id="category" name="category">
       <option value="a">Option A</option>
     </select>
   </p>
 
+  <!-- Pill radio group -->
   <fieldset>
-    <legend>Notification preferences</legend>
-    <label><input type="checkbox" name="email" value="1"> Email</label>
-    <label><input type="checkbox" name="sms" value="1"> SMS</label>
+    <legend>Role</legend>
+    <ul>
+      <li><label><input type="radio" name="role" value="admin"> Admin</label></li>
+      <li><label><input type="radio" name="role" value="editor"> Editor</label></li>
+      <li><label><input type="radio" name="role" value="viewer"> Viewer</label></li>
+    </ul>
+  </fieldset>
+
+  <!-- Pill checkbox group -->
+  <fieldset>
+    <legend>Features</legend>
+    <ul>
+      <li><label><input type="checkbox" name="feat[]" value="api"> API</label></li>
+      <li><label><input type="checkbox" name="feat[]" value="export"> Export</label></li>
+    </ul>
   </fieldset>
 
   <div class="form-actions">
-    <button type="button" class="btn btn--secondary">Cancel</button>
-    <button type="submit" class="btn">Save</button>
-  </div>
-</form>
-```
-
-### Example B: Wrapping label (implicit association)
-```html
-<form id="my-form">
-  <label>
-    Name
-    <input type="text" name="fname" required>
-  </label>
-
-  <label>
-    <input type="checkbox" name="confirmed" value="1">
-    I confirm the data
-  </label>
-
-  <div class="form-actions">
-    <button type="button" class="btn btn--secondary">Cancel</button>
-    <button type="submit" class="btn">Save</button>
+    <button type="button">Cancel</button>
+    <button type="submit">Save</button>
   </div>
 </form>
 ```
 
 ### Rules
-- Either wrapping `<label>` (implicit) or `<label for>` + `<input id>` (explicit) — both are valid
-- Field wrapper: `<p class="form-element">`, `<label>`, or other semantic element — NOT `<div class="form-group">`
-- Grouped fields: `<fieldset>` + `<legend>` — NOT `<div class="field-group">` or `<div class="checkbox-group">`
-- Validation: `<ul class="validation-errors"><li>` per error — NOT `<small>` or `<span>`
+- `<p class="form-element">` wraps `<label>` + `<input>` — NEVER wrapping `<label>`
+- Explicit `for`/`id` — always for regular fields
+- Optional `id` on `.form-element` for specific grid targeting in SCSS (alternative to `nth-child`)
+- Width via form-specific SCSS (`#id` or `nth-child`) — NEVER width classes
+- Pill radio/checkbox: `<ul> > <li> > <label> > <input>` — grouped pills with auto border-radius
+- Pill groups inside `<fieldset>` + `<legend>` for semantic grouping
+- Validation: `<ul class="validation-errors"><li>` per error
 - `.form-actions` is a component class — stays in HTML
 - `.form-group` and `.form-row` are **OBSOLETE** — never use them
 
@@ -247,14 +247,16 @@ Use HTML5 landmarks — they have implicit ARIA roles. Add explicit `role` only 
 </button>
 <main id="panel1" data-ln-toggle class="collapsible">...</main>
 
-<!-- Modal — label and role -->
-<section data-ln-modal="confirm-delete" role="dialog" aria-labelledby="modal-title">
-    <header>
-        <h3 id="modal-title">Confirm Delete</h3>
-        <button class="ln-icon-close" data-ln-modal-close aria-label="Close"></button>
-    </header>
-    <main>...</main>
-</section>
+<!-- Modal — form is always the content root -->
+<div class="ln-modal" id="confirm-delete" role="dialog" aria-labelledby="modal-title">
+    <form>
+        <header>
+            <h3 id="modal-title">Confirm Delete</h3>
+            <button type="button" class="ln-icon-close" data-ln-modal-close aria-label="Close"></button>
+        </header>
+        <main>...</main>
+    </form>
+</div>
 
 <!-- Loading state -->
 <button type="submit" class="btn" aria-busy="true" disabled>Saving...</button>
@@ -380,6 +382,8 @@ JS behavior is bound via `data-ln-*` attributes. Classes are for styling only.
 - Inline `style=""` attributes
 - Presentational classes in project HTML (`grid-2`, `card`, `text-secondary`, `stack`, `row`)
 - `<div class="form-group">`, `<div class="form-row">`, `<div class="field-group">` (obsolete)
+- Wrapping `<label>` for form fields (`<label>Name <input></label>`) — use `<p class="form-element">` with explicit `for`/`id`
+- Bare `<label>` with radio/checkbox outside `<ul>/<li>` — use `<ul> > <li> > <label>` for pill groups
 - Manual `*` or `<span>` for required indicators — use `required` attribute + CSS `:has()`
 - `<div>` or `<span>` as clickable elements — use `<button>` or `<a>`
 - Icon buttons without `aria-label`
