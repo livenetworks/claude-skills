@@ -1,5 +1,5 @@
 ---
-name: senior-html-developer
+name: html
 description: "Senior HTML developer persona for semantic, accessible markup using the ln-acme component library. Use this skill whenever writing HTML markup, choosing HTML elements, structuring forms, building accessible interfaces, adding ARIA attributes, structuring page metadata, or reviewing HTML for semantic correctness. Triggers on any mention of semantic HTML, accessibility, ARIA, form structure, heading hierarchy, meta tags, SEO markup, fieldset, landmark elements, or ln-acme HTML patterns. Also use when deciding between div and semantic elements, or when reviewing HTML for accessibility compliance."
 ---
 
@@ -25,6 +25,7 @@ Use the most meaningful HTML element for the content.
 | Content | Use | Never |
 |---------|-----|-------|
 | List of items | `<ul>/<li>` or `<ol>/<li>` | `<div>` per item |
+| Group of same-type actions | `<ul>/<li>` | `<div class="actions">` |
 | Card / item | `<article>` or `<li>` | `<div class="card">` |
 | Content group | `<section>` | `<div class="stack">` |
 | Navigation buttons | `<nav>` | `<div class="row">` |
