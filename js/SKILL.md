@@ -208,7 +208,10 @@ import { profileStore } from './ln-profile.js'; // NO imports between components
 
 ## 6. MutationObserver (Auto-init)
 
-Every component includes a MutationObserver to auto-initialize dynamically added DOM elements:
+Every component includes a MutationObserver to auto-initialize elements in two scenarios:
+
+1. **`childList`** — new element added to DOM (AJAX, `innerHTML`, `appendChild`)
+2. **`attributes`** — `data-ln-*` attribute added to an existing element (`setAttribute`, browser Inspector)
 
 ```javascript
 function _domObserver() {
@@ -221,12 +224,25 @@ function _domObserver() {
                         _attachTriggers(node);
                     }
                 }
+            } else if (mutation.type === 'attributes') {
+                _findElements(mutation.target);
+                _attachTriggers(mutation.target);
             }
         }
     });
-    observer.observe(document.body, { childList: true, subtree: true });
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true,
+        attributes: true,
+        attributeFilter: [DOM_SELECTOR, 'data-ln-{name}-for']
+    });
 }
 ```
+
+**Rules:**
+- `attributeFilter` always includes `DOM_SELECTOR` (and trigger attributes like `'data-ln-{name}-for'` if applicable)
+- `attributeFilter` is mandatory — without it the observer fires on EVERY attribute change (performance issue)
+- On `attributes` mutation, `mutation.target` is the element whose attribute changed — call `_findElements` directly on it
 
 ---
 
