@@ -81,6 +81,8 @@ box-shadow: var(--shadow-sm);                  // not 0 1px 2px rgba(...)
 
 Use HTML elements as selectors inside block context. NOT classic BEM classes.
 
+**ID vs Class:** Unique elements (one per page) ALWAYS use `id` — `#app-header`, `#dashboard`, `#profile-form`. Repeated/reusable elements use `class` — `.card`, `.form-element`, `.ln-tag`. If there's only one of something, it's an `id`.
+
 **Why?** Classic BEM (`.card__header`, `.card__body`) pollutes HTML with redundant naming — the element tag already communicates what it is. Semantic selectors keep HTML clean, eliminate class-naming decisions, and let the markup describe content while SCSS describes presentation.
 
 **Framework SCSS** (component definitions inside the library):
@@ -423,7 +425,69 @@ Projects import ln-acme, then layer project-specific SCSS. Override only what's 
 
 ---
 
-## 15. Anti-Patterns — NEVER Do These
+## 15. ln-acme Override Discipline
+
+Before writing any style, check if ln-acme already defines it. Only write project SCSS for what ln-acme does NOT provide or what needs to be DIFFERENT.
+
+### Don't duplicate ln-acme globals
+ln-acme sets global styles on `body`, `a`, `button`, `h1-h6`, etc. Never restate them:
+```scss
+// WRONG — ln-acme already does this
+body { margin: 0; padding: 0; background-color: hsl(var(--color-bg-body)); }
+a { text-decoration: none; color: hsl(var(--color-primary)); }
+button { border: none; cursor: pointer; }
+h3 { color: hsl(var(--color-text-primary)); font-weight: bold; }
+
+// RIGHT — only override what's different
+body { font-feature-settings: 'cv02', 'cv03', 'cv04'; }  // Inter-specific, ln-acme doesn't have this
+```
+
+### Don't restate inherited properties
+If a parent or ln-acme global already sets a property, children inherit it:
+```scss
+// WRONG — headings already have text-primary from ln-acme _typography.scss
+#content h1 { @include text-primary; }
+
+// WRONG — links already have no text-decoration from ln-acme _global.scss
+.actions-section a { text-decoration: none; }
+
+// RIGHT — only what's different from the inherited default
+#content h1 { letter-spacing: -0.02em; }
+```
+
+### Minimal override = only the delta
+When overriding ln-acme components, write ONLY the properties that differ:
+```scss
+// WRONG — restating everything ln-acme .form-actions already provides
+.form-actions {
+    @include flex;           // already in ln-acme
+    @include justify-end;    // already in ln-acme
+    @include border-t;       // already in ln-acme
+    @include items-center;   // NOT in ln-acme ← this is the actual override
+    grid-column: span 6;     // NOT in ln-acme ← this is the actual override
+}
+
+// RIGHT — only the delta
+.form-actions {
+    @include items-center;
+    grid-column: span 6;
+}
+```
+
+### Custom values → tokens
+Any hardcoded value that could change (shadow, color, size) should be a `:root` token:
+```scss
+// WRONG — hardcoded inline
+#content { box-shadow: 0 1px 4px rgba(0,0,0,0.08), 0 0 2px rgba(0,0,0,0.04); }
+
+// RIGHT — token in :root, referenced by name
+:root { --shadow-content: 0 1px 4px rgba(0,0,0,0.08), 0 0 2px rgba(0,0,0,0.04); }
+#content { box-shadow: var(--shadow-content); }
+```
+
+---
+
+## 16. Anti-Patterns — NEVER Do These
 
 - Spaces for indentation — always use tabs
 - Hardcoded hex colors (`#2737a1`) — use `hsl(var(--color-primary))`
@@ -448,7 +512,7 @@ Projects import ln-acme, then layer project-specific SCSS. Override only what's 
 
 ---
 
-## 16. Mixin Quick Reference
+## 17. Mixin Quick Reference
 
 ### Spacing
 `p()`, `px()`, `py()`, `pt()`, `pb()`, `pl()`, `pr()`, `m()`, `mx()`, `my()`, `mt()`, `mb()`, `ml()`, `mr()`, `gap()`

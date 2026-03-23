@@ -359,7 +359,13 @@ Use HTML5 landmarks — they have implicit ARIA roles. Add explicit `role` only 
 
 ---
 
-## 10. Class Classification in HTML
+## 10. ID vs Class — Uniqueness Rule
+
+Unique elements (one per page) ALWAYS use `id` — `#app-header`, `#dashboard`, `#profile-form`. Repeated/reusable elements use `class` — `.card`, `.form-element`, `.ln-tag`. If there's only one of something, it's an `id`.
+
+---
+
+## 11. Class Classification in HTML
 
 Not all classes belong in HTML. In the ln-acme system:
 
@@ -383,7 +389,7 @@ Not all classes belong in HTML. In the ln-acme system:
 
 ---
 
-## 11. JS Hooks = Data Attributes, Not Classes
+## 12. JS Hooks = Data Attributes, Not Classes
 
 JS behavior is bound via `data-ln-*` attributes. Classes are for styling only.
 
@@ -401,7 +407,7 @@ JS behavior is bound via `data-ln-*` attributes. Classes are for styling only.
 
 ---
 
-## 12. Anti-Patterns — NEVER Do These
+## 13. Anti-Patterns — NEVER Do These
 
 - Bare `<div>` without a class
 - `<div>` when a semantic element exists (`<section>`, `<article>`, `<nav>`, `<ul>/<li>`, `<fieldset>`, `<aside>`, `<header>`, `<footer>`, `<main>`)
