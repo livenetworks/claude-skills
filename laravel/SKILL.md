@@ -394,6 +394,28 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 Whether routes live in `web.php`, `api.php`, or both depends on the project. The patterns above apply regardless of file.
 
+### Generating URLs with Parameter Substitution
+
+When you need a link to the **same route but with a different parameter** (e.g., locale switcher, pagination), use the route system — never parse/rebuild URLs manually:
+
+```php
+// RIGHT — use Route facade to get current route + parameters, swap one
+route(Route::currentRouteName(), array_merge(Route::current()->parameters(), ['locale' => $code]))
+// /en/admin/packages → /mk/admin/packages (swaps locale, keeps everything else)
+
+// WRONG — manual URL segment parsing
+$segments = request()->segments();
+array_shift($segments); // remove locale
+$path = implode('/', $segments);
+url("/$code/$path"); // fragile, breaks with query strings, named params, etc.
+```
+
+**Key helpers:**
+- `Route::currentRouteName()` — name of the current route (e.g., `admin.packages.index`)
+- `Route::current()->parameters()` — all route parameters as array (e.g., `['locale' => 'en']`)
+- `route($name, $params)` — generate URL from route name + parameters
+- `URL::defaults(['locale' => $value])` — set defaults so `route()` auto-injects parameters (done in middleware)
+
 ### Route Naming
 
 | Pattern | Example |
@@ -978,6 +1000,12 @@ Decide per model. Some write models need timestamps (orders, user actions), othe
 ### Events
 - Let Listener exceptions propagate — always catch + `Log::error()`
 - Core domain logic in Listeners — only side effects
+
+### Routes & URLs
+- Manual URL segment parsing when `Route::currentRouteName()` + `Route::current()->parameters()` + `route()` can do it
+- `url()` for named routes — use `route()` always
+- Hardcoded locale/parameter in URLs — use `URL::defaults()` in middleware
+- Building URLs with string concatenation (`'/' . $locale . '/' . $path`) — use `route()` with parameters
 
 ### General
 - `dd()`, `dump()`, `var_dump()` in committed code
