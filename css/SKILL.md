@@ -119,14 +119,34 @@ BEM modifiers (double-dash) are the only exception:
 
 ---
 
-## 5. Dual Approach: Classes + Mixins
+## 5. Two Layers: Mixins + Components
 
-The framework offers BOTH classes and mixins for the same components:
-- **Classes** (`.card`, `.grid-2`) → exist in framework SCSS, usable for rapid prototyping only
-- **Mixins** (`@include card`, `@include grid-2`) → production usage in project SCSS
+Every visual style has two layers:
 
-Production code uses mixins on semantic selectors:
+```
+scss/config/mixins/_form.scss       →  @mixin form-input { ... }            ← recipe
+scss/components/_forms.scss         →  input { @include form-input; }       ← default applied
+```
+
+**Mixins** (`scss/config/mixins/`) — define HOW something looks. Never generate CSS.
+**Components** (`scss/components/`) — apply mixins to default selectors. Generate CSS.
+
+| Situation | Mixin | Component |
+|---|---|---|
+| Universal element (`label`, `table`, `input`) | yes | yes — applied to element |
+| Singleton (`#breadcrumbs`) | yes | yes — applied to `#id` |
+| Component class (`.btn`, `.collapsible`) | yes | yes — applied to class |
+| Data-attr JS component (`[data-ln-tabs]`) | not needed | yes — selector is attribute |
+
+Projects use the library default OR re-apply the mixin on their own selector:
 ```scss
+// Use library default — just write HTML, table is styled
+<table>...</table>
+
+// Override for a specific context — re-apply mixin with modifications
+#audit-log { @include table-base; @include table-striped; }
+
+// Project semantic selectors use mixins directly
 #stats {
     ul { @include grid-4; list-style: none; padding: 0; margin: 0; }
     li { @include card; @include p(1rem); }
@@ -370,10 +390,16 @@ All components using `hsl(var(--color-primary))` automatically adapt. No extra c
 ## 13. Architecture — Three CSS Layers
 
 ```
-scss/config/_tokens.scss    → CSS custom properties (:root)
-scss/config/_mixins.scss    → SCSS @include utility mixins
-scss/components/*.scss      → Components using both above
+scss/config/_tokens.scss        → CSS custom properties (:root)
+scss/config/mixins/*.scss       → Mixin recipes (never generate CSS)
+scss/components/*.scss          → Apply mixins to default selectors (generate CSS)
 ```
+
+Adding a new visual style:
+1. **Mixin** → `scss/config/mixins/_thing.scss` with `@mixin thing { ... }`
+2. **Register** → `@forward 'thing'` in `scss/config/mixins/_index.scss`
+3. **Component** → `scss/components/_thing.scss` applies it: `#thing { @include thing; }`
+4. **Entry** → `@use 'components/thing'` in `scss/ln-acme.scss`
 
 ---
 
@@ -544,8 +570,14 @@ Any hardcoded value that could change (shadow, color, size) should be a `:root` 
 ### Overflow & Interaction
 `overflow-hidden`, `overflow-auto`, `overflow-x-auto`, `cursor-pointer`, `cursor-not-allowed`, `select-none`, `opacity-50`
 
+### Form
+`form-label`, `form-grid`, `form-actions`, `form-input`, `form-textarea`, `form-select`, `form-check`, `form-checkbox`, `form-radio`, `pill`, `pill-group`, `pill-outline`
+
+### Table
+`table-base`, `table-responsive`, `table-striped`, `table-section-header`, `table-action`
+
 ### Component Composites
-`card`, `panel-header`, `btn`, `btn-group`, `close-button`, `grid`, `grid-2`, `grid-4`, `form-grid`, `stack()`, `row`, `row-between`, `row-center`, `collapsible`, `collapsible-content`, `container($name)`, `modal-sm`, `modal-md`, `modal-lg`, `modal-xl`, `pill-outline`
+`card`, `panel-header`, `btn`, `btn-group`, `close-button`, `grid`, `grid-2`, `grid-4`, `stack()`, `row`, `row-between`, `row-center`, `collapsible`, `collapsible-content`, `container($name)`, `modal-sm`, `modal-md`, `modal-lg`, `modal-xl`, `breadcrumbs`, `loader`
 
 ---
 
