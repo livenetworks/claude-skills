@@ -29,13 +29,13 @@ Every component follows this structure:
     // Double-load guard
     if (window[DOM_ATTRIBUTE] !== undefined) return;
 
-    function _privateHelper() { /* ... */ }
-    function _initComponent(container) { /* ... */ }
-    function _initializeAll() { /* ... */ }
+    function constructor(domRoot) { /* ... */ }
+    function _findElements(root) { /* ... */ }
+    function _attachTriggers(root) { /* ... */ }
     function _domObserver() { /* ... */ }
 
-    // Window = constructor/init only
-    window[DOM_ATTRIBUTE] = { init: _initComponent };
+    // Window = constructor only
+    window[DOM_ATTRIBUTE] = constructor;
 
     // Auto-init
     _domObserver();
@@ -67,18 +67,22 @@ Inside IIFEs, `const`/`let` are block-scoped to the IIFE — they don't leak to 
 
 ### Component Instance Lives on the DOM Element
 
-The component instance is stored on the DOM element, NOT on `window`. `window` only holds the constructor/init function.
+The component instance is stored on the DOM element, NOT on `window`. `window` only holds the constructor function.
 
 ```javascript
-// Inside _initComponent — instance attached to DOM element
-function _initComponent(el) {
-    if (el[DOM_ATTRIBUTE]) return; // Already initialized
-    el[DOM_ATTRIBUTE] = {
-        open() { /* ... */ },
-        close() { /* ... */ },
-        toggle() { /* ... */ },
-        destroy() { _destroy(el); }
-    };
+// constructor finds elements and creates instances
+function constructor(domRoot) {
+    _findElements(domRoot);
+    _attachTriggers(domRoot);
+}
+
+function _findElements(root) {
+    const items = root.querySelectorAll('[' + DOM_SELECTOR + ']');
+    for (const el of items) {
+        if (!el[DOM_ATTRIBUTE]) {
+            el[DOM_ATTRIBUTE] = new _component(el);
+        }
+    }
 }
 
 // Access: through the DOM element
@@ -87,10 +91,10 @@ panel.lnToggle.open();       // instance API on the element
 panel.lnToggle.close();
 
 // window = only for init, NOT for instance access
-window.lnToggle.init(newElement);  // constructor
+window.lnToggle(newElement);  // constructor(domRoot)
 ```
 
-**Why:** Multiple instances of the same component can exist. Each DOM element holds its own state. `window` is a singleton entry point — the element is the component.
+**Why:** Multiple instances of the same component can exist. Each DOM element holds its own state. `window` holds only the constructor function — call it to initialize new DOM subtrees.
 
 ---
 
