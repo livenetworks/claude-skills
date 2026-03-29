@@ -170,7 +170,8 @@ class AuditLog extends LNWriteModel
 
 | Alias | Class | Purpose |
 |---|---|---|
-| `sanctum.token` | `AuthenticateWithSanctum` | Bearer token validation |
+| `sanctum.token` | `AuthenticateWithSanctum` | Bearer token validation (optional) |
+| `sanctum.token:required` | `AuthenticateWithSanctum` | Bearer token validation (401 if missing) |
 | `cookie.auth` | `AuthorizationFromCookie` | Cookie → Authorization header bridge |
 | `disable-csrf` | `DisableCsrf` | Marker for CSRF skip |
 
