@@ -116,7 +116,7 @@ window.lnToggle(newElement);  // constructor(domRoot)
 JS behavior is always bound via `data-ln-*` attributes, never via CSS classes.
 
 ```html
-<section data-ln-modal="my-modal">
+<button data-ln-modal-for="my-modal">
 <button data-ln-toggle-for="sidebar">
 <input data-ln-search>
 <ul data-ln-accordion>
@@ -412,11 +412,12 @@ The MutationObserver does NOT auto-destroy on removal — destroy is always expl
 Canonical example: `ln-accordion` (mediator) ↔ `ln-toggle` (components).
 
 ```
-User clicks toggle A → ln-toggle:open bubbles up
+User clicks toggle A → attribute set to "open" → observer applies state
+    → ln-toggle:open bubbles up
     → ln-accordion catches it
-    → ln-accordion dispatches ln-toggle:request-close on siblings B, C
-    → Toggle B: "am I open? → close myself"
-    → Toggle C: "am I closed? → ignore"
+    → ln-accordion sets data-ln-toggle="close" on siblings B, C
+    → Toggle B observer: was open → closes
+    → Toggle C observer: already closed → no-op
 ```
 
 Components do NOT know about siblings and do NOT call storage/DB.

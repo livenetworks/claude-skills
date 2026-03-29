@@ -277,7 +277,7 @@ Use HTML5 landmarks — they have implicit ARIA roles. Add explicit `role` only 
 <main id="panel1" data-ln-toggle class="collapsible">...</main>
 
 <!-- Modal — form is always the content root -->
-<div class="ln-modal" id="confirm-delete" role="dialog" aria-labelledby="modal-title">
+<div class="ln-modal" data-ln-modal id="confirm-delete" role="dialog" aria-labelledby="modal-title">
     <form>
         <header>
             <h3 id="modal-title">Confirm Delete</h3>
@@ -395,7 +395,7 @@ JS behavior is bound via `data-ln-*` attributes. Classes are for styling only.
 
 ```html
 <!-- RIGHT — data attributes for JS, classes for CSS -->
-<section data-ln-modal="my-modal" class="section-card">
+<button data-ln-modal-for="my-modal" class="btn">
 <button data-ln-toggle-for="sidebar" class="btn">
 <input data-ln-search>
 <ul data-ln-accordion>
