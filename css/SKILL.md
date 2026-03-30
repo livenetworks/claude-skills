@@ -577,7 +577,7 @@ Any hardcoded value that could change (shadow, color, size) should be a `:root` 
 `table-base`, `table-responsive`, `table-striped`, `table-section-header`, `table-action`
 
 ### Component Composites
-`card`, `panel-header`, `btn`, `btn-group`, `close-button`, `grid`, `grid-2`, `grid-4`, `stack()`, `row`, `row-between`, `row-center`, `collapsible`, `collapsible-content`, `container($name)`, `modal-sm`, `modal-md`, `modal-lg`, `modal-xl`, `breadcrumbs`, `loader`
+`card`, `panel-header`, `btn`, `btn-group`, `close-button`, `avatar`, `grid`, `grid-2`, `grid-4`, `stack()`, `row`, `row-between`, `row-center`, `collapsible`, `collapsible-content`, `container($name)`, `modal-sm`, `modal-md`, `modal-lg`, `modal-xl`, `breadcrumbs`, `loader`
 
 ---
 
