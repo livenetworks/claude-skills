@@ -424,7 +424,60 @@ Components do NOT know about siblings and do NOT call storage/DB.
 
 ---
 
-## 12. Anti-Patterns — NEVER Do These
+## 12. Global Service Pattern (ln-http)
+
+Not every component needs DOM instances or MutationObserver. A **global service** is a document-level event listener that any element can dispatch to. No `data-ln-*` attribute, no constructor, no `_findElements`.
+
+```javascript
+(function () {
+    const DOM_ATTRIBUTE = 'lnHttp';
+    if (window[DOM_ATTRIBUTE] !== undefined) return;
+
+    document.addEventListener('ln-http:request', function (e) {
+        const opts = e.detail || {};
+        if (!opts.url) return;
+        const target = e.target;
+        // ... fetch, then dispatch response on target
+        target.dispatchEvent(new CustomEvent('ln-http:success', {
+            bubbles: true, detail: { tag: opts.tag, ok: true, status: 200, data: data }
+        }));
+    });
+
+    window[DOM_ATTRIBUTE] = true; // boolean, not constructor
+})();
+```
+
+**When to use:** The component has no "own DOM" — it provides a service that other elements consume via events.
+
+**Key differences from instance-based:**
+
+| | Instance-based | Global service |
+|---|---|---|
+| `window[DOM_ATTRIBUTE]` | constructor function | `true` (boolean) |
+| DOM attribute | `data-ln-{name}` on elements | none |
+| MutationObserver | yes | no |
+| Auto-init | DOMContentLoaded + observer | immediate (listener on document) |
+| Instance | `el.ln{Name} = new _component(el)` | none |
+
+**Consumer pattern — tag filtering:**
+
+```javascript
+// Listen for responses (filter by tag)
+el.addEventListener('ln-http:success', function (e) {
+    if (e.detail.tag !== 'my-action') return;
+    // handle response
+});
+
+// Dispatch request
+el.dispatchEvent(new CustomEvent('ln-http:request', {
+    bubbles: true,
+    detail: { url: '/api/data', tag: 'my-action' }
+}));
+```
+
+---
+
+## 13. Anti-Patterns — NEVER Do These
 
 - Spaces for indentation — always use tabs
 - `var` declarations — use `const` (default) or `let` (when reassigning)
