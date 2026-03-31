@@ -371,7 +371,7 @@ Not all classes belong in HTML. In the ln-acme system:
 
 **Component classes (KEEP in HTML)** — describe WHAT the element is:
 
-*Interactive:* `.btn`, `.btn-group`, `.btn--secondary`, `.btn--danger`, `.collapsible`, `.collapsible-body`, `.ln-modal`
+*Interactive:* `.btn`, `.btn-sm`, `.btn-lg`, `.btn-group`, `.btn--secondary`, `.btn--danger`, `.collapsible`, `.collapsible-body`, `.ln-modal`
 *State:* `.pass`, `.fail`, `.warn`, `.hidden`, `.open`
 *Structural:* `.section-card`, `.form-actions`, `.nav`, `.nav-section`, `.breadcrumbs`, `.avatar`
 *Data:* `.numeric`

@@ -230,7 +230,95 @@ Toggle off    Remove tag    Delete item    Delete account
 
 ---
 
-## 8. Multi-Step Process Design
+## 8. Data Table Interaction Design
+
+### Search Flow
+
+```
+User types → 150ms debounce → filter rows → update count → show results or empty state
+User clears → instant reset → show all rows → update count
+```
+
+- Debounce at 150-200ms (prevents API spam, feels instant)
+- Update "Showing X of Y" count after every search
+- Preserve search term when navigating back from detail page
+- Clear button (✕) in input when text present
+- Keyboard shortcut hint: `Ctrl+K` shown inside input
+
+### Sort Flow
+
+```
+Click header → sort ascending → click again → sort descending → click again → remove sort
+```
+
+- First click: ascending (A→Z, 0→9, oldest→newest)
+- Second click: descending
+- Third click: return to default order
+- Visual indicator: ↑ ascending, ↓ descending, ↕ unsorted (dim)
+- Only one column sorted at a time (simplicity over power)
+
+### Filter Flow
+
+```
+User clicks filter → rows filter instantly → active filter shows as pill/chip
+User clicks ✕ on pill → filter removed → rows update
+User clicks "Clear all" → all filters removed → full dataset
+```
+
+- Filter buttons: pill/toggle bar for common values (Status: All | Active | Inactive)
+- Active state: visually distinct (primary color background)
+- Combined with search: filters AND search work together (intersection)
+- Preserve filter state on back-navigation
+
+### Selection + Bulk Actions Flow
+
+```
+User checks row(s) → bulk bar appears at bottom → user picks action → confirm → execute
+User unchecks all → bulk bar disappears
+```
+
+- Header checkbox: selects current page only (not all pages)
+- If user wants all: show banner "Select all 1,234 items?" after header checkbox
+- Bulk bar: sticky bottom, shows count + available actions
+- Destructive bulk actions: always require confirmation with count ("Delete 5 employees?")
+- Clear selection: always available in bulk bar
+
+### Empty States (Three Distinct Situations)
+
+| Situation | Heading | Message | CTA |
+|-----------|---------|---------|-----|
+| No data exists | "No employees yet" | "Add your first employee to get started" | [+ Add Employee] |
+| Search returned 0 | "No results for 'xyz'" | "Try different search terms" | [Clear Search] |
+| Filter returned 0 | "No matching employees" | "No employees match the selected filters" | [Clear Filters] |
+
+Never show a blank table. Always guide the user to the next action.
+
+### Row Click vs Row Actions
+
+| Action | Trigger |
+|--------|---------|
+| View detail | Click anywhere on row (except action buttons) |
+| Quick actions (edit, delete) | Icon buttons in actions column |
+| More actions | Overflow menu (⋮) |
+
+- Row click navigates to detail page — the most common action should be the easiest
+- Action buttons prevent event propagation (click doesn't trigger row navigation)
+- On mobile: row click for detail, swipe for actions (or always-visible icons)
+
+### Pagination Flow
+
+```
+[← Prev]  1  2  [3]  4  5  ...  25  [Next →]      Showing 51–75 of 612
+```
+
+- Preserve search/filter/sort when changing page
+- Show current position: "Showing 51–75 of 612"
+- Page size selector: [10, 25, 50, 100] — remember preference
+- Keyboard: ← → for page navigation
+
+---
+
+## 9. Multi-Step Process Design
 
 ### When to Use Multi-Step
 
@@ -260,7 +348,7 @@ Toggle off    Remove tag    Delete item    Delete account
 
 ---
 
-## 9. Error Recovery Design
+## 10. Error Recovery Design
 
 ### Error Categories and Recovery
 
@@ -285,7 +373,7 @@ Toggle off    Remove tag    Delete item    Delete account
 
 ---
 
-## 10. Edge Cases to Always Design For
+## 11. Edge Cases to Always Design For
 
 Every feature should have answers for these:
 
@@ -306,7 +394,7 @@ Every feature should have answers for these:
 
 ---
 
-## 11. Motion Principles
+## 12. Motion Principles
 
 Animation is communication — it tells the user what happened, what's changing, and where to look. If a motion doesn't communicate, it's decoration and should be removed.
 
@@ -335,7 +423,7 @@ Animation is communication — it tells the user what happened, what's changing,
 
 ---
 
-## 12. Anti-Patterns — NEVER Do These
+## 13. Anti-Patterns — NEVER Do These
 
 ### Flow
 - Action with no feedback (user clicks, nothing visible happens)
@@ -343,6 +431,19 @@ Animation is communication — it tells the user what happened, what's changing,
 - Clearing form data on error
 - "Are you sure?" for every action (only destructive needs confirmation)
 - "OK" / "Cancel" instead of descriptive action labels
+
+### Data Tables
+- No empty state (blank table when search returns 0 results)
+- Same empty state for "no data" and "no results" (different user needs)
+- Losing search/filter/sort state when navigating back from detail
+- Losing scroll position when returning to list
+- No debounce on search (fires on every keystroke)
+- Sort indicator not visible (user doesn't know which column is sorted)
+- Header checkbox selects ALL rows across pages without warning
+- Bulk delete without confirmation
+- No "Clear filters" when filters produce 0 results
+- Row actions only on hover (inaccessible on touch devices)
+- Pagination resets filters (filter state lost on page change)
 
 ### State
 - Only designing the happy path (OK state)

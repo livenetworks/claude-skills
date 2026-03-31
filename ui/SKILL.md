@@ -183,6 +183,129 @@ Is it a long text document?
 
 Default to **table** for business data. Cards are for entity summaries, not data rows.
 
+### Data Table Anatomy
+
+A complete data table has these visual zones (top to bottom):
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│ Title + Description          [Search] [Filter] [Actions...] │  ← toolbar
+├─────────────────────────────────────────────────────────────┤
+│ □  NAME ↕  CITY    STATUS   START DATE ↕   TAGS   ACTIONS  │  ← sticky header
+├─────────────────────────────────────────────────────────────┤
+│ □  John    Berlin  ●Active  Jan 15, 2025   API    [⋮]      │  ← data rows
+│ □  Maria   Paris   ○Inactive Dec 3, 2024   —      [⋮]      │
+│ ...                                                         │
+├─────────────────────────────────────────────────────────────┤
+│ Showing 1–10 of 247                   [← 1 2 3 ... 25 →]   │  ← footer
+└─────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────┐
+│ 3 selected    [Export]  [Delete]                [Clear]      │  ← bulk actions (when selected)
+└─────────────────────────────────────────────────────────────┘
+```
+
+### Toolbar Layout
+
+Left side: title + description. Right side: search, filters, action buttons.
+
+```
+[Title]                    [🔍 Search... Ctrl+K]  [Filter ³]  [⋯]  [Download ▾]  [+ Create]
+[Description text]
+```
+
+- Search: always visible on desktop, icon-toggle on mobile
+- Filter icon: badge shows active filter count
+- Action buttons: max 2-3 visible, rest in overflow (⋯)
+- Create/Add: rightmost, primary color (most important action)
+
+### Column Headers
+
+- **Sentence case** — "First name", not "FIRST NAME" (easier to scan)
+- **Sortable**: show ↕ icon right of text, dim when inactive, solid when sorted
+- **Sticky**: headers stay visible on scroll (`position: sticky; top: 0`)
+- **Alignment**: text left, numbers right, status/actions center
+- **Background**: subtle gray (`bg-secondary`) with bottom border — NOT dark/navy
+
+### Status Badges
+
+Use colored pills for status columns:
+
+| Status | Color | Style |
+|--------|-------|-------|
+| Active, Approved, Online | Success (green) | Soft bg + text |
+| Inactive, Rejected, Offline | Error (red) | Soft bg + text |
+| Pending, In Review, Draft | Warning (amber) | Soft bg + text |
+| Archived, Disabled | Muted (gray) | Soft bg + text |
+
+Style: `background: hsl(color / 0.1); color: hsl(color); border-radius: full; padding: xs sm; font-size: xs; font-weight: medium`
+
+Keep text short: 1-2 words max. No icons + badges together.
+
+### Row Actions
+
+| # of Actions | Pattern |
+|:---:|---------|
+| 1-2 | Inline icon buttons (always visible) |
+| 3+ | Overflow dropdown menu (⋮) |
+
+- Icon-only buttons: edit, delete, view — with `title` attribute
+- Destructive actions (delete): red color, always last
+- Group in `btn-group` for tight spacing
+
+### Search
+
+- Position: toolbar, right-aligned or spanning center
+- Debounce: 150-200ms
+- Placeholder: action-oriented ("Search employees...", not just "Search")
+- Keyboard shortcut: Ctrl+K (show hint in input)
+- Clear button (✕) inside input when text present
+- `ln-search` component handles this
+
+### Filters
+
+- **Quick filters**: pill/button bar above table for common filters (Status: All / Active / Inactive)
+- **Advanced filters**: dropdown panel for column-specific filters
+- **Active filters**: show as removable chips/pills below toolbar
+- **Clear all**: always available when filters active
+- **Filter count badge**: on filter icon when collapsed
+- `ln-filter` component handles button-based filtering
+
+### Pagination vs Virtual Scroll
+
+| Dataset | Approach |
+|---------|----------|
+| < 200 rows | No pagination needed, show all |
+| 200–5000 rows | Virtual scroll (`ln-table` auto-activates at 200+) |
+| Server-side data | Traditional pagination with page controls |
+
+Footer format: `Showing 1–25 of 1,234` + page controls
+
+### Selection + Bulk Actions
+
+- Checkbox column: leftmost, `th` checkbox selects current page
+- Count label: "3 selected" in bulk actions bar
+- Bulk bar: sticky bottom, appears when ≥1 row selected
+- Actions: Export, Delete, Change Status — with confirmation for destructive
+- Clear selection button always visible
+
+### Empty States
+
+| Situation | Message | CTA |
+|-----------|---------|-----|
+| No data exists | "No employees yet" | [+ Add Employee] |
+| Search returned 0 | "No results for 'xyz'" | [Clear Search] |
+| Filter returned 0 | "No active employees" | [Clear Filters] |
+
+Use `<template data-ln-table-empty>` for empty state content.
+
+### Responsive (Mobile)
+
+- Stacked card layout: each row becomes a card with label: value pairs
+- Use `data-label="Column Name"` on `<td>` for mobile labels
+- Hide lower-priority columns first (actions last to hide)
+- `@include table-responsive` handles this via `@media (max-width: 768px)`
+
 ### Container-Aware Components
 
 Any component that can appear in multiple layout positions (main column, modal, sidebar panel) must declare its own container context and adapt by container size — not viewport size. The component should not know or care where it's placed.
