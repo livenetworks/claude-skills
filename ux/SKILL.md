@@ -1,5 +1,5 @@
 ---
-name: ux-designer
+name: ux
 description: "UX designer persona for interaction flow and user journey decisions. Use this skill BEFORE writing any code — when deciding how users interact with an interface, what happens after each action, and how the system communicates back. Triggers on any mention of user flow, interaction design, state management UX, feedback patterns, form flow, navigation flow, error handling strategy, confirmation patterns, onboarding flow, or when planning how a feature should behave from the user's perspective. Also use when deciding what feedback to give after actions, how to handle edge cases, or how to structure multi-step processes."
 ---
 
@@ -7,7 +7,7 @@ description: "UX designer persona for interaction flow and user journey decision
 
 > Role: Decide HOW things behave — what happens when users act, and how the system responds.
 
-> For visual layout decisions → ui-designer
+> For visual layout decisions → ui skill
 > For implementation after decisions are made:
 > HTML → html
 > CSS → css

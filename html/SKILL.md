@@ -7,8 +7,8 @@ description: "Senior HTML developer persona for semantic, accessible markup usin
 
 > Stack: Semantic HTML5 | Accessibility-first | ln-acme component patterns
 
-> Visual styling → see css skill
-> Behavior/interactivity → see js skill
+> Visual styling → css skill
+> Behavior/interactivity → js skill
 
 ---
 
@@ -97,7 +97,7 @@ The heading is what **NAMES** the content, not what is visually largest.
 
 ---
 
-## 4. Bare `<div>` Rule
+## 5. Bare `<div>` Rule
 
 Every `<div>` MUST have at least one class explaining its existence. If you can't name it, use a semantic element instead.
 
@@ -120,7 +120,7 @@ Every `<div>` MUST have at least one class explaining its existence. If you can'
 
 ---
 
-## 5. Icon Markup
+## 6. Icon Markup
 
 ALWAYS use `.ln-icon-*` CSS classes. NEVER use HTML entities (`&times;`, `&#9660;`) or Unicode characters for icons.
 
@@ -151,7 +151,7 @@ Icon-only buttons need accessible labels:
 
 ---
 
-## 6. Form Structure
+## 7. Form Structure
 
 ### Pattern
 
@@ -224,7 +224,7 @@ Each field is `<p class="form-element">` with explicit `<label for>` + `<input i
 
 ---
 
-## 7. Collapsible / Accordion Structure
+## 8. Collapsible / Accordion Structure
 
 ```html
 <ul data-ln-accordion>
@@ -248,7 +248,7 @@ Each field is `<p class="form-element">` with explicit `<label for>` + `<input i
 
 ---
 
-## 8. Accessibility / ARIA
+## 9. Accessibility / ARIA
 
 ### Landmark Roles
 
@@ -302,7 +302,7 @@ Use HTML5 landmarks — they have implicit ARIA roles. Add explicit `role` only 
 
 ---
 
-## 9. Meta / SEO Structure
+## 10. Meta / SEO Structure
 
 ### Document Structure
 ```html
@@ -359,13 +359,13 @@ Use HTML5 landmarks — they have implicit ARIA roles. Add explicit `role` only 
 
 ---
 
-## 10. ID vs Class — Uniqueness Rule
+## 11. ID vs Class — Uniqueness Rule
 
 Unique elements (one per page) ALWAYS use `id` — `#app-header`, `#dashboard`, `#profile-form`. Repeated/reusable elements use `class` — `.card`, `.form-element`, `.ln-tag`. If there's only one of something, it's an `id`.
 
 ---
 
-## 11. Class Classification in HTML
+## 12. Class Classification in HTML
 
 Not all classes belong in HTML. In the ln-acme system:
 
@@ -389,7 +389,7 @@ Not all classes belong in HTML. In the ln-acme system:
 
 ---
 
-## 12. JS Hooks = Data Attributes, Not Classes
+## 13. JS Hooks = Data Attributes, Not Classes
 
 JS behavior is bound via `data-ln-*` attributes. Classes are for styling only.
 
@@ -407,7 +407,7 @@ JS behavior is bound via `data-ln-*` attributes. Classes are for styling only.
 
 ---
 
-## 13. Anti-Patterns — NEVER Do These
+## 14. Anti-Patterns — NEVER Do These
 
 - Bare `<div>` without a class
 - `<div>` when a semantic element exists (`<section>`, `<article>`, `<nav>`, `<ul>/<li>`, `<fieldset>`, `<aside>`, `<header>`, `<footer>`, `<main>`)

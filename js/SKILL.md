@@ -7,7 +7,7 @@ description: "Senior Vanilla JS developer persona for zero-dependency, event-dri
 
 > Stack: Vanilla JS | Zero dependencies | IIFE components | Event-driven architecture
 
-> Styling concerns are handled separately — see SKILL-CSS.md
+> Styling concerns → css skill
 
 ---
 
@@ -127,7 +127,7 @@ JS behavior is always bound via `data-ln-*` attributes, never via CSS classes.
 <ul data-ln-accordion>
 ```
 
-Classes are for styling only (see SKILL-CSS.md). Never query or bind JS logic to CSS classes.
+Classes are for styling only (see css skill). Never query or bind JS logic to CSS classes.
 
 ---
 

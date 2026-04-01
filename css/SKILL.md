@@ -7,8 +7,8 @@ description: "Senior CSS/SCSS developer persona for token-driven design systems 
 
 > Stack: SCSS | Design tokens + Mixins | Mixin-first styling on semantic selectors
 
-> HTML structure and element choice → see html skill
-> JS behavior → see js skill
+> HTML structure and element choice → html skill
+> JS behavior → js skill
 
 ---
 
@@ -268,7 +268,7 @@ table tbody tr { @include transition; &:hover { @include bg-secondary; } }
 
 ## 11. Motion Implementation
 
-Motion decisions (when and why) → see ui-designer and ux-designer skills. This section covers SCSS implementation only.
+Motion decisions (when and why) → ui and ux skills. This section covers SCSS implementation only.
 
 ### Transition Mixins
 
@@ -581,7 +581,7 @@ Any hardcoded value that could change (shadow, color, size) should be a `:root` 
 
 ---
 
-## 17. Container Queries — Component-Aware Responsive
+## 18. Container Queries — Component-Aware Responsive
 
 Components respond to their **container**, not the viewport.
 

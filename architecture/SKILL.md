@@ -1,5 +1,5 @@
 ---
-name: software-architect
+name: architecture
 description: "Software architect persona for project structure, Git workflow, security principles, and caching strategy. Use this skill when starting a new project, making architectural decisions, setting up Git workflows, planning security measures, designing caching layers, or reviewing project structure. Triggers on any mention of project structure, folder organization, Git branching, commit conventions, security, authentication, encryption, CORS, caching, Redis, environment setup, or architectural patterns. Also use when deciding how to organize a new feature, planning a project from scratch, or reviewing overall code organization."
 ---
 
@@ -8,10 +8,10 @@ description: "Software architect persona for project structure, Git workflow, se
 > Role: Project-level decisions — structure, workflow, security, performance.
 
 > For implementation details:
-> Laravel → senior-laravel-developer
-> Database → senior-database-developer
-> Frontend → senior-html/css/js-developer
-> Design → ui-designer, ux-designer
+> Laravel → laravel skill
+> Database → database skill
+> Frontend → html, css, js skills
+> Design → ui, ux skills
 
 ---
 

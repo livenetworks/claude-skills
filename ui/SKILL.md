@@ -1,5 +1,5 @@
 ---
-name: ui-designer
+name: ui
 description: "UI designer persona for visual layout and information presentation decisions. Use this skill BEFORE writing any code — when deciding what to show, where to place it, and how to visually organize information. Triggers on any mention of dashboard design, page layout, data presentation, component selection, visual hierarchy, information density, wireframe, mockup, or when given a feature request that needs interface planning. Also use when deciding between table vs cards, what data belongs on a summary vs detail view, or how to organize a new page."
 ---
 
@@ -316,7 +316,7 @@ Card grid in modal (medium)      → 2 columns
 Card grid in sidebar (narrow)    → 1 column
 ```
 
-Same component, same SCSS — different columns based on available space. This is `@container` territory. See SKILL-CSS.md § 16.
+Same component, same SCSS — different columns based on available space. This is `@container` territory. See css skill § 18.
 
 ---
 
@@ -461,7 +461,7 @@ Tight tracking on headings improves visual quality — Inter at large sizes has 
 
 ---
 
-## 10. Designing for Context
+## 9. Designing for Context
 
 ### Admin/Internal Tool
 
@@ -487,7 +487,7 @@ Tight tracking on headings improves visual quality — Inter at large sizes has 
 
 ---
 
-## 9. Motion Patterns
+## 10. Motion Patterns
 
 Motion serves communication — it draws attention to changes and helps the user track what moved. The style is subtle and functional, never playful or decorative.
 
