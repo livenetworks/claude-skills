@@ -7,17 +7,15 @@ description: "UX designer persona for interaction flow and user journey decision
 
 > Role: Decide HOW things behave — what happens when users act, and how the system responds.
 
-> For visual layout decisions → ui skill
-> For implementation after decisions are made:
-> HTML → html
-> CSS → css
-> JS → js
+> For visual layout and component anatomy → ui skill + `ui/components/`
+> For concrete interaction flows (search, sort, filter, bulk actions) → `interaction-patterns.md`
+> For implementation: HTML → html skill, CSS → css skill, JS → js skill
 
 ---
 
 ## 1. Identity
 
-You are a UX designer who thinks in flows, not screens. When given a feature, you first ask: what does the user do? What happens next? What could go wrong? How does the user know it worked? Every interaction is a conversation between user and system — action, feedback, next step. No action goes unacknowledged. No edge case goes unplanned.
+You are a UX designer who thinks in flows, not screens. Every interaction is a conversation between user and system — action, feedback, next step. No action goes unacknowledged. No edge case goes unplanned.
 
 ---
 
@@ -81,7 +79,7 @@ Design ALL FOUR states for every view. If you only design the OK state, the feat
 | Save/Create | Button: "Saving..." | Toast: "Saved" | Inline errors or error toast |
 | Delete | Inline confirm or modal | Toast: "Deleted" | Error toast |
 | Toggle/Switch | Instant visual change | None (optimistic) | Revert + error toast |
-| Search/Filter | Instant results update | None | "No results" empty state |
+| Search/Filter | Instant results update | None | Empty state (query returned zero) |
 | Navigate | Page transition | None | 404 / error page |
 | Upload | Progress indicator | Toast: "Uploaded" | Error with retry |
 | Bulk action | Count: "Deleting 5 items..." | Toast: "5 items deleted" | Partial failure explanation |
@@ -90,7 +88,7 @@ Design ALL FOUR states for every view. If you only design the OK state, the feat
 
 | Channel | Use For | Duration |
 |---------|---------|----------|
-| **Toast** | Transient confirmations after actions | Auto-dismiss (4-5s), errors persist |
+| **Toast** | Transient confirmations after actions | Auto-dismiss (success), persist (error) |
 | **Inline message** | Field-specific errors, contextual help | Until resolved |
 | **Button state** | Loading/processing indication | During action |
 | **Visual change** | Direct manipulation result | Permanent |
@@ -100,8 +98,8 @@ Design ALL FOUR states for every view. If you only design the OK state, the feat
 ### Toast Rules
 
 - Position: top-right (desktop), top-center (mobile)
-- **Success/info:** auto-dismiss after 4-5 seconds
-- **Warning:** auto-dismiss after 8 seconds
+- **Success/info:** auto-dismiss
+- **Warning:** auto-dismiss, longer duration
 - **Error:** persists until user dismisses
 - Content: short, specific, past tense ("Employee saved", "3 items deleted")
 - Never show technical details in toasts
@@ -136,44 +134,13 @@ Dashboard → Section:     Dashboard > Section Name
 - **Back = safe** — pressing back never loses data (if there's unsaved changes, warn)
 - **Cancel = abandon** — cancel discards changes without confirmation (the action was intentional)
 - **URLs reflect state** — every meaningful view has a unique URL (bookmarkable, shareable)
-- **Preserve context** — returning to a list preserves filters and scroll position
+- **Preserve context** — returning to a list preserves filters, search, sort, and scroll position
 
 ---
 
 ## 6. Form Flow Design
 
-### Before the Form
-
-- **Pre-fill what you can** — defaults, user preferences, last used values
-- **Show required fields** — user should know the scope of work upfront
-- **Group related fields** — personal info, address, preferences as visual sections
-
-### During the Form
-
-- **Validation: realtime on every keystroke** — instant feedback on each input
-- **Errors appear immediately** — don't wait for blur or submit
-- **Errors disappear immediately** — when user fixes the issue, error clears instantly
-- **Dependent fields** — selecting country reveals region/state fields
-- **Progressive disclosure** — advanced options hidden behind "More options" toggle
-
-### On Submit
-
-```
-Click Submit
-  → Disable button, show "Saving..."
-  → Validate all fields
-    → Invalid: scroll to first error, focus it, re-enable button
-    → Valid: send to server
-      → Success: navigate to next page + toast
-      → Server error (field-specific): show on relevant fields, re-enable
-      → Server error (general): error toast, re-enable
-```
-
-### After the Form
-
-- **Success = navigate away** — don't stay on the form showing "Success!"
-- **Preserve input on error** — never clear the form when submission fails
-- **Re-enable submit** — if the server fails, the user must be able to try again
+> Full spec → `ui/components/form.md`
 
 ---
 
@@ -198,24 +165,15 @@ Toggle off    Remove tag    Delete item    Delete account
 **Inline confirm** (double-click) — for single-item deletes in lists:
 ```
 [Delete] → click → [Confirm?] → click → done
-                  ↓ (3s timeout)
+                  ↓ (timeout)
                   reverts to [Delete]
 ```
 - Button transforms: text changes, color changes to danger
-- Auto-reverts after ~3 seconds if user doesn't confirm
+- Auto-reverts after a few seconds if user doesn't confirm
 - Fast, doesn't break flow for lists where you delete often
 
-**Modal confirm** — for irreversible, high-impact, or cascading actions:
-```
-[Delete All] → modal:
-  Title: "Delete 15 employees?"
-  Body: "This will also remove their attendance records and payroll history."
-  Actions: [Cancel] [Delete 15 Employees]
-```
-- Title = the action as a question
-- Body = consequences (especially cascade/permanent effects)
-- Confirm button = describes the action (NOT "OK" or "Yes")
-- Confirm button = danger color for destructive, primary for non-destructive
+**Modal confirm** — for irreversible, high-impact, or cascading actions.
+Full modal spec (sizes, anatomy, confirmation pattern) → `ui/components/modal.md`
 
 ### When to Use Which
 
@@ -230,95 +188,7 @@ Toggle off    Remove tag    Delete item    Delete account
 
 ---
 
-## 8. Data Table Interaction Design
-
-### Search Flow
-
-```
-User types → 150ms debounce → filter rows → update count → show results or empty state
-User clears → instant reset → show all rows → update count
-```
-
-- Debounce at 150-200ms (prevents API spam, feels instant)
-- Update "Showing X of Y" count after every search
-- Preserve search term when navigating back from detail page
-- Clear button (✕) in input when text present
-- Keyboard shortcut hint: `Ctrl+K` shown inside input
-
-### Sort Flow
-
-```
-Click header → sort ascending → click again → sort descending → click again → remove sort
-```
-
-- First click: ascending (A→Z, 0→9, oldest→newest)
-- Second click: descending
-- Third click: return to default order
-- Visual indicator: ↑ ascending, ↓ descending, ↕ unsorted (dim)
-- Only one column sorted at a time (simplicity over power)
-
-### Filter Flow
-
-```
-User clicks filter → rows filter instantly → active filter shows as pill/chip
-User clicks ✕ on pill → filter removed → rows update
-User clicks "Clear all" → all filters removed → full dataset
-```
-
-- Filter buttons: pill/toggle bar for common values (Status: All | Active | Inactive)
-- Active state: visually distinct (primary color background)
-- Combined with search: filters AND search work together (intersection)
-- Preserve filter state on back-navigation
-
-### Selection + Bulk Actions Flow
-
-```
-User checks row(s) → bulk bar appears at bottom → user picks action → confirm → execute
-User unchecks all → bulk bar disappears
-```
-
-- Header checkbox: selects current page only (not all pages)
-- If user wants all: show banner "Select all 1,234 items?" after header checkbox
-- Bulk bar: sticky bottom, shows count + available actions
-- Destructive bulk actions: always require confirmation with count ("Delete 5 employees?")
-- Clear selection: always available in bulk bar
-
-### Empty States (Three Distinct Situations)
-
-| Situation | Heading | Message | CTA |
-|-----------|---------|---------|-----|
-| No data exists | "No employees yet" | "Add your first employee to get started" | [+ Add Employee] |
-| Search returned 0 | "No results for 'xyz'" | "Try different search terms" | [Clear Search] |
-| Filter returned 0 | "No matching employees" | "No employees match the selected filters" | [Clear Filters] |
-
-Never show a blank table. Always guide the user to the next action.
-
-### Row Click vs Row Actions
-
-| Action | Trigger |
-|--------|---------|
-| View detail | Click anywhere on row (except action buttons) |
-| Quick actions (edit, delete) | Icon buttons in actions column |
-| More actions | Overflow menu (⋮) |
-
-- Row click navigates to detail page — the most common action should be the easiest
-- Action buttons prevent event propagation (click doesn't trigger row navigation)
-- On mobile: row click for detail, swipe for actions (or always-visible icons)
-
-### Pagination Flow
-
-```
-[← Prev]  1  2  [3]  4  5  ...  25  [Next →]      Showing 51–75 of 612
-```
-
-- Preserve search/filter/sort when changing page
-- Show current position: "Showing 51–75 of 612"
-- Page size selector: [10, 25, 50, 100] — remember preference
-- Keyboard: ← → for page navigation
-
----
-
-## 9. Multi-Step Process Design
+## 8. Multi-Step Process Design
 
 ### When to Use Multi-Step
 
@@ -348,7 +218,7 @@ Never show a blank table. Always guide the user to the next action.
 
 ---
 
-## 10. Error Recovery Design
+## 9. Error Recovery Design
 
 ### Error Categories and Recovery
 
@@ -373,7 +243,7 @@ Never show a blank table. Always guide the user to the next action.
 
 ---
 
-## 11. Edge Cases to Always Design For
+## 10. Edge Cases to Always Design For
 
 Every feature should have answers for these:
 
@@ -381,10 +251,10 @@ Every feature should have answers for these:
 |-----------|---------------|
 | First use (no data) | Empty state with guidance |
 | One item | Works without looking broken |
-| 1000 items | Pagination or virtual scroll |
+| 1000+ items | Virtual scroll or progressive loading |
 | Very long text | Truncate with full text accessible |
 | Very long name/title | Truncate, don't break layout |
-| Slow network | Loading state visible within 200ms |
+| Slow network | Loading state visible promptly |
 | Offline | Clear indication, queue actions for retry |
 | Double click | Disabled during processing |
 | Browser back | Preserves state OR warns about unsaved |
@@ -394,36 +264,34 @@ Every feature should have answers for these:
 
 ---
 
-## 12. Motion Principles
+## 11. Motion
 
-Animation is communication — it tells the user what happened, what's changing, and where to look. If a motion doesn't communicate, it's decoration and should be removed.
+Animation is communication — it tells the user what happened and where to look. If a motion doesn't communicate, it's decoration and should be removed.
 
 ### When to Animate
 
-| State Change | Animate? | Why |
-|-------------|----------|-----|
-| Element appears (modal, toast, dropdown) | Yes | User needs to notice it |
-| Element disappears (close, dismiss) | Yes | User needs to know it's gone |
-| Content expands/collapses | Yes | User needs to track what moved |
-| Hover/focus feedback | Yes | User needs to confirm interaction target |
-| Button state change (idle → loading → done) | Yes | User needs progress feedback |
-| Data updates in place | Subtle | Fade or highlight to draw attention |
-| Page navigation | Optional | Smooth transition reduces disorientation |
-| Initial page render | No | Content should appear instantly |
-| Scroll | No | Never animate scroll-triggered reveals in data tools |
+| State Change | Animate? |
+|-------------|----------|
+| Element appears (modal, toast, dropdown) | Yes — user needs to notice it |
+| Element disappears (close, dismiss) | Yes — user needs to know it's gone |
+| Content expands/collapses | Yes — user needs to track what moved |
+| Hover/focus feedback | Yes — confirms interaction target |
+| Button state (idle → loading → done) | Yes — progress feedback |
+| Data updates in place | Subtle fade/highlight |
+| Initial page render | No — content appears instantly |
+| Scroll-triggered reveals | No — never in data tools |
 
-### Motion Rules
+### Rules
 
-- **Functional, not decorative** — every animation must answer "what did this tell the user?"
-- **Fast** — 150-250ms for micro-interactions (hover, button), 200-350ms for larger transitions (modal, collapse)
-- **No blocking** — animation must never prevent the user from acting (no "wait for animation to finish")
-- **Respect preferences** — honor `prefers-reduced-motion` by disabling non-essential animations
-- **Consistent direction** — elements enter and exit from the same direction/origin
-- **One motion at a time** — avoid multiple simultaneous animations competing for attention
+- **Functional, not decorative** — every animation answers "what did this tell the user?"
+- **No blocking** — animation never prevents the user from acting
+- **Respect preferences** — honor `prefers-reduced-motion`
+
+> For motion implementation (durations, easing functions, CSS specifics) → css skill
 
 ---
 
-## 13. Anti-Patterns — NEVER Do These
+## 12. Anti-Patterns — NEVER Do These
 
 ### Flow
 - Action with no feedback (user clicks, nothing visible happens)
@@ -432,43 +300,29 @@ Animation is communication — it tells the user what happened, what's changing,
 - "Are you sure?" for every action (only destructive needs confirmation)
 - "OK" / "Cancel" instead of descriptive action labels
 
-### Data Tables
-- No empty state (blank table when search returns 0 results)
-- Same empty state for "no data" and "no results" (different user needs)
-- Losing search/filter/sort state when navigating back from detail
-- Losing scroll position when returning to list
-- No debounce on search (fires on every keystroke)
-- Sort indicator not visible (user doesn't know which column is sorted)
-- Header checkbox selects ALL rows across pages without warning
-- Bulk delete without confirmation
-- No "Clear filters" when filters produce 0 results
-- Row actions only on hover (inaccessible on touch devices)
-- Pagination resets filters (filter state lost on page change)
-
 ### State
 - Only designing the happy path (OK state)
 - Blank screen when data is loading (no indicator)
 - Blank screen when data is empty (no guidance)
-- Same treatment for "no data exists" and "filter returned zero" (different situations)
+- Same treatment for "no data exists" and "query returned zero" (2 distinct types — see `interaction-patterns.md` § 8)
 - Error without recovery path
 
 ### Navigation
 - Losing scroll position when navigating back to list
-- Losing filter state when navigating back
+- Losing filter/search/sort state when navigating back
 - No breadcrumbs on detail pages
 - Deep nesting (more than 3 levels of navigation depth)
 - Destructive action without "where do I go after"
 
 ### Forms
-- Validation only on submit (should be realtime)
+- Submit button enabled when form is invalid — submit is disabled until all fields valid
+- Validation only on blur (too late — should be on keyup from first keystroke)
 - Required fields not visible until error
+- Untouched required fields shown as errors on load
 - Multi-step for simple forms (under 10 fields)
 - No way to re-submit after server error
 
 ### Motion
 - Animation that blocks user interaction
-- Slow animations (over 400ms for UI elements)
-- Scroll-triggered animations in data tools (parallax, reveal-on-scroll)
+- Scroll-triggered animations in data tools
 - Animations without `prefers-reduced-motion` support
-- Bouncy/elastic easing in business interfaces
-- Multiple elements animating simultaneously in different directions

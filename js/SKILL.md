@@ -417,6 +417,18 @@ User clicks toggle A → attribute set to "open" → observer applies state
 
 Components do NOT know about siblings and do NOT call storage/DB.
 
+### Store ↔ Table Integration
+
+For data-driven views (tables, dashboards), the coordinator connects ln-store (data) to ln-data-table (UI):
+
+```
+ln-data-table emits request-data → coordinator queries ln-store → coordinator feeds set-data back to table
+ln-store emits synced → coordinator re-queries → feeds updated data to table
+```
+
+> Full spec → `docs/js/ln-store.md` (data layer API), `docs/js/ln-data-table.md` (table UI API)
+> Coordinator wiring example → `docs/js/ln-data-table.md` § "Coordinator Wiring Example"
+
 ---
 
 ## 12. Global Service Pattern (ln-http)
@@ -487,6 +499,8 @@ These imports go **outside** the IIFE — Vite resolves them at build time. Insi
 | `dispatchCancelable(el, name, detail)` | helpers.js | Cancelable CustomEvent, returns event |
 | `fill(root, data)` | helpers.js | Declarative DOM binding via `data-ln-*` attributes |
 | `renderList(container, items, tmpl, keyFn, fillFn, tag)` | helpers.js | Keyed list rendering with DOM reuse |
+| `findElements(root, selector, attribute, ComponentClass)` | helpers.js | Find and initialize component instances |
+| `guardBody(setupFn, componentTag)` | helpers.js | Safely run setup after `<body>` exists |
 | `reactiveState(initial, onChange)` | reactive.js | Shallow Proxy for flat state |
 | `deepReactive(obj, onChange)` | reactive.js | Deep Proxy for nested objects/arrays |
 | `createBatcher(renderFn, afterRender)` | reactive.js | queueMicrotask render coalescing |
@@ -832,3 +846,5 @@ import { deepReactive, createBatcher } from '../ln-core';
 - Copy-pasting `_cloneTemplate`, `_dispatch` into IIFE — import from `ln-core`
 - Array index as key in `renderList` — use stable ID (`item.id`)
 - `data-ln-field` on elements that need HTML content — `fill` uses `textContent` only
+- Hardcoded display text in JS (labels, messages, "No results") — all text from `<template>` or `Intl` APIs (see `js/COMPONENTS.md` § "Zero Display Text")
+- Debounce on client-side search — data is in IndexedDB/DOM, filter is synchronous, fire on every keyup
