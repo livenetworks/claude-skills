@@ -46,13 +46,13 @@ Use the most meaningful HTML element for the content.
 
 ---
 
-## 3. Button Group Rule — `<ul class="btn-group">/<li>`
+## 3. Button Group Rule — `<ul>/<li>`
 
-**Any group of same-type buttons uses `<ul class="btn-group">/<li>`.** This applies regardless of whether the buttons are actions or inputs.
+**Any group of same-type buttons uses `<ul>/<li>`.** This applies regardless of whether the buttons are actions or inputs.
 
 ```html
 <!-- Action buttons (edit/delete/view) -->
-<ul class="btn-group">
+<ul>
   <li><a href="#" class="ln-icon-view" aria-label="View"></a></li>
   <li><button class="ln-icon-edit" aria-label="Edit"></button></li>
   <li><button class="ln-icon-delete" aria-label="Delete"></button></li>
@@ -61,7 +61,7 @@ Use the most meaningful HTML element for the content.
 <!-- Pill radio/checkbox inputs -->
 <fieldset>
   <legend>Role</legend>
-  <ul class="btn-group">
+  <ul>
     <li><label><input type="radio" name="role" value="admin"> Admin</label></li>
     <li><label><input type="radio" name="role" value="editor"> Editor</label></li>
   </ul>
@@ -70,7 +70,11 @@ Use the most meaningful HTML element for the content.
 
 **Why `<ul>`?** A group of buttons is an unordered list of options — the same semantic as nav items, pill inputs, or any peer-level set. `<div>` has no semantic meaning; `<ul>` communicates "these items belong together as a group."
 
-**Rule:** `<div class="btn-group">` is FORBIDDEN — always `<ul class="btn-group">`.
+**Styling:** the project applies grouping via SCSS on a semantic selector:
+```scss
+#users td:last-child ul { @include btn-group; }
+#role-filter fieldset ul { @include pill-group; }
+```
 
 ---
 
@@ -155,11 +159,11 @@ Icon-only buttons need accessible labels:
 
 ### Pattern
 
-Each field is `<p class="form-element">` with explicit `<label for>` + `<input id>`. Pill radio/checkbox groups use `<ul> > <li> > <label> > <input>`.
+Each field is `<div class="form-element">` with explicit `<label for>` + `<input id>`. Pill radio/checkbox groups use `<ul> > <li> > <label> > <input>`.
 
 ### Principles
 
-1. **`<p class="form-element">`** wraps label + input — NOT wrapping `<label>`
+1. **`<div class="form-element">`** wraps label + input — NOT wrapping `<label>`
 2. **Explicit `for`/`id`** — always: `<label for="name">` + `<input id="name">`
 3. **No width classes** — column spans come from form-specific SCSS (`nth-child`), not HTML classes
 4. **No obsolete wrappers** — `<div class="form-group">` and `<div class="form-row">` are FORBIDDEN
@@ -170,7 +174,7 @@ Each field is `<p class="form-element">` with explicit `<label for>` + `<input i
 ### Example
 ```html
 <form id="my-form">
-  <p class="form-element">
+  <div class="form-element">
     <label for="name">Name</label>
     <input type="text" id="name" name="name" required>
     <ul class="validation-errors">
@@ -178,7 +182,7 @@ Each field is `<p class="form-element">` with explicit `<label for>` + `<input i
     </ul>
   </p>
 
-  <p class="form-element" id="field-category">
+  <div class="form-element" id="field-category">
     <label for="category">Category</label>
     <select id="category" name="category">
       <option value="a">Option A</option>
@@ -188,7 +192,7 @@ Each field is `<p class="form-element">` with explicit `<label for>` + `<input i
   <!-- Pill radio group -->
   <fieldset>
     <legend>Role</legend>
-    <ul class="btn-group">
+    <ul>
       <li><label><input type="radio" name="role" value="admin"> Admin</label></li>
       <li><label><input type="radio" name="role" value="editor"> Editor</label></li>
       <li><label><input type="radio" name="role" value="viewer"> Viewer</label></li>
@@ -198,7 +202,7 @@ Each field is `<p class="form-element">` with explicit `<label for>` + `<input i
   <!-- Pill checkbox group -->
   <fieldset>
     <legend>Features</legend>
-    <ul class="btn-group">
+    <ul>
       <li><label><input type="checkbox" name="feat[]" value="api"> API</label></li>
       <li><label><input type="checkbox" name="feat[]" value="export"> Export</label></li>
     </ul>
@@ -212,11 +216,11 @@ Each field is `<p class="form-element">` with explicit `<label for>` + `<input i
 ```
 
 ### Rules
-- `<p class="form-element">` wraps `<label>` + `<input>` — NEVER wrapping `<label>`
+- `<div class="form-element">` wraps `<label>` + `<input>` — NEVER wrapping `<label>`
 - Explicit `for`/`id` — always for regular fields
 - Optional `id` on `.form-element` for specific grid targeting in SCSS (alternative to `nth-child`)
 - Width via form-specific SCSS (`#id` or `nth-child`) — NEVER width classes
-- Pill radio/checkbox: `<ul class="btn-group"> > <li> > <label> > <input>` — grouped pills with auto border-radius
+- Pill radio/checkbox: `<ul> > <li> > <label> > <input>` — grouped pills, styled via SCSS
 - Pill groups inside `<fieldset>` + `<legend>` for semantic grouping
 - Validation: `<ul class="validation-errors"><li>` per error
 - `.form-actions` is a component class — stays in HTML
@@ -288,7 +292,7 @@ Use HTML5 landmarks — they have implicit ARIA roles. Add explicit `role` only 
 </div>
 
 <!-- Loading state -->
-<button type="submit" class="btn" aria-busy="true" disabled>Saving...</button>
+<button type="submit" aria-busy="true" disabled>Saving...</button>
 ```
 
 ### ARIA Rules
@@ -365,25 +369,41 @@ Unique elements (one per page) ALWAYS use `id` — `#app-header`, `#dashboard`, 
 
 ---
 
-## 12. Class Classification in HTML
+## 12. What Belongs in HTML vs SCSS
 
-Not all classes belong in HTML. In the ln-acme system:
+HTML describes WHAT content is. SCSS describes HOW it looks.
 
-**Component classes (KEEP in HTML)** — describe WHAT the element is:
+### Component classes (prototyping / out-of-the-box)
 
-*Interactive:* `.btn`, `.btn-sm`, `.btn-lg`, `.btn-group`, `.btn--secondary`, `.btn--danger`, `.collapsible`, `.collapsible-body`, `.ln-modal`
+ln-acme ships component classes that apply mixins to default selectors. These work out of the box and are useful for prototyping, inspector experimentation, and quick development.
+
+*Visual:* `.btn`, `.btn-sm`, `.btn-lg`, `.btn-group`, `.section-card`
+*Structural:* `.form-element`, `.form-actions`
+*Behavior:* `.collapsible`, `.collapsible-body`, `.ln-modal`
 *State:* `.pass`, `.fail`, `.warn`, `.hidden`, `.open`
-*Structural:* `.section-card`, `.form-actions`, `.nav`, `.nav-section`, `.breadcrumbs`, `.avatar`
 *Data:* `.numeric`
 *Icons:* `.ln-icon-*`, `.ln-icon--sm`, `.ln-icon--lg`, `.ln-icon--xl`
 
-**Presentational classes (FORBIDDEN in project HTML)** — describe HOW it looks:
+### Production HTML — semantic selectors
+
+In production, **visual** component classes (`.btn`, `.section-card`, `.btn-group`) are replaced with semantic selectors + `@include` mixins in project SCSS:
+
+```scss
+// Production SCSS — semantic selectors
+#add-user { @include btn; }
+#users article { @include card; }
+#users td:last-child ul { @include btn-group; }
+```
+
+**Structural/behavioral** classes (`.form-element`, `.form-actions`, `.collapsible`, `.ln-modal`, icons) stay in HTML — they identify WHAT the element is, with no semantic HTML equivalent.
+
+### Always FORBIDDEN in HTML (no prototyping exception)
 
 *Layout:* `.grid-2`, `.grid-4`, `.stack`, `.row`, `.row-between`, `.flex`, `.items-center`
 *Typography:* `.text-secondary`, `.text-muted`, `.text-sm`
-*Decoration:* `.card`, `.bg-secondary`, `.shadow-md`, `.rounded-lg`, `.gap-3`
+*Decoration:* `.bg-secondary`, `.shadow-md`, `.rounded-lg`, `.gap-3`
 
-→ These exist in the framework for prototyping but production code uses `@include` mixins in SCSS on semantic selectors.
+→ These are mixin wrappers only — use `@include` in SCSS.
 
 **Inline styles — FORBIDDEN** without exception. Always move to SCSS.
 
@@ -394,9 +414,9 @@ Not all classes belong in HTML. In the ln-acme system:
 JS behavior is bound via `data-ln-*` attributes. Classes are for styling only.
 
 ```html
-<!-- RIGHT — data attributes for JS, classes for CSS -->
-<button data-ln-modal-for="my-modal" class="btn">
-<button data-ln-toggle-for="sidebar" class="btn">
+<!-- RIGHT — data attributes for JS -->
+<button data-ln-modal-for="my-modal">
+<button data-ln-toggle-for="sidebar">
 <input data-ln-search>
 <ul data-ln-accordion>
 
@@ -418,11 +438,12 @@ JS behavior is bound via `data-ln-*` attributes. Classes are for styling only.
 - Inline `style=""` attributes
 - Presentational classes in project HTML (`grid-2`, `card`, `text-secondary`, `stack`, `row`)
 - `<div class="form-group">`, `<div class="form-row">`, `<div class="field-group">` (obsolete)
-- Wrapping `<label>` for form fields (`<label>Name <input></label>`) — use `<p class="form-element">` with explicit `for`/`id`
+- Wrapping `<label>` for form fields (`<label>Name <input></label>`) — use `<div class="form-element">` with explicit `for`/`id`
 - Bare `<label>` with radio/checkbox outside `<ul>/<li>` — use `<ul> > <li> > <label>` for pill groups
 - Manual `*` or `<span>` for required indicators — use `required` attribute + CSS `:has()`
 - `<div>` or `<span>` as clickable elements — use `<button>` or `<a>`
-- `<div class="btn-group">` for grouped buttons — use `<ul class="btn-group">/<li>`
+- `<div>` for grouped buttons — use `<ul>/<li>`, style via `@include btn-group` in SCSS
+- Visual classes on buttons (`.btn`, `.btn--danger`) — style via `@include btn` on semantic selector
 - Icon buttons without `aria-label`
 - `role` on elements that already have the correct implicit role
 - `aria-required="true"` when `required` attribute works

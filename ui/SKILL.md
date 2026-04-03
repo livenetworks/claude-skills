@@ -349,7 +349,21 @@ A page is not done until all these are addressed.
 
 ---
 
-## 11. Anti-Patterns — NEVER Do These
+## 11. Visual Language Rules
+
+Before implementing any styled component, check `visual-language.md` for system-wide rules:
+
+- **Radius + spacing** — rounded elements must float (have `mx`), flush elements must be sharp
+- **Shadow vs border** — pick one as the primary signal; don't stack both
+- **Icon consistency** — Tabler outline only, no mixing sets or weights
+- **Spacing scale** — token values only, never invent custom values
+- **Color = state** — never decorative, only semantic
+- **Hover = color change only** — no transforms, no shadow appearance
+- **Radius scale** — `rounded-md` throughout, `rounded-full` for pills only
+
+---
+
+## 12. Anti-Patterns — NEVER Do These
 
 ### Components
 - Data table without search, sort, or virtual scroll — that's a raw `<table>`, not a data table

@@ -91,6 +91,12 @@ Same rules as form.md — the boundary is interaction complexity, not field coun
 
 **Never.** If you need a modal inside a modal, the architecture is wrong. Rethink the flow.
 
+### Responsive
+
+- Desktop: centered, sized by mixin (sm/md/lg/xl)
+- Mobile (<768px): full-width, full-height (or close to it)
+- Modal is always usable on touch devices
+
 ---
 
 ## Confirmation Pattern

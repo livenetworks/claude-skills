@@ -69,7 +69,7 @@ The boundary is **interaction complexity**, not field count.
 
 Forms use CSS Grid via `@include form-grid` (6 columns → 1 column on mobile).
 
-- Each field: `<p class="form-element">` wrapping `<label for>` + `<input id>`
+- Each field: `<div class="form-element">` wrapping `<label for>` + `<input id>`
 - Explicit `for`/`id` association (NOT wrapping label)
 - Grid spans in SCSS: `.form-element { grid-column: span 3; }` for half-width
 - Full-width fields: `grid-column: span 6` (or `1 / -1`)
@@ -146,7 +146,7 @@ Rules come from native HTML validation attributes. Zero JS configuration.
 ### Error Messages — HTML, Not JS
 
 ```html
-<p class="form-element">
+<div class="form-element">
   <label for="email">Email</label>
   <input id="email" name="email" type="email" required data-ln-validate>
   <ul data-ln-validate-errors>
@@ -161,8 +161,10 @@ Zero display text in JS. Error messages rendered by backend (multilanguage ready
 ### Custom Validation
 
 For rules that native HTML can't express (password match, async uniqueness check):
-- TODO — to be defined in a separate discussion
-- Likely: coordinator dispatches `ln-validate:set-error` with custom error name
+- Coordinator dispatches `ln-validate:set-custom` event on the input with `{ error: "errorName" }`
+- ln-validate shows the matching `<li data-ln-validate-error="errorName">`
+- Coordinator dispatches `ln-validate:clear-custom` when the error is resolved
+- Custom validation is the coordinator's responsibility, not ln-validate's
 
 ---
 

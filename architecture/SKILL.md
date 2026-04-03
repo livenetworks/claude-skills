@@ -89,8 +89,38 @@ Each layer has clear ownership. Data flows **down** through these layers. Events
 Client-side data caching (IndexedDB, delta sync, optimistic mutations) is a separate architecture from server-side caching.
 
 > Full spec → [data-layer.md](data-layer.md) (IndexedDB cache, delta sync protocol, optimistic mutations, conflict detection)
-> Implementation → `docs/js/ln-store.md` (component API)
+> Implementation → `docs/js/store.md` (component API)
 > Server-side caching → [laravel/architecture.md](../laravel/architecture.md) (Cache::remember, invalidation)
+
+---
+
+## 3b. Rendering Modes
+
+The decision of where rendering happens is per-project or per-page. Three modes:
+
+### SSR Mode (default)
+
+- Backend renders everything — full HTML, forms, tables, KPI cards, detail pages
+- `ln-table` parses the existing DOM for sort/filter/search/virtual scroll
+- Datasets up to ~1000 rows
+- CRUD via form submit or `ln-http`
+- `ln-search` filters DOM children
+
+### IndexedDB Mode (large datasets)
+
+- Backend provides an API; it does not render data rows
+- `ln-data-table` + `ln-store` for sort/filter/search against IndexedDB
+- Datasets 1000+ rows
+- CRUD is optimistic + async
+- Blade renders only the table shell + skeleton
+
+### SPA Mode (no SSR)
+
+- Backend is API only — no Blade
+- Everything is client-side rendered
+- Full application in the browser (e.g. ln-mixer)
+
+`ln-table` and `ln-data-table` share the same UX (sort, search, virtual scroll) — the user cannot tell which mode is active.
 
 ---
 

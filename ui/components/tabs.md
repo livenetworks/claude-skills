@@ -48,7 +48,7 @@ Tabs organize related but distinct categories of the same entity — not differe
 - All tab content is **in the DOM from the start** — backend renders full HTML for every tab
 - `ln-tabs` only toggles visibility (show/hide sections)
 - No dynamic content fetching, no lazy loading
-- Exception: exceptionally complex projects may load content dynamically, but this is not the default
+- Exception: if tab content requires a separate API call (e.g. large dataset per tab), coordinator may load on first tab activation and inject into DOM. This is rare — default is all content in DOM from start.
 
 ---
 

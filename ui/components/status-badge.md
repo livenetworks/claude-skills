@@ -44,6 +44,8 @@ For inline status change without opening a modal:
 
 This is not a new component — it's badge CSS on a `<button>` combined with existing ln-confirm or ln-dropdown JS components.
 
+`@mixin badge` includes an `&:is(button)` block that overrides the global button hover (gray tint) with the badge's own tinted hover/active states. No extra class or override needed — badge on `<button>` works correctly out of the box.
+
 ---
 
 ## Anti-Patterns

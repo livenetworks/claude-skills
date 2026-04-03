@@ -81,41 +81,36 @@ box-shadow: var(--shadow-sm);                  // not 0 1px 2px rgba(...)
 
 Use HTML elements as selectors inside block context. NOT classic BEM classes.
 
-**ID vs Class:** Unique elements (one per page) ALWAYS use `id` — `#app-header`, `#dashboard`, `#profile-form`. Repeated/reusable elements use `class` — `.card`, `.form-element`, `.ln-tag`. If there's only one of something, it's an `id`.
+**ID vs Class:** Unique elements (one per page) ALWAYS use `id` — `#app-header`, `#dashboard`, `#profile-form`. Repeated/reusable elements use `class` — `.form-element`, `.ln-tag`. If there's only one of something, it's an `id`.
 
 **Why?** Classic BEM (`.card__header`, `.card__body`) pollutes HTML with redundant naming — the element tag already communicates what it is. Semantic selectors keep HTML clean, eliminate class-naming decisions, and let the markup describe content while SCSS describes presentation.
 
 **Framework SCSS** (component definitions inside the library):
 ```scss
-// RIGHT — semantic child selectors
-.card header { ... }
-.card main { ... }
+// RIGHT — semantic child selectors inside component context
+.ln-modal footer button { @include btn; }
+.form-actions button    { @include btn; }
 table thead { ... }
 table td { ... }
-.section-card header { ... }
 
 // WRONG — classic BEM
 .card__header { ... }
-.card__body { ... }
 .table__row { ... }
 ```
 
 **Project SCSS** (consuming the library — use `@include` on semantic selectors):
 ```scss
-// RIGHT — mixin on semantic element
-#korisnici article { @include card; }
-#korisnici article header { @include panel-header; }
+// RIGHT — mixin on semantic selector
+#users article { @include card; }
+#users article header { @include panel-header; }
+#add-user { @include btn; }
 
-// WRONG — using .card class in project HTML
-// <div class="card">  ← forbidden in production
+// WRONG — visual classes in HTML
+// <div class="card">       ← forbidden
+// <button class="btn">     ← forbidden
 ```
 
-BEM modifiers (double-dash) are the only exception:
-```scss
-.card--flat { ... }
-.btn--secondary { ... }
-.btn--danger { ... }
-```
+**No visual classes in HTML.** No `.btn`, `.card`, `.section-card`, `.btn--danger`. All visual styling lives in SCSS on semantic selectors. The only classes allowed in HTML are structural (`.form-element`, `.form-actions`, `.collapsible`) and behavioral (`.ln-modal`, icon classes).
 
 ---
 
@@ -135,7 +130,7 @@ scss/components/_forms.scss         →  input { @include form-input; }       �
 |---|---|---|
 | Universal element (`label`, `table`, `input`) | yes | yes — applied to element |
 | Singleton (`#breadcrumbs`) | yes | yes — applied to `#id` |
-| Component class (`.btn`, `.collapsible`) | yes | yes — applied to class |
+| Structural class (`.form-element`, `.form-actions`, `.collapsible`) | yes | yes — applied to class |
 | Data-attr JS component (`[data-ln-tabs]`) | not needed | yes — selector is attribute |
 
 Projects use the library default OR re-apply the mixin on their own selector:
@@ -153,6 +148,10 @@ Projects use the library default OR re-apply the mixin on their own selector:
     h3 { @include text-sm; @include text-secondary; margin: 0; }
     strong { @include text-2xl; @include font-bold; @include block; }
 }
+
+// Buttons — always on semantic selectors
+#add-user { @include btn; }
+#delete-user { @include btn; --color-primary: var(--color-error); }
 ```
 
 ---
@@ -256,7 +255,58 @@ Collapsible HTML structure → see html skill. This section covers SCSS only.
 
 ---
 
-## 10. Hover = Minimal
+## 10. Visual Defaults — What Components Look Like
+
+### Buttons — Structure Global, Color Semantic
+
+`btn-colors` as a standalone mixin is **removed**. Structure is global. Color is semantic.
+
+**Global `<button>` — structure + neutral:**
+- Full structure: padding (`px(1.25rem) py(0.625rem)`), font, flex, rounded-md
+- Default: transparent bg, muted text
+- Hover: `hsl(var(--color-bg-secondary))` — gray, no transform, no shadow
+- Every `<button>` works visually without any class or mixin
+
+**`button[type="submit"]` — color only (structure inherited):**
+- Solid primary background, white text
+- Hover: `hsl(var(--color-primary-hover))` — color change only
+
+**`@mixin btn` — complete (structure + solid colors):**
+- Used on non-submit action buttons via project SCSS semantic selectors
+- Includes structure (for `<a>` tags and non-button elements) + primary filled colors
+
+```scss
+// Semantic selectors — production
+#add-user { @include btn; }
+#delete-user { @include btn; --color-primary: var(--color-error); }
+
+// Color variant on parent affects submit + any @include btn
+#confirm-delete { --color-primary: var(--color-error); }
+```
+
+**`@mixin close-button`** — resets padding to 0, sets 2rem fixed size. Use for any icon-only button to override the global structure padding.
+
+### Cards — Border-Forward
+
+Cards use **clean border, no shadow by default**. Shadow appears on hover.
+
+```scss
+// card default: border + radius, no shadow
+// card hover: shadow-sm + subtle border-color shift
+```
+
+Why border not shadow: business tools need **structure**, not floating elements. Shadow-forward is for marketing/consumer. Projects can add shadow if they want.
+
+### Inputs — Generous Padding
+
+Form inputs use taller padding for a modern feel:
+```scss
+// form-input: 0.75rem horizontal, 0.625rem vertical (not 0.5rem)
+```
+
+---
+
+## 11. Hover = Minimal
 
 Subtle background change only. No outlines, no `::before` bars, no `translateY`.
 ```scss
@@ -266,7 +316,7 @@ table tbody tr { @include transition; &:hover { @include bg-secondary; } }
 
 ---
 
-## 11. Motion Implementation
+## 12. Motion Implementation
 
 Motion decisions (when and why) → ui and ux skills. This section covers SCSS implementation only.
 
@@ -369,7 +419,7 @@ Motion decisions (when and why) → ui and ux skills. This section covers SCSS i
 
 ---
 
-## 12. Theme Override Pattern
+## 13. Theme Override Pattern
 
 To create themed variants, redefine the same tokens under a parent class. Never create new token names per theme.
 
@@ -387,7 +437,7 @@ All components using `hsl(var(--color-primary))` automatically adapt. No extra c
 
 ---
 
-## 13. Architecture — Three CSS Layers
+## 14. Architecture — Three CSS Layers
 
 ```
 scss/config/_tokens.scss        → CSS custom properties (:root)
@@ -403,7 +453,7 @@ Adding a new visual style:
 
 ---
 
-## 14. Project Integration — Using ln-acme as Base
+## 15. Project Integration — Using ln-acme as Base
 
 Projects import ln-acme, then layer project-specific SCSS. Override only what's needed.
 
@@ -451,7 +501,7 @@ Projects import ln-acme, then layer project-specific SCSS. Override only what's 
 
 ---
 
-## 15. ln-acme Override Discipline
+## 16. ln-acme Override Discipline
 
 Before writing any style, check if ln-acme already defines it. Only write project SCSS for what ln-acme does NOT provide or what needs to be DIFFERENT.
 
@@ -577,7 +627,7 @@ Any hardcoded value that could change (shadow, color, size) should be a `:root` 
 `table-base`, `table-responsive`, `table-striped`, `table-section-header`, `table-action`
 
 ### Component Composites
-`card`, `card-accent-top`, `card-accent-bottom`, `card-accent-left`, `card-bg`, `card-stacked`, `panel-header`, `btn`, `btn-sm`, `btn-lg`, `btn-group`, `close-button`, `avatar`, `grid`, `grid-2`, `grid-4`, `stack()`, `row`, `row-between`, `row-center`, `collapsible`, `collapsible-content`, `container($name)`, `modal-sm`, `modal-md`, `modal-lg`, `modal-xl`, `breadcrumbs`, `loader`, `tabs-tab-disabled`
+`card`, `card-accent-top`, `card-accent-bottom`, `card-accent-left`, `card-bg`, `card-stacked`, `panel-header`, `btn` (structure + filled colors), `btn-sm`, `btn-lg`, `btn-group`, `close-button`, `avatar`, `grid`, `grid-2`, `grid-4`, `stack()`, `row`, `row-between`, `row-center`, `collapsible`, `collapsible-content`, `container($name)`, `modal-sm`, `modal-md`, `modal-lg`, `modal-xl`, `breadcrumbs`, `loader`, `tabs-tab-disabled`
 
 ---
 

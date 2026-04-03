@@ -22,7 +22,8 @@ Server database is the ultimate source of truth. Client-side persistent storage 
 Who needs to change this state?
   │
   ├── External code (coordinator, parent, URL) → External state
-  │     Observable by the component (attribute observer, prop watcher)
+  │     Observable by the component (MutationObserver for attributes,
+  │     event listeners for state changes)
   │     Inspectable in dev tools
   │     Single channel for all triggers
   │
