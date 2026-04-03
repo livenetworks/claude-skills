@@ -33,7 +33,7 @@ Use the most meaningful HTML element for the content.
 | Empty state | `<article class="section-empty">` | `<div class="section-empty">` |
 | Label / heading | `<h1>`–`<h6>`, `<strong>`, `<label>` | `<small class="text-secondary">` |
 | Numeric value | `<strong>`, `<output>`, `<data>` | `<h2>` (numbers are NOT headings) |
-| Close / dismiss | `<button class="ln-icon-close">` | `<button>&times;</button>` |
+| Close / dismiss | `<button aria-label="Close"><svg class="ln-icon" aria-hidden="true"><use href="#ln-x"></use></svg></button>` | `<button>&times;</button>` |
 | Separator | `<hr>` | `<div class="divider">` |
 | Grouped fields | `<fieldset>` + `<legend>` | `<div class="field-group">` |
 | Page header | `<header>` | `<div class="header">` |
@@ -53,9 +53,9 @@ Use the most meaningful HTML element for the content.
 ```html
 <!-- Action buttons (edit/delete/view) -->
 <ul>
-  <li><a href="#" class="ln-icon-view" aria-label="View"></a></li>
-  <li><button class="ln-icon-edit" aria-label="Edit"></button></li>
-  <li><button class="ln-icon-delete" aria-label="Delete"></button></li>
+  <li><a href="#" aria-label="View"><svg class="ln-icon" aria-hidden="true"><use href="#ln-eye"></use></svg></a></li>
+  <li><button aria-label="Edit"><svg class="ln-icon" aria-hidden="true"><use href="#ln-edit"></use></svg></button></li>
+  <li><button aria-label="Delete"><svg class="ln-icon" aria-hidden="true"><use href="#ln-trash"></use></svg></button></li>
 </ul>
 
 <!-- Pill radio/checkbox inputs -->
@@ -126,31 +126,45 @@ Every `<div>` MUST have at least one class explaining its existence. If you can'
 
 ## 6. Icon Markup
 
-ALWAYS use `.ln-icon-*` CSS classes. NEVER use HTML entities (`&times;`, `&#9660;`) or Unicode characters for icons.
+Icons use SVG sprite — `#ln-*` for Tabler icons, `#lnc-*` for custom icons. NEVER use HTML entities (`&times;`, `&#9660;`) or Unicode characters.
 
 ```html
-<!-- RIGHT -->
-<button class="ln-icon-close" data-ln-modal-close></button>
-<span class="ln-icon-home"></span>
+<!-- Standalone icon -->
+<svg class="ln-icon" aria-hidden="true"><use href="#ln-home"></use></svg>
+
+<!-- Icon in button with text — no aria-label needed -->
+<button>
+    <svg class="ln-icon" aria-hidden="true"><use href="#ln-plus"></use></svg>
+    Add User
+</button>
 
 <!-- WRONG -->
 <button>&times;</button>
-<span>🏠</span>
+<span class="ln-icon-close"></span>
 ```
 
-Size variants: `.ln-icon--sm` (1rem), `.ln-icon--lg` (1.5rem), `.ln-icon--xl` (4rem).
+Size variants: `ln-icon--sm` (1rem), default (1.25rem), `ln-icon--lg` (1.5rem), `ln-icon--xl` (4rem).
+
+Any icon from [tabler.io/icons](https://tabler.io/icons) — full list: `scss/tabler-icons.txt`. Custom icons use `#lnc-{name}` prefix.
 
 ### Accessible Icon Buttons
 
-Icon-only buttons need accessible labels:
+Icon-only buttons require `aria-label`:
 
 ```html
-<!-- Icon button with accessible label -->
-<button class="ln-icon-close" data-ln-modal-close aria-label="Close"></button>
-<button class="ln-icon-delete" aria-label="Delete item"></button>
+<!-- Icon-only button — aria-label required -->
+<button aria-label="Close" data-ln-modal-close>
+    <svg class="ln-icon" aria-hidden="true"><use href="#ln-x"></use></svg>
+</button>
+<button aria-label="Delete item">
+    <svg class="ln-icon" aria-hidden="true"><use href="#ln-trash"></use></svg>
+</button>
 
-<!-- Icon with adjacent visible text — no aria-label needed -->
-<button class="ln-icon-save">Save</button>
+<!-- Icon with text — aria-label NOT needed -->
+<button>
+    <svg class="ln-icon" aria-hidden="true"><use href="#ln-device-floppy"></use></svg>
+    Save
+</button>
 ```
 
 ---
@@ -285,7 +299,7 @@ Use HTML5 landmarks — they have implicit ARIA roles. Add explicit `role` only 
     <form>
         <header>
             <h3 id="modal-title">Confirm Delete</h3>
-            <button type="button" class="ln-icon-close" data-ln-modal-close aria-label="Close"></button>
+            <button type="button" aria-label="Close" data-ln-modal-close><svg class="ln-icon" aria-hidden="true"><use href="#ln-x"></use></svg></button>
         </header>
         <main>...</main>
     </form>

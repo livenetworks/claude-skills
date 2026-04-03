@@ -106,7 +106,7 @@ A confirmation is a modal with `modal-sm`, no input fields, just a question and 
 ```html
 <div class="ln-modal" data-ln-modal id="confirm-delete">
     <form>
-        <header><h3>Delete 15 employees?</h3><button type="button" class="ln-icon-close" data-ln-modal-close></button></header>
+        <header><h3>Delete 15 employees?</h3><button type="button" aria-label="Close" data-ln-modal-close><svg class="ln-icon" aria-hidden="true"><use href="#ln-x"></use></svg></button></header>
         <main>
             <p>This will also remove their attendance records and payroll history.</p>
         </main>
@@ -134,7 +134,7 @@ A confirmation is a modal with `modal-sm`, no input fields, just a question and 
     <form data-ln-form>
         <header>
             <h3>Create User</h3>
-            <button type="button" class="ln-icon-close" data-ln-modal-close></button>
+            <button type="button" aria-label="Close" data-ln-modal-close><svg class="ln-icon" aria-hidden="true"><use href="#ln-x"></use></svg></button>
         </header>
         <main>
             <!-- form fields -->

@@ -351,7 +351,7 @@ A page is not done until all these are addressed.
 
 ## 11. Visual Language Rules
 
-Before implementing any styled component, check `visual-language.md` for system-wide rules:
+Before implementing any styled component, follow these system-wide rules:
 
 - **Radius + spacing** — rounded elements must float (have `mx`), flush elements must be sharp
 - **Shadow vs border** — pick one as the primary signal; don't stack both
