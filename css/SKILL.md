@@ -169,13 +169,23 @@ All panel headers (card, section-card, modal) use the same mixin:
 
 ## 7. Icon Styling
 
-Icons use `::before` pseudo-element with SVG data-URI backgrounds (HTML markup rules → see html skill).
+Icons use SVG sprites injected into `<body>` at init by `ln-icons.js`. Reference via `<use href="#ln-{name}">` inside an `<svg class="ln-icon">` element. Icons inherit `currentColor` — no color properties needed in SCSS.
 
-Close buttons: always use `@mixin close-button` (defined in `_mixins.scss`), never write custom close styles.
+```html
+<svg class="ln-icon" aria-hidden="true"><use href="#ln-trash"></use></svg>
+```
+
+Two prefixes:
+- `#ln-{name}` — Tabler icons (bundled, ~47 icons)
+- `#lnc-{name}` — custom CDN icons (`file-pdf`, `file-doc`, `file-epub`) — require `window.LN_ICONS_CUSTOM_CDN`
+
+Size classes (applied in HTML, not SCSS): `ln-icon--sm` (1rem), default (1.25rem), `ln-icon--lg` (1.5rem), `ln-icon--xl` (4rem).
+
+Close buttons: always use `@mixin close-button`, never write custom close styles.
 
 ### Pseudo-Element Awareness
 
-- `::before` is occupied by `.ln-icon-*` — NEVER override for loading/overlay effects
+- `::before` / `::after` may be occupied by existing component styles — NEVER override for loading/overlay effects
 - For overlays: use `box-shadow: inset 0 0 0 9999px rgba(...)` instead
 - For spinners: inject a real DOM `<span>` via JS, not pseudo-elements
 
