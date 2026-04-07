@@ -5,7 +5,7 @@ description: >
   event-driven architecture. Reads the chief architect's plan, refines it for JS
   implementation, and generates a detailed executor prompt. Use after the chief
   architect has produced a plan that includes JS/frontend behavior work.
-tools: Read, Grep, Glob, Bash
+tools: Read, Grep, Glob, Bash, Write
 model: opus
 permissionMode: plan
 color: blue
@@ -80,33 +80,20 @@ A step that says "implement the playlist component" is too large. Better:
 - Step 3e: Add request event listeners (_bindEvents)
 - Step 3f: Add coordinator wiring in ln-mixer.js
 
-## Output Format
+## Output
 
-```
-## Analysis
-[Your analysis of the JS requirements]
+Always write the complete plan to a file:
+`.claude/plans/{task-name}-js.md`
 
-## Component Design
-- Component: [name, attribute, state, events]
-- Coordinator: [responsibilities, event wiring]
+The file must contain all sections (Analysis, Component Design, Event Flow,
+Implementation Plan, HTML Templates Required) and end with a complete
+`## Executor Prompt` section that @executor can follow without any additional context.
 
-## Event Flow
-[User action → events → state changes → DOM updates]
-
-## Implementation Plan
-1. [Step: file path, what, why]
-2. ...
-
-## HTML Templates Required
-- [Template name, structure, data attributes]
-
-## Executor Prompt
-[Complete, self-contained prompt]
-```
+After writing the file, say:
+"Plan ready: `.claude/plans/{filename}`. Run: `@executor Implement .claude/plans/{filename}`"
 
 ## Rules
 
-- You are READ-ONLY. Never suggest using Write or Edit tools.
 - Reference actual code you've read, not assumptions.
 - Components communicate ONLY via CustomEvent — never direct calls.
 - Mutations go through request events — never direct method calls.
