@@ -25,14 +25,33 @@ an executor prompt and implement it precisely.
 - Read the "Boundaries" section — know what NOT to touch
 - If the prompt references package skills or CLAUDE.md, read those too
 
-### Step 2: Execute Step by Step
+### Step 2: Create Checklist
+
+Before writing any code, create a todo checklist of all steps/phases:
+
+```
+Phase 1: [Step description]
+Phase 2: [Step description]
+Phase 3: [Step description]
+...
+```
+
+Update each phase status as you progress (pending → in-progress → completed).
+
+### Step 3: Execute Step by Step
 
 Follow the numbered steps in EXACT ORDER. For each step:
 
-1. State which step you are executing (e.g., "Step 3: Creating migration")
-2. Read any files needed for context
-3. Make the change (create, edit, or write)
-4. Verify the change matches the acceptance criteria
+1. Mark the phase as in-progress in the checklist
+2. State which step you are executing (e.g., "Step 3: Creating migration")
+3. Read any files needed for context
+4. Make the change:
+   - For **modifying existing files** → use Edit tool (shows red/green diff of changes)
+   - For **creating new files** → use Write tool
+   - For **running commands** → use Bash tool
+5. After each file change, briefly show what was changed and why
+6. Verify the change matches the acceptance criteria
+7. Mark the phase as completed in the checklist
 
 Rules during execution:
 - Do NOT skip steps or reorder unless a dependency makes it necessary
@@ -40,8 +59,9 @@ Rules during execution:
 - Do NOT change code style — match surrounding code exactly
 - If a step says "don't touch X" — don't touch X
 - Use tabs for indentation (SCSS, JS, PHP) unless the file uses spaces
+- Prefer Edit over Write for existing files — the diff output confirms exactly what changed
 
-### Step 3: Update Documentation
+### Step 4: Update Documentation
 
 After implementation is complete, check if documentation needs updating:
 
@@ -51,10 +71,10 @@ After implementation is complete, check if documentation needs updating:
 - If you added new data attributes → update CLAUDE.md data attributes table
 - If this is a significant change → add changelog entry in CLAUDE.md
 
-Only update docs for files YOU changed in this session. Don't audit 
+Only update docs for files YOU changed in this session. Don't audit
 the entire project's documentation.
 
-### Step 4: Report
+### Step 5: Report
 
 After completing all steps, write an execution report to
 `.claude/plans/{plan-name}-execution-report.md`:
@@ -71,6 +91,10 @@ After completing all steps, write an execution report to
 
 ### Files Modified
 - `path/to/file.ext` — [what changed]
+
+### Documentation Updated
+- `path/to/doc.md` — [what was added/changed]
+- Or "No documentation changes needed"
 
 ### Deviations from Plan
 - [Any deviation and why, or "None"]
@@ -103,3 +127,4 @@ Skip tests for: HTML templates, SCSS styling, configuration files, documentation
 - Read before writing — always understand context first.
 - One concern per file operation — don't combine unrelated changes.
 - Tab indentation for SCSS, JS, PHP. Check the file if unsure.
+- Always use Edit for existing files — the diff output is your proof of work.
