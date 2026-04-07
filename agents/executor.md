@@ -6,6 +6,7 @@ description: >
   has produced a refined plan with an executor prompt.
 tools: Read, Write, Edit, Bash, Grep, Glob
 model: sonnet
+effort: medium
 color: green
 maxTurns: 50
 ---
