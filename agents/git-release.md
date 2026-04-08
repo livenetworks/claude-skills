@@ -5,7 +5,7 @@ description: >
   creates the tag, and pushes. Use for composer/npm packages when you need
   a new version released.
 tools: Bash, Read
-model: haiku
+model: claude-haiku-4-5-20251001
 color: yellow
 effort: low
 permissionMode: bypassPermissions

@@ -4,7 +4,7 @@ description: >
   Git push agent. Commits and pushes all changes including submodule updates.
   Use when you want to push everything to git with a single command.
 tools: Bash, Read
-model: haiku
+model: claude-haiku-4-5-20251001
 color: yellow
 effort: low
 permissionMode: bypassPermissions

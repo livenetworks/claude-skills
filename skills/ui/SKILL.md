@@ -203,6 +203,23 @@ Each component has a detailed spec in `components/`. Read the relevant spec BEFO
 
 **Before building ANY of these components, read the spec file.** The specs contain anatomy, behavior, states, responsive rules, and anti-patterns.
 
+### Visual States — Every Component Must Address
+
+Beyond functional features, every component must have all applicable visual states designed:
+
+| State | What it communicates | Implementation |
+|-------|---------------------|----------------|
+| **Default** | At rest, available | Normal appearance |
+| **Hover** | "I can interact here" | Color change only — no transform, no shadow |
+| **Focus** | "I am interacting here" | Consistent indicator (ring, border, or accent) |
+| **Active/Pressed** | "Action registered" | Slightly darker than hover |
+| **Disabled** | "Not available" | 50% opacity, `cursor-not-allowed` |
+| **Loading** | "Working on it" | Button spinner or shimmer, scoped — never full-page |
+| **Empty** | "Nothing here yet" | Guidance + CTA (two types: no data vs zero results) |
+| **Error** | "Something went wrong" | Three signals required: color + icon + text |
+
+If a component plan doesn't address all applicable states, the plan is incomplete.
+
 ---
 
 ## 7. Information Density

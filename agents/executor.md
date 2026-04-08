@@ -5,7 +5,7 @@ description: >
   domain architects. Has full read/write access. Use after a domain architect
   has produced a refined plan with an executor prompt.
 tools: Read, Write, Edit, Bash, Grep, Glob
-model: sonnet
+model: claude-sonnet-4-6-20260218
 color: green
 maxTurns: 50
 effort: medium
