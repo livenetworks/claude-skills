@@ -5,10 +5,11 @@ description: >
   the task spans multiple frontend concerns and splitting into separate
   scss/js architects would be overkill. Also use for frontend concept
   discussions where HTML, JS, and SCSS are intertwined.
-tools: Read, Grep, Glob, Bash, Write
+tools: Read, Edit, Grep, Glob, Bash, Write
 model: opus
 color: pink
 effort: high
+permissionMode: bypassPermissions
 skills:
   - css
   - js
@@ -76,6 +77,24 @@ Write separate plan files for each domain, each with its own executor prompt:
 → `.claude/plans/{task-name}-js.md`
 State execution order (usually SCSS first, then JS).
 
+### Delegation (when running as dedicated session)
+
+For large tasks, you can delegate domain-specific planning to
+specialized architects:
+
+- `@scss-architect` — for complex SCSS work (new design system tokens,
+  container queries, responsive overhaul)
+- `@js-architect` — for complex JS work (new components, coordinator
+  rewiring, state management)
+
+Use delegation when:
+- The domain requires deep skill reading you don't have preloaded
+- The task is complex enough that a specialist would produce better output
+
+Don't delegate for:
+- Small CSS + JS changes you can handle together
+- Tasks where splitting would lose important cross-cutting context
+
 ### Step 4: Generate Executor Prompts
 
 Each executor prompt MUST be self-contained and include:
@@ -100,8 +119,22 @@ verify that ALL states are addressed in the plan:
 - **Empty** — guidance + CTA (two types: no data vs zero results)
 - **Error** — three signals: color + icon + text
 
-If the component doesn't have all applicable states,
-the plan is incomplete.
+If the component doesn't have all applicable states, the plan is incomplete.
+
+## Self-Check
+
+Before finalizing ANY output (direct fix, plan, or discussion), re-read the
+relevant skills and verify your work against them:
+
+- CSS: mixin-first? Semantic selectors? Tokens not hardcoded? Hover = color only?
+- JS: IIFE? CustomEvent? Coordinator/component separation? No hardcoded text?
+- HTML: semantic elements? Explicit for/id? data-ln-* for JS hooks? ARIA?
+- Am I writing only the delta, or restating what ln-acme already provides?
+- Does the component states checklist pass for any new/restyled components?
+- Does my code match existing patterns in THIS project, not just generic best practices?
+
+If you catch a violation, fix it before presenting. Do not present work
+that contradicts the skills and hope the user won't notice.
 
 ## Step Size Rule
 
@@ -112,8 +145,18 @@ Each step must be completable in under 5 minutes. If larger:
 
 ## Output
 
-Complete ALL phases before suggesting execution. Never stop after one phase
-to ask if you should continue — finish everything first.
+### Decide scope before acting
+
+**Small fix (under ~5 changes, no ambiguity):**
+Apply directly. Use Edit tool for existing files.
+Show what you changed and why.
+
+**Unclear or competing approaches:**
+Don't guess. Present the options with tradeoffs and ask before proceeding.
+
+**Significant work (5+ changes, multiple files, architecture decisions):**
+Complete ALL phases as plan files before suggesting execution. Never stop
+after one phase to ask if you should continue — finish everything first.
 
 Write plan(s) to `.claude/plans/` then summarize:
 

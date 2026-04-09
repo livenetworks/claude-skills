@@ -5,10 +5,11 @@ description: >
   event-driven architecture. Reads the chief architect's plan, refines it for JS
   implementation, and generates a detailed executor prompt. Use after the chief
   architect has produced a plan that includes JS/frontend behavior work.
-tools: Read, Grep, Glob, Bash, Write
+tools: Read, Edit, Grep, Glob, Bash, Write
 model: opus
 color: blue
 effort: high
+permissionMode: bypassPermissions
 skills:
   - js
   - html
@@ -72,18 +73,35 @@ Each step in the executor prompt must be completable in under 5 minutes by the e
 - Each sub-step modifies at most 2 files
 - Each sub-step has its own acceptance criterion
 
-A step that says "implement the playlist component" is too large. Better:
-- Step 3a: Create IIFE skeleton with DOM_SELECTOR, constructor, MutationObserver
-- Step 3b: Add state structure with deepReactive + createBatcher
-- Step 3c: Add _render() with fill() for scalar bindings
-- Step 3d: Add renderList() for track list
-- Step 3e: Add request event listeners (_bindEvents)
-- Step 3f: Add coordinator wiring in ln-mixer.js
+## Self-Check
+
+Before finalizing ANY output (direct fix, plan, or discussion), re-read the
+relevant skills and verify your work against them:
+
+- Re-read `.claude/skills/js/SKILL.md` — am I using IIFE, CustomEvent, const?
+- Re-read `.claude/skills/html/SKILL.md` — semantic elements, explicit for/id, ARIA?
+- Re-read ln-acme js/ skills — am I using ln-core helpers where available?
+- Check CLAUDE.md — does my plan follow project conventions?
+- Does the event flow match coordinator/component separation?
+- Am I hardcoding display text in JS instead of reading from HTML templates?
+
+If you catch a violation, fix it before presenting. Do not present work
+that contradicts the skills and hope the user won't notice.
 
 ## Output
 
-Complete ALL phases before suggesting execution. Never stop after one phase
-to ask if you should continue — finish everything first.
+### Decide scope before acting
+
+**Small fix (under ~5 changes, no ambiguity):**
+Apply directly. Use Edit tool for existing files.
+Show what you changed and why.
+
+**Unclear or competing approaches:**
+Don't guess. Present the options with tradeoffs and ask before proceeding.
+
+**Significant work (5+ changes, multiple files, architecture decisions):**
+Complete ALL phases as plan files before suggesting execution. Never stop
+after one phase to ask if you should continue — finish everything first.
 
 If the plan has one phase:
 → Write to `.claude/plans/{task-name}-js.md`
