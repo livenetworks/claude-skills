@@ -5,7 +5,7 @@ description: >
   creates the tag, and pushes. Use for composer/npm packages when you need
   a new version released.
 tools: Bash, Read
-model: claude-haiku-4-5-20251001
+model: haiku
 color: yellow
 effort: low
 permissionMode: bypassPermissions
@@ -34,7 +34,7 @@ git status
 If there are changes:
 1. Read the diff summary
 2. Write a conventional commit message
-3. `git commit -m "{type}: {short description}"`
+3. `git commit -m "{type}: {short description}" --trailer "AI-Involvement: ai:agent" --trailer "AI-Tool: claude-code" --trailer "Reviewed-By: verifier-agent"`
 
 ### Step 3: Determine next version
 

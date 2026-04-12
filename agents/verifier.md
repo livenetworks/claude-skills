@@ -65,7 +65,40 @@ Check if documentation needs updating based on what was changed:
 - `CLAUDE.md` — does it need new data attributes, changelog entry, or architecture notes?
 - `.claude/skills/` — do any skills need updating to reflect new patterns?
 
-### Step 6: Produce Verdict
+### Step 6: ISO Compliance Checks (PR-AI-002 §5.4)
+
+After standard code review, perform these additional checks:
+
+#### Security (ISO 27001 A.8.28)
+- [ ] No hardcoded credentials, API keys, tokens, or connection strings
+- [ ] No production data, real IPs, or internal hostnames in code
+- [ ] No insecure functions (eval, exec with unsanitized input, raw SQL without binding)
+- [ ] Authentication/authorization checks present where required
+- [ ] Input validation on all external inputs
+
+#### AI Hallucination Check
+- [ ] All imported packages/classes actually exist and are installed
+- [ ] All called methods/functions exist in the referenced library version
+- [ ] All API endpoints referenced actually exist
+- [ ] Database table/column names match the actual schema
+- [ ] File paths referenced actually exist in the project
+
+#### Documentation Completeness
+- [ ] README reflects new/changed attributes, events, API
+- [ ] Architecture docs match the implementation
+- [ ] CHANGELOG entry present if applicable
+
+If any check fails, report it under:
+
+#### ISO Compliance Issues
+- [SECURITY] {description}
+- [HALLUCINATION] {description}
+- [DOCS] {description}
+
+These issues must be resolved before PASS status. PASS WITH NOTES is acceptable
+only for documentation items with a tracking ticket.
+
+### Step 7: Produce Verdict
 
 Write the verification report to `.claude/plans/{plan-name}-verification.md`:
 

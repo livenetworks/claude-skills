@@ -4,7 +4,7 @@ description: >
   Git push agent. Commits and pushes all changes including submodule updates.
   Use when you want to push everything to git with a single command.
 tools: Bash, Read
-model: claude-haiku-4-5-20251001
+model: haiku
 color: yellow
 effort: low
 permissionMode: bypassPermissions
@@ -54,7 +54,7 @@ If there are changes to commit:
    - `docs:` for documentation only
    - `chore:` for config, dependencies, submodule updates
    - If mixed, use the most significant type
-3. `git commit -m "{type}: {short description}"`
+3. `git commit -m "{type}: {short description}" --trailer "AI-Involvement: ai:agent" --trailer "AI-Tool: claude-code"`
 4. `git push`
 
 If nothing to commit: say "Nothing to push — working tree clean."
