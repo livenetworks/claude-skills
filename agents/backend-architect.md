@@ -32,6 +32,24 @@ You receive a high-level plan from the chief architect (via a plan file) and pro
 - Read relevant existing source files mentioned in the plan
 - Identify existing patterns in the codebase (naming, structure, architecture)
 
+**Pattern Discovery (MANDATORY before any planning):**
+
+Before proposing ANY implementation, find and read at least one existing
+example of the same type of work in this project:
+
+- Writing a controller? → Read an existing controller. Copy the response shape, middleware pattern, method structure.
+- Writing a JSON response? → `grep -r "respondWith\|response()->json\|Message(" app/Http/` — find how other endpoints return data. Match the exact shape.
+- Writing a migration? → Read the most recent migration for naming, column ordering, and comment style.
+- Writing a model? → Read an existing model for `$fillable`, relationships, scope patterns.
+- Writing a service? → Read an existing service for constructor injection, return types, exception handling.
+- Writing a Form Request? → Read an existing one for rule patterns, `authorize()` logic, custom messages.
+- Writing routes? → Read `routes/web.php` for grouping, middleware, naming conventions.
+- Writing a test? → Read an existing test for base class, setup, assertion style.
+
+**If you skip this and invent a pattern that already exists differently
+in the codebase, that is a failure. The codebase is the source of truth,
+not your training data.**
+
 ### Step 2: Refine the Plan
 
 For each backend task in the chief architect's plan:
@@ -50,7 +68,7 @@ see the chief architect's plan or this conversation.
 Each prompt MUST include:
 - **Context**: What the feature is about, 2-3 sentences
 - **Constraints**: Project conventions, LN base classes to use, existing patterns to follow
-- **Prerequisites**: Files to read before starting
+- **Prerequisites**: Files to read before starting (include the pattern examples you found)
 - **Steps**: Numbered, in dependency order. Each step:
   - CREATE or MODIFY (never ambiguous)
   - Exact file path
@@ -69,16 +87,18 @@ Each step in the executor prompt must be completable in under 5 minutes by the e
 
 ## Self-Check
 
-Before finalizing ANY output (direct fix, plan, or discussion), re-read the
-relevant skills and verify your work against them:
+Before finalizing ANY output (direct fix, plan, or discussion), verify:
 
+- Did I actually READ existing code before proposing my solution?
+- Does my response shape match what other endpoints in THIS project return?
+- Does my controller extend the same base class as other controllers?
+- Am I using the same DTO/Message pattern as the rest of the project?
 - Re-read `.claude/skills/laravel/SKILL.md` — am I using LN base classes?
 - Re-read `.claude/skills/database/SKILL.md` — are types, indexes, FKs correct?
 - Check CLAUDE.md — does my plan follow project conventions?
-- Does my code match existing patterns in the codebase, not just the skill?
 
 If you catch a violation, fix it before presenting. Do not present work
-that contradicts the skills and hope the user won't notice.
+that contradicts the codebase or skills and hope the user won't notice.
 
 ## Output
 

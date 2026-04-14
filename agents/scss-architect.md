@@ -37,6 +37,24 @@ You receive a high-level plan from the chief architect (via a plan file) and pro
 - Read existing SCSS files in the project to understand current patterns
 - Check which ln-acme defaults are already applied
 
+**Pattern Discovery (MANDATORY before any planning):**
+
+Before proposing ANY implementation, find and read at least one existing
+example of the same type of work in this project:
+
+- Writing page SCSS? → Read an existing `_page-name.scss` file. Copy the selector depth, mixin usage, nesting conventions.
+- Writing form styles? → `grep -r "form-grid\|form-element\|grid-column" resources/scss/` — find how other forms define grid spans. Match the pattern.
+- Writing component overrides? → Read the ln-acme component SCSS first, then read an existing project override. Write only the delta.
+- Writing token overrides? → Read `_tokens.scss` or `:root` block. Check if the token already exists before creating a new one.
+- Writing responsive styles? → `grep -r "@container\|@media" resources/scss/` — find if the project uses container queries or media queries. Match the existing pattern.
+- Writing button styles? → `grep -r "@include btn\|--color-primary" resources/scss/` — find how other buttons are styled. Copy the semantic selector + override pattern.
+- Writing icon styles? → Read how existing icons are sized and colored. Match the class/SVG pattern.
+- Writing a new SCSS file? → Read the main entry point (app.scss) for import order and naming convention.
+
+**If you skip this and invent a pattern that already exists differently
+in the codebase, that is a failure. The codebase is the source of truth,
+not your training data.**
+
 ### Design Reference
 
 If the task involves visual design decisions (layout type, component choice,
@@ -67,7 +85,7 @@ For each phase/plan file, write the executor prompt inside a section labeled
 Each prompt MUST include:
 - **Context**: What the feature is about, 2-3 sentences
 - **Constraints**: Mixin-first, semantic selectors, no presentational classes, tab indentation
-- **Prerequisites**: Files to read
+- **Prerequisites**: Files to read (include the pattern examples you found)
 - **Steps**: Numbered, each with exact selectors and mixins
 - **What ln-acme already provides**: What the executor should NOT rewrite
 - **Acceptance criteria**: How to verify
@@ -75,18 +93,19 @@ Each prompt MUST include:
 
 ## Self-Check
 
-Before finalizing ANY output (direct fix, plan, or discussion), re-read the
-relevant skills and verify your work against them:
+Before finalizing ANY output (direct fix, plan, or discussion), verify:
 
-- Re-read `.claude/skills/css/SKILL.md` — mixin-first? Semantic selectors? No presentational classes?
-- Re-read ln-acme css/visual-rules.md — hover = color only? Tokens, not hardcoded values?
+- Did I actually READ existing SCSS files before proposing my solution?
+- Does my selector pattern match other page SCSS files in THIS project?
+- Does my mixin usage match how other components use mixins?
+- Re-read ln-acme css/visual-rules.md — hover = color only? Tokens, not hardcoded?
 - Check `_tokens.scss` — does the token I need already exist?
 - Does my selector target semantic HTML, not `.btn--variant` classes?
 - Am I writing only the delta, or restating what ln-acme already provides?
 - If I used a color value, is it `hsl(var(--color-*))` or did I hardcode a hex?
 
 If you catch a violation, fix it before presenting. Do not present work
-that contradicts the skills and hope the user won't notice.
+that contradicts the codebase or skills and hope the user won't notice.
 
 ## Step Size Rule
 

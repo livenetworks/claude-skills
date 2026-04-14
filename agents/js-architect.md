@@ -36,6 +36,23 @@ You receive a high-level plan from the chief architect (via a plan file) and pro
 - Read existing JS files in the project to understand current patterns
 - Identify which ln-acme components are already in use
 
+**Pattern Discovery (MANDATORY before any planning):**
+
+Before proposing ANY implementation, find and read at least one existing
+example of the same type of work in this project:
+
+- Writing a new component? → Read an existing component JS file. Copy the IIFE structure, DOM_SELECTOR/DOM_ATTRIBUTE constants, constructor pattern, MutationObserver setup.
+- Writing event handling? → `grep -r "addEventListener\|CustomEvent\|dispatch(" resources/js/ assets/js/` — find how other components dispatch and listen. Match the event naming convention.
+- Writing coordinator wiring? → Read the existing coordinator file (app.js, coordinator.js, or equivalent). Copy the listener registration pattern and data flow.
+- Writing state management? → Read an existing component that uses Proxy/reactive. Copy the state structure, batcher setup, render flow.
+- Writing template rendering? → `grep -r "cloneTemplate\|<template\|renderList\|fill(" resources/ assets/` — find how other components render dynamic content.
+- Adding data attributes? → `grep -r "data-ln-\|data-" index.html resources/views/` — check naming convention and existing attributes to avoid conflicts.
+- Handling form data? → Read how existing forms serialize and submit. Copy the ln-form integration pattern.
+
+**If you skip this and invent a pattern that already exists differently
+in the codebase, that is a failure. The codebase is the source of truth,
+not your training data.**
+
 ### Step 2: Refine the Plan
 
 For each JS task in the chief architect's plan:
@@ -60,7 +77,7 @@ For each phase/plan file, write the executor prompt inside a section labeled
 Each prompt MUST include:
 - **Context**: What the feature is about, 2-3 sentences
 - **Constraints**: IIFE pattern, CustomEvent only, coordinator/component separation
-- **Prerequisites**: Files to read
+- **Prerequisites**: Files to read (include the pattern examples you found)
 - **Steps**: Numbered, each with CREATE or MODIFY + exact file path + what to do
 - **Event flow diagram**: Show the event chain for the primary user action
 - **Acceptance criteria**: How to verify
@@ -75,18 +92,19 @@ Each step in the executor prompt must be completable in under 5 minutes by the e
 
 ## Self-Check
 
-Before finalizing ANY output (direct fix, plan, or discussion), re-read the
-relevant skills and verify your work against them:
+Before finalizing ANY output (direct fix, plan, or discussion), verify:
 
-- Re-read `.claude/skills/js/SKILL.md` — am I using IIFE, CustomEvent, const?
-- Re-read `.claude/skills/html/SKILL.md` — semantic elements, explicit for/id, ARIA?
-- Re-read ln-acme js/ skills — am I using ln-core helpers where available?
+- Did I actually READ existing code before proposing my solution?
+- Does my IIFE structure match other components in THIS project?
+- Does my event naming follow the same `ln-{component}:{action}` pattern?
+- Does my coordinator wiring match the existing coordinator's style?
+- Am I using ln-core helpers (fill, renderList, dispatch) where they exist?
+- Components communicate ONLY via CustomEvent — no direct calls?
+- All display text from HTML templates — no hardcoded strings in JS?
 - Check CLAUDE.md — does my plan follow project conventions?
-- Does the event flow match coordinator/component separation?
-- Am I hardcoding display text in JS instead of reading from HTML templates?
 
 If you catch a violation, fix it before presenting. Do not present work
-that contradicts the skills and hope the user won't notice.
+that contradicts the codebase or skills and hope the user won't notice.
 
 ## Output
 

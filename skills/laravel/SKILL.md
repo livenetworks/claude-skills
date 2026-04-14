@@ -164,7 +164,80 @@ Types: `success`, `error`, `warning`, `info`
 
 ## 4. Model Conventions
 
-### Two Base Model Classes + Laravel Model
+### Project Base Models — Tenant-Scoped by Default
+
+DocuFlow adds **two project-level base classes** on top of the LN bases. Every model that has a `tenant_id` column extends the project base, not the LN base directly:
+
+| Class | Extends | Use For |
+|-------|---------|---------|
+| `App\Models\AppWriteModel` | `LNWriteModel` | Editable tables with `tenant_id` (File, Document, Classification, MetadataDefinition, Role, …) |
+| `App\Models\AppReadModel` | `LNReadModel` | SQL views with `tenant_id` (FileRead, DocumentRead, …) |
+| `LNWriteModel` (direct) | `Model` | Root-level entities: Tenant, Package, Permission, User, MagicLinkToken |
+| `LNReadModel` (direct) | `Model` | Root-level views: TenantRead, PackageRead |
+
+**What the project bases add:**
+
+1. **Global `tenant` scope** — every query automatically appends `WHERE tenant_id = session('tenant_id')`. Cross-tenant data access is impossible unless the caller explicitly opts out via `withoutGlobalScope('tenant')`.
+2. **Creating hook (write base only)** — `tenant_id` is auto-filled from session on `create()` if the caller did not set it. Services stop threading `$tenantId` through method signatures.
+3. **Null-session tolerance** — when `session('tenant_id')` is null (console, queue workers), the scope and the hook both skip. Web requests always have a tenant via `tenant.context` middleware.
+
+```php
+// Tenant-scoped write model — 90% of cases
+class Document extends AppWriteModel
+{
+    protected $table = 'documents';
+    public $timestamps = true;
+    protected $fillable = ['tenant_id', 'title', 'status', /* ... */];
+    // tenant scope + tenant_id auto-fill inherited from AppWriteModel
+}
+
+// Tenant-scoped write model with its own creating logic
+class File extends AppWriteModel
+{
+    // ... fillable, casts ...
+
+    protected static function booted(): void
+    {
+        parent::booted(); // REQUIRED — keeps tenant scope + tenant_id auto-fill
+
+        static::creating(function (File $file) {
+            $file->uploaded_by ??= Auth::id();
+        });
+    }
+}
+
+// Tenant-scoped read model
+class FileRead extends AppReadModel
+{
+    protected $table = 'v_files';
+}
+
+// Root-level entity — NOT tenant-scoped, extends LN directly
+class Tenant extends LNWriteModel
+{
+    protected $table = 'tenants';
+    // ...
+}
+```
+
+**Opt-out:**
+
+```php
+// Root admin cross-tenant query
+$allFiles = File::withoutGlobalScope('tenant')->get();
+
+// Explicit tenant override on create (seeders, admin tools)
+File::create(['tenant_id' => 99, /* ... */]);
+```
+
+**Rules:**
+
+- Services and controllers **never** pass `tenant_id` to the model on write — the model resolves it from session.
+- Services and controllers **never** add `->where('tenant_id', ...)` to tenant-scoped queries — the global scope handles it.
+- Subclasses that override `booted()` **must** call `parent::booted()` or they lose both the scope and the creating hook.
+- When adding a new tenant-scoped model, default to `AppWriteModel` / `AppReadModel`. Extending the LN bases directly is the exception (root-level entities only).
+
+### Two LN Base Model Classes + Laravel Model
 
 | Class | Use For | Timestamps | Write |
 |-------|---------|-----------|-------|

@@ -37,6 +37,24 @@ You receive a plan or concept and produce:
 - Read existing HTML, JS, and SCSS files in the project
 - Identify which ln-acme components are already in use
 
+**Pattern Discovery (MANDATORY before any planning):**
+
+Before proposing ANY implementation, find and read at least one existing
+example of the same type of work in this project:
+
+- Writing SCSS for a page? → Read an existing page SCSS file. Copy the selector patterns, mixin usage, nesting depth.
+- Writing a Blade view? → Read an existing view. Copy the layout structure, section naming, component usage.
+- Writing a form? → `grep -r "form-grid\|data-ln-form\|data-ln-validate" resources/` — find how other forms are built. Match the grid, validation, and error markup.
+- Writing a JS component? → Read an existing component in this project. Copy the IIFE structure, event naming, state management.
+- Writing coordinator wiring? → Read the existing coordinator (app.js or equivalent). Copy the event listener patterns.
+- Adding icons? → `grep -r "ln-icon\|<use href" resources/` — find how other icons are used. Match the SVG sprite or class pattern.
+- Adding a modal? → Read an existing modal in the project. Copy the `<form>` root, size mixin, close pattern.
+- Writing responsive styles? → Read how other components handle breakpoints. Container queries or media queries?
+
+**If you skip this and invent a pattern that already exists differently
+in the codebase, that is a failure. The codebase is the source of truth,
+not your training data.**
+
 ### Design Reference
 
 If the task involves visual design decisions (layout type, component choice,
@@ -100,7 +118,7 @@ Don't delegate for:
 Each executor prompt MUST be self-contained and include:
 - **Context**: What the feature is about
 - **Constraints**: Project conventions for all affected layers
-- **Prerequisites**: Files to read
+- **Prerequisites**: Files to read (include the pattern examples you found)
 - **Steps**: Numbered, each with CREATE or MODIFY + exact file path
 - **Acceptance criteria**: How to verify
 - **Boundaries**: What NOT to touch
@@ -123,18 +141,20 @@ If the component doesn't have all applicable states, the plan is incomplete.
 
 ## Self-Check
 
-Before finalizing ANY output (direct fix, plan, or discussion), re-read the
-relevant skills and verify your work against them:
+Before finalizing ANY output (direct fix, plan, or discussion), verify:
 
+- Did I actually READ existing code before proposing my solution?
+- Does my Blade view match the layout structure of other views in THIS project?
+- Does my SCSS follow the same selector/mixin patterns as other page files?
+- Does my JS follow the same IIFE/event patterns as other components?
 - CSS: mixin-first? Semantic selectors? Tokens not hardcoded? Hover = color only?
 - JS: IIFE? CustomEvent? Coordinator/component separation? No hardcoded text?
 - HTML: semantic elements? Explicit for/id? data-ln-* for JS hooks? ARIA?
 - Am I writing only the delta, or restating what ln-acme already provides?
 - Does the component states checklist pass for any new/restyled components?
-- Does my code match existing patterns in THIS project, not just generic best practices?
 
 If you catch a violation, fix it before presenting. Do not present work
-that contradicts the skills and hope the user won't notice.
+that contradicts the codebase or skills and hope the user won't notice.
 
 ## Step Size Rule
 
