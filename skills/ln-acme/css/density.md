@@ -1,30 +1,30 @@
 # Skill: Density system
 
-Decision guide for using `[data-density="compact"]`. Full docs: `docs/css/density.md`, `scss/config/_density.scss`.
+Decision guide for using the `.density-compact` class. Full docs: `docs/css/density.md`, `scss/config/_density.scss`.
 
 ## What it is
 
-A single CSS attribute that re-tunes the `--density-*` token scale at the CSS variable layer. No per-component rules, no JS, no class toggling. Components that consume `--density-*` tokens shrink automatically. Added in ln-acme v1.2.
+A single CSS class that re-tunes the `--density-*` token scale at the CSS variable layer. No per-component rules, no JS, no class toggling. Components that consume `--density-*` tokens shrink automatically. Added in ln-acme v1.2.
 
 ## Activation
 
 ### Global (whole page compact)
 
 ```html
-<html data-density="compact">
+<html class="density-compact">
 ```
 
 ### Scoped (one region compact, rest comfortable)
 
 ```html
-<div data-density="compact">
+<div class="density-compact">
 	<!-- only this subtree is compact -->
 </div>
 ```
 
-Density is a normal CSS custom property cascade — it applies at any DOM scope. Nested sections inherit from their parent. You can also re-expand a section inside a compact parent with `data-density="comfortable"` (re-defines tokens back to `:root` defaults).
+Density is a normal CSS custom property cascade — it applies at any DOM scope. Nested sections inherit from their parent.
 
-Comfortable is the default — no attribute needed for normal mode.
+Comfortable is the default — no class needed for normal mode.
 
 ## Token reference
 
@@ -53,7 +53,7 @@ All tokens defined in `scss/config/_density.scss`. Components consume these; the
 | Component | Reason |
 |---|---|
 | Buttons | WCAG 2.5.5 hit target — minimum 24×24px must not be violated by density. This is a design decision, not an oversight. |
-| Modals, toasts | Focused interruption surfaces; cramping them saves no data-density screen space. |
+| Modals, toasts | Focused interruption surfaces; cramping them saves no density screen space. |
 | Page header, sidebar nav | Fixed visual hierarchy; density semantics are ambiguous for nav. |
 | Form labels, column headers | Structural — must stay legible at any density. |
 | Interactive controls (checkboxes, radios, pills) | Same a11y reasoning as buttons. |
@@ -63,7 +63,7 @@ All tokens defined in `scss/config/_density.scss`. Components consume these; the
 Do NOT write:
 
 ```scss
-[data-density="compact"] .my-component {
+.density-compact .my-component {
 	padding: 0.5rem; // wrong
 }
 ```
@@ -78,10 +78,10 @@ This explodes specificity and duplicates the compact override in every component
 
 ## Orthogonality with dark mode
 
-`data-density` and `data-theme` are independent attributes on orthogonal token namespaces (`--density-*` vs `--color-*`). They compose without conflict:
+`.density-compact` and `data-theme` are independent on orthogonal token namespaces (`--density-*` vs `--color-*`). They compose without conflict:
 
 ```html
-<html data-theme="dark" data-density="compact">
+<html data-theme="dark" class="density-compact">
 ```
 
 Compact dark mode works as expected — no extra rules needed.

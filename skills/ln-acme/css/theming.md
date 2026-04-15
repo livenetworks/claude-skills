@@ -70,10 +70,10 @@ If a component looks wrong in dark mode, a hardcoded color (not a token referenc
 
 ## Orthogonality with density
 
-Dark mode and density (`data-density="compact|comfortable|spacious"`) are fully independent. Both are resolved via CSS custom properties and compose freely:
+Dark mode and density (`.density-compact` class) are fully independent. Both are resolved via CSS custom properties and compose freely:
 
 ```html
-<html data-theme="dark" data-density="compact">
+<html data-theme="dark" class="density-compact">
 ```
 
 No special handling needed in component SCSS.

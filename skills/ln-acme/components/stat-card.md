@@ -46,7 +46,7 @@ The mixin (`@include stat-card`) provides:
 - `flex-col`, `gap(0.25rem)`, `p(var(--density-pad-lg))` — density-aware padding
 - `bg-primary` surface, `rounded-lg`, `shadow-sm`, `border`
 
-Padding uses `--density-pad-lg` so the card automatically adapts to `data-density`.
+Padding uses `--density-pad-lg` so the card automatically adapts to the `.density-compact` class.
 
 ## Grid layout
 
