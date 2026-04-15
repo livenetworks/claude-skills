@@ -69,13 +69,15 @@ The user NEVER waits for the server. They see data immediately. If something cha
 
 ```
 IndexedDB empty → no cached data to show
-  → Show skeleton/loading state
+  → Show loader (ln-loader) on the table shell
   → GET /api/{resource} (full dataset)
   → Store in IndexedDB + render
   → Save last_synced_at
 ```
 
 This is the ONLY time the user waits for the server. Every subsequent visit is instant.
+
+No placeholder/shimmer rows. The table shell stays empty behind a loader until real rows arrive — we never fake data that isn't there.
 
 ---
 

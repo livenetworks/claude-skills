@@ -79,7 +79,7 @@ The decision of where rendering happens is per-project or per-page. Three modes:
 - Data table + client store for sort/filter/search against local cache (IndexedDB)
 - Datasets 1000+ rows
 - CRUD is optimistic + async
-- SSR renders only the table shell + skeleton
+- SSR renders the table shell; the first paint waits for the store to hydrate (no placeholder rows)
 
 ### SPA Mode (no SSR)
 

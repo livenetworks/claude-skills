@@ -32,9 +32,10 @@ A data table is a VIEWPORT into a dataset — not a paginated slice. The user wo
 - This separation means table works with any data source
 
 ### Loading Strategy
-- SSR renders table shell + skeleton rows only — never data rows
-- First visit: fetch full dataset → store in cache → render
-- Subsequent visits: read cache (<50ms) → render → delta sync in background
+- **SSR mode (default):** server renders the full table with data rows — the user never waits for data to appear
+- **Client-cache mode:** server renders the shell only; a loader covers the shell until the store hydrates (no placeholder rows)
+- First visit (client-cache): fetch full dataset → store in cache → render
+- Subsequent visits (client-cache): read cache (<50ms) → render → delta sync in background
 - Delta sync: server returns only changed/created/deleted records since last sync
 
 ### Toolbar
@@ -85,8 +86,9 @@ A data table is a VIEWPORT into a dataset — not a paginated slice. The user wo
 
 | State | What user sees |
 |-------|---------------|
-| Loading (first visit) | Table shell + skeleton rows |
-| Loading (cached) | Data from cache (<50ms), delta sync in background |
+| SSR mode | Full table with rows on first paint (no loading state needed) |
+| Client-cache, first visit | Loader covers table shell until store hydrates |
+| Client-cache, cached | Data from cache (<50ms), delta sync in background |
 | Data | Rows with sort/filter/search active |
 | Empty (no data) | "No items yet" + Create CTA |
 | Empty (filter/search) | "No matching items" + Clear filters CTA |
@@ -94,11 +96,11 @@ A data table is a VIEWPORT into a dataset — not a paginated slice. The user wo
 
 ## Anti-Patterns
 - Pagination instead of virtual scroll
-- Rendering data rows in SSR (use skeleton + JS rendering)
+- Placeholder / shimmer rows — never fake data that doesn't exist yet (SSR already has real rows; client-cache mode uses a loader on the shell)
 - Filters in toolbar instead of column headers
 - "View" button when row could be clickable
 - Hover-reveal actions (inaccessible on touch)
-- Full-page loading indicator instead of scoped skeleton
+- Full-page loading indicator instead of a scoped loader on the table shell
 - Sorting/filtering on server when dataset fits in client cache
 
 > For implementation with ln-acme → see ln-acme components/data-table.md

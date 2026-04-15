@@ -32,7 +32,7 @@ document.addEventListener('ln-store:synced', function(e) {
 
 ## SSR (Blade)
 
-Blade renders ONLY the shell:
+**Default (SSR mode):** Blade renders the full table with real rows from the server:
 ```html
 <div data-ln-data-table>
     <div class="toolbar">
@@ -41,11 +41,19 @@ Blade renders ONLY the shell:
     </div>
     <table>
         <thead>...</thead>
-        <tbody><!-- skeleton rows, JS replaces --></tbody>
+        <tbody>
+            @foreach ($rows as $row)
+                <tr>...</tr>
+            @endforeach
+        </tbody>
     </table>
     <footer><!-- count, aggregates --></footer>
 </div>
 ```
+
+JS takes over for sort, filter, search, virtual scroll, and optimistic mutations after mount.
+
+**Client-cache mode** (1000+ rows, opt-in): Blade renders the shell with an empty `<tbody>` behind a loader; ln-store hydrates and fills rows on first paint. No placeholder/shimmer rows — the loader sits on the shell until real data arrives.
 
 ## Delta Sync Response Format
 

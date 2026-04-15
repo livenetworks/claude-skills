@@ -126,7 +126,7 @@ The transition mixins (`@include transition`, `@include transition-fast`) use `e
 }
 ```
 
-### Keyframes — Only Two Allowed
+### Keyframes — Only One Allowed
 
 ```scss
 // Spinner
@@ -134,24 +134,9 @@ The transition mixins (`@include transition`, `@include transition-fast`) use `e
     to { transform: rotate(360deg); }
 }
 .ln-spinner { animation: ln-spin 1s linear infinite; }
-
-// Shimmer (skeleton loading)
-@keyframes ln-shimmer {
-    0% { background-position: -200% 0; }
-    100% { background-position: 200% 0; }
-}
-.ln-skeleton {
-    background: linear-gradient(90deg,
-        hsl(var(--color-bg-secondary)) 25%,
-        hsl(var(--color-bg-secondary) / 0.5) 50%,
-        hsl(var(--color-bg-secondary)) 75%
-    );
-    background-size: 200% 100%;
-    animation: ln-shimmer 1.5s ease-in-out infinite;
-}
 ```
 
-No custom `@keyframes` for UI elements beyond these two.
+No custom `@keyframes` for UI elements beyond this one. No shimmer / skeleton keyframes — ln-acme consumers are SSR-first, so placeholder rows are never needed; use the spinner for genuine loading states instead.
 
 ### prefers-reduced-motion
 
