@@ -42,8 +42,20 @@ npm run dev      # Watch mode
 | `css/tokens.md` | Token values (colors, spacing, radii, shadows) |
 | `css/icons.md` | SVG sprite system, Tabler icons, custom icons |
 | `css/visual-rules.md` | ln-acme specific visual rules (§1-§8 implementation) |
-| `js/component-template.md` | Full IIFE boilerplate for new components |
-| `js/naming.md` | `data-ln-*`, `window.ln*`, event naming conventions |
+| `css/density.md` | Density variants (compact, default, comfortable) |
+| `css/theming.md` | Dark mode, theme tokens, color-scheme |
+| `css/breakpoints.md` | Media vs container-query breakpoint tokens and rules |
+| `components/stat-card.md` | KPI stat card pattern |
+| `components/popover.md` | Popover / contextual overlay |
+| `components/tooltip.md` | Tooltip (hover/focus hint) |
+| `components/chip.md` | Removable filter token / selected value |
+| `components/stepper.md` | Linear wizard progress indicator |
+| `components/timeline.md` | Chronological event list (audit log, activity feed) |
+| `components/page-header.md` | Standard page title + breadcrumbs + actions |
+| `components/prose.md` | Scoped long-form content typography wrapper |
+| `components/filter-toolbar.md` | Above-table search + filter chips + sort layout |
+| `components/toggle-switch.md` | iOS-style immediate on/off toggle (styled checkbox) |
+| `js/component-template.md` | Full IIFE boilerplate for new components (includes naming conventions for `data-ln-*`, events, `window.ln*`) |
 | `js/ln-core-api.md` | fill, renderList, cloneTemplate, reactive, batcher API |
 
 ## Quick Reference

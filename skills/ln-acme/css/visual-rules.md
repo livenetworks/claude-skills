@@ -32,6 +32,17 @@ Token scale: `0.25 / 0.5 / 0.75 / 1 / 1.25 / 1.5 / 2 / 3rem`
 
 - Font: **Inter** for all UI text
 - Weights: 400 (body), 500 (medium), 600 (semibold), 700 (bold)
+- For component internals, use `@include typography($role)` — it pairs `font-size` + `line-height` from the role token system. Available roles: `display-lg/md/sm`, `heading-lg/md/sm`, `title-md/sm`, `body-lg/md/sm`, `label-md/sm`, `caption`. See `css/mixins.md` for the full role list.
+
+## §7 Shadow Scale (v1.1)
+
+Shadows are cool-tinted, dual-layer (`hsl(220 40% 15% / alpha)`), not plain grey. Scale: `shadow-none`, `shadow-xs`, `shadow-sm`, `shadow-md`, `shadow-lg`, `shadow-xl`, `shadow-2xl`, `shadow-inner`.
+
+Color-aware variants for focus halos and CTAs: `--shadow-primary`, `--shadow-success`, `--shadow-error` (token values, not mixins — apply via `box-shadow: var(--shadow-primary)`).
+
+In dark mode, shadows revert to solid black with higher alpha (cool tint disappears on dark surfaces). This is handled automatically by `_theme.scss`.
+
+The three-layer focus halo (from `@include focus-ring`) is built from `box-shadow` layers, not from the shadow scale tokens. See the Focus Ring section in `css/mixins.md`.
 
 ## §8 Radius Scale
 
@@ -57,35 +68,59 @@ Token scale: `0.25 / 0.5 / 0.75 / 1 / 1.25 / 1.5 / 2 / 3rem`
 
 Never write raw `transition:` property — always use these mixins.
 
+### Easing Tokens
+
+| Token | Use case |
+|-------|----------|
+| `--easing-standard` | Default — most UI transitions (modal open/close, state changes) |
+| `--easing-decelerate` | Enter — element arriving (slide in, expand) |
+| `--easing-accelerate` | Exit — element leaving (slide out, collapse) |
+| `--easing-spring` | Bouncy feedback — selection toggles, drag confirmation |
+
+```scss
+transition: transform 220ms var(--easing-spring);
+```
+
+The transition mixins (`@include transition`, `@include transition-fast`) use `ease` as their default. Override the easing property directly when a specific curve is needed.
+
 ### Component Motion Patterns
 
 ```scss
 // Modal — fade + scale
 .ln-modal {
     @include opacity-0;
-    transform: scale(0.95);
-    @include transition;
-    &.open { @include opacity-100; transform: scale(1); }
+    @include motion-safe {
+        transform: scale(0.95);
+        @include transition;
+        &.open { transform: scale(1); }
+    }
+    &.open { @include opacity-100; }
 }
 
 // Toast — slide in from right
 .ln-toast {
-    transform: translateX(100%);
     @include opacity-0;
-    @include transition;
-    &.visible { transform: translateX(0); @include opacity-100; }
+    @include motion-safe {
+        transform: translateX(100%);
+        @include transition;
+        &.visible { transform: translateX(0); }
+    }
+    &.visible { @include opacity-100; }
 }
 
 // Dropdown — scale from top
 .dropdown-menu {
-    transform: scaleY(0);
-    transform-origin: top;
     @include opacity-0;
-    @include transition-fast;
-    &.open { transform: scaleY(1); @include opacity-100; }
+    transform-origin: top;
+    @include motion-safe {
+        transform: scaleY(0);
+        @include transition-fast;
+        &.open { transform: scaleY(1); }
+    }
+    &.open { @include opacity-100; }
 }
 
-// Inline confirm — color transition only
+// Inline confirm — color transition only (no motion-safe needed)
 .btn[data-confirming] {
     @include transition-colors;
 }
@@ -120,13 +155,23 @@ No custom `@keyframes` for UI elements beyond these two.
 
 ### prefers-reduced-motion
 
+ln-acme uses `@include motion-safe { }` — it gates your animation declarations behind `@media (prefers-reduced-motion: no-preference)`. Wrap `transform`, `opacity`, `translate`, `scale`, `rotate`, and keyframe animations in it. Do NOT use the `!important` override anti-pattern on `*, *::before, *::after`.
+
+Color transitions on hover (`@include transition-colors`) are fine unwrapped — they do not trigger vestibular issues.
+
 ```scss
-@media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
+// CORRECT — gate motion declarations positively
+.ln-modal {
+    @include motion-safe {
+        @include transition;
+        transform: scale(0.95);
+        &.open { transform: scale(1); }
     }
+}
+
+// WRONG — anti-pattern, never do this
+*, *::before, *::after {
+    transition-duration: 0.01ms !important;
 }
 ```
 
@@ -209,6 +254,8 @@ Usage:
 Standard breakpoints: `480px`, `580px`, `880px`, `1120px`
 
 Container names: noun, singular, lowercase, no hyphens (`foldersgrid`, not `folders-grid`).
+
+ln-acme uses **container queries for components** (respond to the container's width) and **viewport breakpoints for layout** (respond to the page width). Components must not use `@media` breakpoints internally — they must adapt via container queries so they work in any layout slot. See `docs/css/breakpoints.md` and `docs/ln-acme-container-queries.md` for detail.
 
 ---
 

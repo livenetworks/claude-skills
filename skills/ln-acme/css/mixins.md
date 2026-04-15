@@ -1,6 +1,6 @@
 # ln-acme — Mixin Reference
 
-> Complete list of available SCSS mixins. For philosophy → global css skill.
+> Complete list of available SCSS mixins. For full signatures → `docs/css/mixins.md`.
 
 ---
 
@@ -34,7 +34,20 @@
 
 ## Typography
 
-`text-xs`, `text-sm`, `text-base`, `text-lg`, `text-xl`, `text-2xl`, `font-normal`, `font-medium`, `font-semibold`, `font-bold`, `text-left`, `text-center`, `text-right`, `uppercase`, `truncate`, `whitespace-nowrap`, `font-mono`
+`text-xs`, `text-sm`, `text-base`, `text-lg`, `text-xl`, `text-2xl`, `font-normal`, `font-medium`, `font-semibold`, `font-bold`, `text-left`, `text-center`, `text-right`, `uppercase`, `lowercase`, `capitalize`, `normal-case`, `truncate`, `whitespace-nowrap`, `font-mono`, `font-sans`, `tracking-tight`, `tracking-normal`, `tracking-wide`, `tracking-wider`
+
+### `typography($role)` — semantic role mixin (v1.1)
+
+Sets `font-size` + `line-height` from paired `--text-*` / `--lh-*` tokens.
+
+Valid roles: `display-lg`, `display-md`, `display-sm`, `heading-lg`, `heading-md`, `heading-sm`, `title-md`, `title-sm`, `body-lg`, `body-md`, `body-sm`, `label-md`, `label-sm`, `caption`.
+
+```scss
+h1 { @include typography(heading-lg); }
+.caption { @include typography(caption); }
+```
+
+Prefer `typography($role)` over raw `text-*` mixins for component internals. The raw size mixins (`text-sm`, etc.) remain valid for one-off adjustments.
 
 ## Colors
 
@@ -103,25 +116,70 @@ Switch a pill group container to outline variant (visible input indicator, borde
 
 `table-base`, `table-responsive`, `table-striped`, `table-section-header`, `table-action`
 
+## Focus Ring (v1.1)
+
+Six presets, all default to `var(--color-primary)`. Apply on `:focus-visible`.
+
+| Mixin | Description |
+|---|---|
+| `focus-ring($color)` | Three-layer halo: separator + main ring + soft outer glow |
+| `focus-border-thicken($color)` | Outline 2px, no layout shift |
+| `focus-combination($color, $width)` | Border color change + outer ring — max signal |
+| `focus-background-shift($color)` | Light primary tint on field background, no border |
+| `focus-accent-line($color)` | Bottom border only — subtle |
+| `focus-inset-shadow($color, $width)` | Inner shadow — field sinks |
+
+`focus-ring` is the default for most interactive elements. Override `$color` for error state:
+
+```scss
+input.error:focus-visible { @include focus-ring(var(--color-error)); }
+```
+
+## Motion safety
+
+`motion-safe` — wraps content in `@media (prefers-reduced-motion: no-preference)`. Gate `transform`, `opacity`, `translate`, `scale`, `rotate`, and keyframe animations inside it. See `css/visual-rules.md` for the full motion pattern.
+
 ## Component Composites
 
-`card`, `card-accent-top`, `card-accent-bottom`, `card-accent-left`, `card-bg`, `card-stacked`, `panel-header`, `section-card`
+**Card:** `card`, `card-accent-top`, `card-accent-bottom`, `card-accent-left`, `card-bg`, `card-stacked`, `panel-header`, `section`, `section-card`
 
-`btn` (structure + filled colors), `btn-sm`, `btn-lg`, `btn-group`, `close-button`
+**Button:** `btn` (structure + filled colors), `btn-sm`, `btn-lg`, `btn-group`, `close-button`
 
-`avatar`, `grid`, `grid-2`, `grid-4`, `stack()`, `row()`, `row-between()`, `row-center()`
+**Avatar:** `avatar`, `avatar-sm`, `avatar-lg`, `avatar-xl`
 
-`collapsible`, `collapsible-content`, `accordion`
+**Layout:** `grid`, `grid-2`, `grid-4`, `stack($gap)`, `row($gap)`, `row-between($gap)`, `row-center($gap)`, `container($name)`
 
-`container($name)` — container query setup
+**Collapsible:** `collapsible`, `collapsible-content`, `accordion`
 
-`alert`, `banner`, `badge`, `badge-live`
+**Alerts:** `alert`, `banner`
 
-`modal-sm`, `modal-md`, `modal-lg`, `modal-xl`
+**Badge:** `badge`, `badge-live` — see `components/status-badge.md`
 
-`breadcrumbs`, `loader`
+**Stat card:** `stat-card` — see `components/stat-card.md`
 
-`tabs-nav`, `tabs-tab`, `tabs-tab-active`, `tabs-tab-disabled`, `tabs-panel`
+**Chip:** `chip` — removable filter token, not a status badge
+
+**Modal:** `modal-sm`, `modal-md`, `modal-lg`, `modal-xl`
+
+**Nav:** `nav`, `nav-links-rounded`, `nav-links-border-left`, `nav-links-border-grow`, `nav-links-border-top`
+
+**Page:** `page-header`, `empty-state`, `filter-toolbar`, `prose`
+
+**Navigation aid:** `breadcrumbs`, `stepper`, `timeline`
+
+**Interaction:** `loader`, `toggle-switch`, `tooltip`
+
+**Tables:** `tabs-nav`, `tabs-tab`, `tabs-tab-active`, `tabs-tab-disabled`, `tabs-panel`
+
+**Tables:** `table-base`, `table-responsive`, `table-striped`, `table-section-header`, `table-action`
+
+### `kbd` mixin (v1.1)
+
+Renders keyboard key labels — monospace, bordered, bottom-heavy border for key depth:
+
+```scss
+kbd { @include kbd; }
+```
 
 ---
 

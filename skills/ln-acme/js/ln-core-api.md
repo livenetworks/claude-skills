@@ -10,8 +10,17 @@
 Imports go **outside** the IIFE — Vite resolves at build time:
 
 ```javascript
-import { cloneTemplate, dispatch, dispatchCancelable, fill, renderList, findElements, guardBody } from '../ln-core';
+// helpers.js — DOM, events, templates, list rendering
+import { cloneTemplate, cloneTemplateScoped, dispatch, dispatchCancelable, fill, renderList, buildDict, guardBody, findElements } from '../ln-core';
+
+// reactive.js — state proxies and batching
 import { reactiveState, deepReactive, createBatcher } from '../ln-core';
+
+// persist.js — localStorage helpers (v1.1)
+import { persistGet, persistSet, persistRemove, persistClear } from '../ln-core';
+
+// positioning.js — floating UI helpers (v1.2)
+import { computePlacement, teleportToBody, measureHidden } from '../ln-core';
 ```
 
 ---
@@ -224,3 +233,123 @@ For components with state attributes, add to `attributeFilter`:
 ```javascript
 attributeFilter: [DOM_SELECTOR, DOM_SELECTOR + '-mode', DOM_SELECTOR + '-for']
 ```
+
+---
+
+## Persist Helpers (persist.js) — v1.1
+
+localStorage state persistence scoped to component + page + element key.
+
+### Signatures
+
+```javascript
+persistGet(component, el)              // → JSON value | null
+persistSet(component, el, value)       // stores JSON.stringify(value)
+persistRemove(component, el)           // removes single key
+persistClear(component)                // removes ALL keys for this component name
+```
+
+- `component` — string name, e.g. `'tabs'`, `'filter'`, `'table-sort'`
+- `el` — the component's root element (must have `id` or `data-ln-persist`)
+- `value` — any JSON-serializable value
+
+### Storage Key Format
+
+Keys are namespaced:
+
+```
+ln:<component>:<page-path>:<id>
+```
+
+- `<page-path>` — `location.pathname`, trailing slash stripped, lowercased (e.g. `/documents/42`)
+- `<id>` — `data-ln-persist` attribute value if non-empty; otherwise `el.id`
+
+This means the same component on two different pages does not share state.
+
+### HTML Opt-In
+
+Add `data-ln-persist` to the component element to enable persistence:
+
+```html
+<!-- Use element id as the key suffix -->
+<ul id="doc-tabs" data-ln-tabs data-ln-persist>...</ul>
+
+<!-- Use explicit key suffix (overrides id) -->
+<ul data-ln-tabs data-ln-persist="my-tabs-key">...</ul>
+```
+
+Components only call `persistGet`/`persistSet` when `data-ln-persist` is present on their root. No attribute = no reads or writes.
+
+### Silent No-Op
+
+All functions catch exceptions silently. Safe in private/incognito browsing, server-side environments, and when localStorage is full.
+
+### Components Using This Helper
+
+| Component | `component` string passed |
+|-----------|--------------------------|
+| `ln-toggle` | `'toggle'` |
+| `ln-tabs` | `'tabs'` |
+| `ln-table` (sort) | `'table-sort'` — reads `data-ln-persist` on `[data-ln-table]` wrapper |
+| `ln-filter` | `'filter'` |
+
+---
+
+## Positioning Helpers (positioning.js) — v1.2
+
+Pure helpers for floating UI (popovers, tooltips, dropdowns). Used by `ln-popover`, `ln-tooltip`, and `ln-dropdown`.
+
+### `computePlacement(anchorRect, floatingSize, preferred, offset)`
+
+Compute viewport coordinates for a floating element. Pure function — no DOM side effects.
+
+```javascript
+const { top, left, placement } = computePlacement(
+	anchor.getBoundingClientRect(),  // anchorRect — DOMRect or plain object
+	{ width: 240, height: 120 },     // floatingSize
+	'bottom',                        // preferred side: 'top'|'bottom'|'left'|'right'
+	8                                // offset in px (default: 4)
+);
+```
+
+**Return shape:** `{ top: number, left: number, placement: string }`
+
+`placement` is the side that was actually used (may differ from `preferred` after flip).
+
+**Auto-flip chain:**
+
+| Preferred | Flip order |
+|-----------|-----------|
+| `bottom` | bottom → top → right → left |
+| `top` | top → bottom → right → left |
+| `left` | left → right → top → bottom |
+| `right` | right → left → top → bottom |
+
+If no side fits cleanly, falls back to the preferred side and clamps coordinates to viewport.
+
+**Default offset:** `4` (used when `offset` argument is omitted or not a number).
+
+### `teleportToBody(el)`
+
+Move an element to `<body>` for stacking context escape. Leaves a comment placeholder at the original position so the element can be restored.
+
+```javascript
+const restore = teleportToBody(el);
+// el is now a direct child of <body>
+
+restore(); // returns el to its original parent position
+```
+
+- Returns a `restore()` cleanup function — always call it on component teardown.
+- If `el` is already a direct child of `<body>`, returns a no-op cleanup.
+- Does NOT set any inline styles — the component's SCSS handles `position: fixed`.
+
+### `measureHidden(el)`
+
+Measure an element that may be `display: none`, without visible flicker.
+
+```javascript
+const { width, height } = measureHidden(el);
+```
+
+Temporarily forces `visibility: hidden; display: block; position: fixed` to allow layout, reads `offsetWidth`/`offsetHeight`, then restores all three properties before returning. Returns `{ width: 0, height: 0 }` if `el` is falsy.
