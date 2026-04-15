@@ -192,4 +192,5 @@ Skip tests for: HTML templates, SCSS styling, configuration files, documentation
 - One concern per file operation — don't combine unrelated changes.
 - Tab indentation for SCSS, JS, PHP. Check the file if unsure.
 - Edit for surgical changes; Write for large rewrites or 4+ edits to one file.
+- Never call git directly (`git add / commit / push / tag / reset / diff / log`). If the plan says "push to git", escalate to the chief architect via Open Questions — do not commit yourself. Git is handled by `@git-push` and `@git-release` only.
 - Trust the plan. Trust the architect. Trust the build. The verifier handles the rest.
