@@ -57,6 +57,7 @@ npm run dev      # Watch mode
 | `components/toggle-switch.md` | iOS-style immediate on/off toggle (styled checkbox) |
 | `js/component-template.md` | Full IIFE boilerplate for new components (includes naming conventions for `data-ln-*`, events, `window.ln*`) |
 | `js/ln-core-api.md` | fill, renderList, cloneTemplate, reactive, batcher API |
+| `patterns/edit-modal-prefill.md` | Shared create/edit modal with backend-normalized JSON prefill (single form, many rows, `toFormPayload()` contract) |
 
 ## Quick Reference
 

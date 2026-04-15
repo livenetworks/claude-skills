@@ -305,6 +305,77 @@ protected $casts = [
 ];
 ```
 
+### `toFormPayload()` — Normalized Payload for Shared Create/Edit Modals
+
+When a resource uses **one modal for both Create and Edit** (an index page lists rows, each row's Edit button carries the record's values, the frontend coordinator populates the form before ln-acme opens it), the model owns a `toFormPayload()` method that returns every form field as a scalar the frontend can assign directly to an HTML input.
+
+```php
+class Package extends LNWriteModel
+{
+    protected $casts = [
+        'is_active' => 'boolean',
+        // ...
+    ];
+
+    /**
+     * Normalized payload for the shared create/edit modal form.
+     * All values are coerced to scalars that map directly into HTML
+     * inputs — booleans become 1/0 so JS can populate without type guessing.
+     * Single source of truth for which fields the edit form exposes.
+     */
+    public function toFormPayload(): array
+    {
+        return [
+            'name'           => $this->name,
+            'max_users'      => (int) $this->max_users,
+            'max_documents'  => (int) $this->max_documents,
+            'is_active'      => $this->is_active ? 1 : 0,
+        ];
+    }
+}
+```
+
+**The contract** — every value must be a scalar an HTML input can hold:
+
+| Input type | Value shape |
+|---|---|
+| text / textarea / email / url / number | string or number |
+| select (single) | string (matches `<option value>`) |
+| radio group | string (matches one `<option value>`) |
+| checkbox (standalone or toggle-switch) | `1` or `0` |
+| nullable text | `''` (empty string, **not** `null`) |
+
+Eloquent's `boolean` cast returns PHP `true`/`false` which JSON-serializes to JS `true`/`false` — HTML checkboxes use `value="1"`/`value="0"`, so the frontend would have to type-guess. `toFormPayload()` kills that by coercing to `1`/`0` server-side. Same reason for `(int)` on numeric columns — don't leave it to JS.
+
+**What goes in / what stays out:**
+
+- **In**: every field the edit form writes back (the `$fillable` subset the form exposes).
+- **Out**: create-only fields (e.g., `admin_email` that creates a related User on tenant creation — not a tenant attribute). The method is the single source of truth for the edit surface: the frontend coordinator implicitly hides any form field whose name isn't a key in `toFormPayload()` when opening the modal for edit. No marker attribute in the Blade.
+- **Out**: nested relations, collections, expensive joins. Keep the payload flat and cheap. If you need those, use a dedicated edit route instead.
+
+**Usage in Blade** — every row's Edit button carries its own payload via `@json()`:
+
+```blade
+<button data-ln-modal-for="package-modal"
+        data-action="{{ route('admin.packages.update', $package) }}"
+        data-method="PUT"
+        data-title="{{ __('Edit Package') }}: {{ $package->name }}"
+        data-fields='@json($package->toFormPayload())'>
+    <svg class="ln-icon"><use href="#ln-edit"></use></svg>
+</button>
+```
+
+**Rules:**
+
+- **Never** put `$model->only([...])` or inline field lists in Blade — the field list lives on the model, one place.
+- **Never** return `null` for a nullable text field — use `$this->domain ?? ''`. JS is allowed to stay trivial.
+- **Never** emit booleans from this method — coerce with `? 1 : 0`.
+- Adding a new form field = one edit (add the field to `toFormPayload()` and the form partial), not a scavenger hunt across views.
+
+**When NOT to use this pattern** — prefer a dedicated `GET /{resource}/{id}/edit` route returning a server-rendered partial when: the form has nested or repeating structures, the field set differs per record, or values come from an expensive join you don't want to pay per row on index render.
+
+Frontend coordinator and full recipe: see `.claude/skills/ln-acme/patterns/edit-modal-prefill.md`.
+
 ### Scopes — Readable Filter Chains
 
 ```php
@@ -1058,6 +1129,8 @@ Decide per model. Some write models need timestamps (orders, user actions), othe
 - Eloquent relationships for display data — use SQL views instead
 - `with()` eager loading as substitute for a proper SQL view
 - `belongsTo` / `hasMany` just to show joined fields in templates
+- `$model->only([...])` or inline field lists in Blade for edit-modal prefill — add a `toFormPayload()` method on the model instead
+- Returning booleans/`null` from `toFormPayload()` — coerce to `1`/`0` and `''` so JS never type-guesses
 
 ### Services
 - Return HTTP responses — return domain objects
