@@ -16,7 +16,6 @@ Always use `#page-header` (or `@include page-header` on a project selector) for 
 ## HTML pattern
 
 ```html
-<!-- Container context: set once on the layout shell (container-type: inline-size) -->
 <main class="main">
     <header id="page-header">
         <nav aria-label="Breadcrumb">
@@ -58,7 +57,7 @@ The `:has()` selector maps divs to areas automatically — order in the DOM does
 - **Below 880px:** stacks `breadcrumbs → title → actions` vertically.
 - **880px+:** breadcrumbs span full width on top; title left, actions right (`1fr auto`).
 
-The query fires against the nearest `container-type: inline-size` ancestor. If the project layout already sets this on the main content column, no extra wrapper is needed.
+The layout flip is viewport-driven (`@media (min-width: 880px)`) — self-contained with no parent container-context requirement.
 
 ---
 
