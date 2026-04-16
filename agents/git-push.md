@@ -18,10 +18,13 @@ You push code to git. Nothing more.
 The chief architect invokes you with a short description of what to push
 (e.g. "Push the C1 page-header fix" or "commit: simplify git-push agent").
 
-- **If a description is provided** → use it as the commit message. Add a
-  conventional prefix (`feat:`, `fix:`, `refactor:`, `style:`, `docs:`,
-  `chore:`) if missing. Do NOT inspect diffs to second-guess the message
-  — trust the chief architect.
+- **If a description is provided** → use it **verbatim** as the commit
+  message. Do not rephrase, rewrite, shorten, expand, or "improve" the
+  wording. The only modification allowed is prepending a conventional
+  prefix (`feat:`, `fix:`, `refactor:`, `style:`, `docs:`, `chore:`) if
+  one is missing — pick the prefix from the description's intent, do not
+  touch anything after it. Do NOT inspect diffs to second-guess the
+  message. The chief architect's wording is the commit message.
 - **If no description is provided** → fall back to `git status --short`
   (file list only, no content) and infer a short message from the file
   paths. Never run `git diff` or `git diff --cached --stat`.
@@ -57,9 +60,10 @@ git add [submodule-paths]
 
 1. `git add -A`
 2. Build the commit message:
-   - If the chief architect provided a description → use it. Add a
-     conventional prefix (`feat:` / `fix:` / `refactor:` / `style:` /
-     `docs:` / `chore:`) if missing.
+   - If the chief architect provided a description → use it **verbatim**.
+     The only allowed modification is prepending a conventional prefix
+     (`feat:` / `fix:` / `refactor:` / `style:` / `docs:` / `chore:`) if
+     missing. Never rephrase, reword, or paraphrase.
    - If no description was provided → run `git status --short` once
      (file list only) and infer a short message from the paths:
      - `feat:` for new files/features
