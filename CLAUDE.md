@@ -44,7 +44,9 @@ architect self-executing their own plan.
 reset / diff / log / status` via `Bash`. Git is handled by dedicated
 agents:
 
-- Commit + push outstanding changes → `@git-push`
+- Commit + push outstanding changes → `@git-push` (always pass a short
+  commit message in the prompt — e.g. `"fix: C1 page-header media query"`
+  — so the agent doesn't have to run `git diff` to infer it)
 - Tagged semantic release → `@git-release`
 
 If you need to see current git state for a decision, either delegate a
