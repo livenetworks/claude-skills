@@ -53,7 +53,6 @@ npm run dev      # Watch mode
 | `components/timeline.md` | Chronological event list (audit log, activity feed) |
 | `components/page-header.md` | Standard page title + breadcrumbs + actions |
 | `components/prose.md` | Scoped long-form content typography wrapper |
-| `components/filter-toolbar.md` | Above-table search + filter chips + sort layout |
 | `components/toggle-switch.md` | iOS-style immediate on/off toggle (styled checkbox) |
 | `js/component-template.md` | Full IIFE boilerplate for new components (includes naming conventions for `data-ln-*`, events, `window.ln*`) |
 | `js/ln-core-api.md` | fill, renderList, cloneTemplate, reactive, batcher API |

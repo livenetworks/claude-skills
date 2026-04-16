@@ -51,7 +51,7 @@ Import: `@use 'ln-acme/scss/config/breakpoints' as *;`
 |---|---|---|---|
 | `$cq-narrow` | `--cq-narrow` | 480px | 1→2 columns in tight containers |
 | `$cq-compact` | `--cq-compact` | 580px | 1→2 columns (standard) |
-| `$cq-medium` | `--cq-medium` | 880px | 2→3 columns; page-header / filter-toolbar breakpoint |
+| `$cq-medium` | `--cq-medium` | 880px | 2→3 columns; page-header breakpoint |
 | `$cq-wide` | `--cq-wide` | 1120px | 3→4 columns |
 
 ```scss

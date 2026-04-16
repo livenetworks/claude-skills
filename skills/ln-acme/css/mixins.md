@@ -163,7 +163,7 @@ input.error:focus-visible { @include focus-ring(var(--color-error)); }
 
 **Nav:** `nav`, `nav-links-rounded`, `nav-links-border-left`, `nav-links-border-grow`, `nav-links-border-top`
 
-**Page:** `page-header`, `empty-state`, `filter-toolbar`, `prose`
+**Page:** `page-header`, `empty-state`, `prose`
 
 **Navigation aid:** `breadcrumbs`, `stepper`, `timeline`
 
