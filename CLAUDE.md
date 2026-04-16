@@ -51,6 +51,27 @@ First, walk through these questions:
 Only after these are answered → proceed to plan.
 Skip this for small fixes, bug fixes, and explicit implementation tasks.
 
+## Verifier Gating for Direct Executor Delegations
+
+When delegating directly to `@executor` from the main conversation without
+going through a domain architect (e.g., a mechanical multi-file markdown
+patch), apply the same Verifier Gating criteria defined in the domain
+architects' Output sections (`js-architect.md`, `scss-architect.md`,
+`backend-architect.md`, `frontend-architect.md` — §Verifier Gating).
+
+Summary:
+
+- **Mechanical work** (verbatim text insertion, rename, file move/delete,
+  markdown/HTML copy edits) → skip `@verifier`, run ≤5 targeted greps as
+  spot-check, log them explicitly in the summary.
+- **Anything with logic, build verification, or architectural judgment**
+  → spawn `@verifier` after executor reports PASS.
+- **In doubt** → spawn `@verifier`. Tight allowlist, not a loose heuristic.
+
+The spot-check is mandatory when verifier is skipped — "skip verifier"
+never means "skip verification". It means cheaper verification matched to
+the risk profile.
+
 ## Coding Standards
 
 - Tabs for indentation (SCSS, JS, PHP, HTML)

@@ -202,6 +202,53 @@ All plans ready. Execute in order:
 After all phases: @verifier Review changes against .claude/plans/{original-plan}
 ```
 
+### Verifier Gating — When to Skip
+
+The `@verifier` line in the summary template above is the default for most
+executor runs — but there is a narrow allowlist where spawning verifier
+wastes Opus tokens for zero added value. Skip verifier (replace it with an
+explicit spot-check) when ALL of these hold:
+
+- **Mechanical work only.** The executor did verbatim text insertion,
+  find-and-replace rename, file move/delete, frontmatter/metadata edits,
+  or copy changes in markdown/HTML. No new functions, no refactored
+  logic, no schema changes, no event/selector renames with ripple risk.
+- **No build, test, or migration needed to verify.** If `npm run build`
+  or a test run would have been part of verifier's work, keep verifier.
+- **No architectural judgment in the execution.** The plan could have
+  been followed by a non-programmer reading literal text. Executor made
+  zero ad-hoc decisions.
+- **Verifier's error classes are structurally impossible here.** Logic
+  errors, security issues, hallucinations (non-existent methods/imports),
+  convention drift — none of them can occur in pure text propagation.
+
+When skipping, the spot-check is **MANDATORY, not optional** — skipping
+verifier does not mean no verification, it means cheaper verification
+matched to the risk profile.
+
+**Spot-check protocol:**
+- ≤5 targeted `Grep`/`Read` calls against the plan's acceptance criteria
+- At least one **positive** check (new pattern landed in expected files)
+- At least one **negative** check (old pattern removed, if removal was
+  expected)
+- All checks logged explicitly in the summary: *"Spot-checked in lieu of
+  verifier: {list of greps}"*
+
+**Default to verifier when in doubt.** The threshold for "mechanical" is
+intentionally tight — if you find yourself rationalizing why logic code
+counts as mechanical, it doesn't. The cost of an occasional unnecessary
+verifier spawn is far lower than the cost of a silent bug slipping
+through on a misjudged "mechanical" call.
+
+**Alternative summary template for mechanical work** (replaces the
+default template above):
+
+    Plan ready:
+    @executor Implement .claude/plans/{filename}
+
+    Mechanical — verifier skipped per §Verifier Gating. Architect will
+    spot-check with targeted greps after executor reports PASS.
+
 ## Rules
 
 - Reference actual code you've read, not assumptions.
