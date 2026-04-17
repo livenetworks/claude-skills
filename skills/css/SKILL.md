@@ -408,7 +408,45 @@ Components respond to their **container**, not the viewport.
 
 ---
 
-## 14. Anti-Patterns — NEVER Do These
+---
+
+## 14. Pre-Implementation Checks
+
+Before writing ANY CSS, verify you're in the right place:
+
+### Before Using a `data-ln-*` Component in HTML
+
+Read `js/ln-{name}/README.md` first. Check the Attributes table for which
+HTML element the attribute belongs on. Check the Examples section for correct
+HTML structure. Getting the element wrong (e.g., putting `data-ln-search` on
+a `<label>` instead of the `<input>`) triggers wrong global bindings and
+leads to specificity battles.
+
+### Before Creating a New Data Attribute
+
+Search existing components first: `grep -r "data-ln-" js/`. If an existing
+component already provides the functionality, use it — don't build a duplicate
+inside another component.
+
+### Before Adding CSS to Any File
+
+Verify the architectural layer:
+
+| Layer | Path | Contains |
+|-------|------|----------|
+| Library mixin | `scss/config/mixins/` | General-purpose visual recipe |
+| Library component | `scss/components/` | Applies mixin to default selector |
+| Co-located JS SCSS | `js/ln-*/` | ONLY JS-state CSS (hide/show, open/close attributes) |
+| Project SCSS | project files | Project-specific layout, ID-scoped overrides |
+
+**Stop signals:**
+- Adding visual CSS (padding, border, colors, layout) to `js/ln-*/*.scss` → belongs in mixin + component
+- Scoping CSS to specific IDs inside a library file → belongs in project SCSS
+- Fighting specificity with `!important` or deeper selectors → fix the HTML structure instead
+
+---
+
+## 15. Anti-Patterns — NEVER Do These
 
 ### Values
 - Hardcoded hex colors (`#2737a1`) — use `hsl(var(--color-*))`
@@ -422,6 +460,10 @@ Components respond to their **container**, not the viewport.
 - Hex format for color tokens — use HSL
 - Creating new token names per theme — redefine existing tokens under parent
 - `@media` for component-level responsive when `@container` is appropriate
+- Visual styling in co-located JS SCSS (`js/ln-*/`) — belongs in mixin + component
+- Project-specific CSS (ID-scoped) in library files — belongs in project SCSS
+- Creating new component features that duplicate existing components
+- Fighting specificity with hacks instead of fixing the HTML structure
 
 ### Motion
 - `max-height` for collapse animation — use `grid-template-rows`

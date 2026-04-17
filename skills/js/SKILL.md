@@ -274,6 +274,8 @@ Use when: the component has no "own DOM" — it provides a service that other el
 - Coordinator calling component methods for mutations — use request events
 - Components doing UI wiring (opening modals, showing toasts) — coordinator's job
 - Importing between components — components are independent
+- Duplicating existing component functionality — search existing `data-ln-*` components before creating new ones
+- Using a `data-ln-*` attribute without reading the component's README — element placement matters
 
 ### Code
 - `var` declarations — use `const` (default) or `let`
