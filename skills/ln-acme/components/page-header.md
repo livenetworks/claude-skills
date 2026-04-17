@@ -7,9 +7,9 @@
 
 ## Decision: page-header vs custom markup
 
-Always use `#page-header` (or `@include page-header` on a project selector) for the top-of-page title area. Do NOT build ad-hoc heading + action rows per page — they diverge in spacing and break responsive layout. The mixin ensures consistent breadcrumb / title / actions layout with a single container-query breakpoint.
+Always use `.page-header` (or `@include page-header` on a project selector) for the top-of-page title area. Do NOT build ad-hoc heading + action rows per page — they diverge in spacing and break responsive layout. The mixin ensures consistent breadcrumb / title / actions layout with a single container-query breakpoint.
 
-**CSS-only.** There is no `ln-page-header` JS component — the `data-ln-*` prefix is reserved for JS behavior. Page headers are a layout primitive, bound to the `#page-header` singleton id.
+**CSS-only.** There is no `ln-page-header` JS component — the `data-ln-*` prefix is reserved for JS behavior. Page headers are a layout primitive, bound to the `.page-header` prototype-tier class.
 
 ---
 
@@ -17,7 +17,7 @@ Always use `#page-header` (or `@include page-header` on a project selector) for 
 
 ```html
 <main class="main">
-    <header id="page-header">
+    <header class="page-header">
         <nav aria-label="Breadcrumb">
             <ol>
                 <li><a href="/">Home</a></li>
@@ -36,7 +36,7 @@ Always use `#page-header` (or `@include page-header` on a project selector) for 
 </main>
 ```
 
-The inner `<nav aria-label="Breadcrumb">` gets breadcrumb styling automatically via `@mixin page-header` — no need for a separate `id="breadcrumbs"` on it.
+The inner `<nav aria-label="Breadcrumb">` gets breadcrumb styling automatically via `@mixin page-header` — no need for a separate `class="breadcrumbs"` on it.
 
 ---
 
@@ -64,7 +64,7 @@ The layout flip is viewport-driven (`@media (min-width: 880px)`) — self-contai
 ## Project usage
 
 ```scss
-// Library default — #page-header is already bound.
+// Library default — .page-header is already bound.
 // Ensure the layout context is established:
 .main { @include container(shell); }
 

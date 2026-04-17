@@ -110,7 +110,7 @@ Component file   →  table { @include table-base; }       ← applied
 | Situation | Mixin | Component |
 |---|---|---|
 | Universal element (`label`, `table`, `input`) | yes | yes — applied to element selector |
-| Singleton (`#breadcrumbs`) | yes | yes — applied to `#id` selector |
+| Page-level singleton | yes | yes — applied to `.class` (prototype-tier) |
 | Structural class (`.form-element`, `.form-actions`) | yes | yes — applied to class |
 | Data-attr JS component (`[data-component]`) | not needed | yes — selector is the attribute |
 
