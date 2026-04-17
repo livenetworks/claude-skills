@@ -126,7 +126,71 @@ Projects use the library default OR re-apply the mixin on their own selector:
 
 ---
 
-## 6. Form Styling — Grid-Based Layout
+## 6. Mixin Inheritance — Only the Delta
+
+Derived mixins add ONLY what differs from the base. Never duplicate property definitions across mixins. If the same property appears in two mixins for the same element — one is wrong.
+
+```scss
+// BASE — single source of truth
+@mixin pill {
+	@include inline-flex;
+	@include items-center;
+	background-color: hsl(var(--color-bg-secondary));
+	border: var(--border-width) solid transparent;
+	&:has(> input:checked) { background-color: hsl(var(--color-primary)); }
+	&:hover:not(:has(> input:checked)) { border-color: hsl(var(--color-border)); }
+	&:hover:has(> input:checked) { background-color: hsl(var(--color-primary-hover)); }
+}
+
+// RIGHT — derived adds only the delta (2 lines)
+@mixin pill-outline {
+	border-color: hsl(var(--color-border));
+	> input { display: initial; }
+}
+
+// WRONG — derived duplicates base properties
+@mixin pill-outline {
+	background-color: transparent;            // duplicated
+	border-color: hsl(var(--color-border));
+	&:has(> input:checked) {
+		background-color: hsl(...);           // duplicated
+		border-color: hsl(...);
+	}
+}
+```
+
+Container/layout mixins handle structure — never element-level styling:
+
+```scss
+// RIGHT — container = layout only, elements already styled globally
+@mixin pill-group {
+	@include inline-flex;
+	list-style: none;
+	li label { border-radius: 0; }
+	li:first-child label { border-radius: var(--radius-md) 0 0 var(--radius-md); }
+}
+
+@mixin check-list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+// WRONG — container re-declares element styling
+@mixin check-list {
+	> label {
+		@include flex;
+		background-color: hsl(...);    // already on label globally
+		&:hover { ... }                // already on label globally
+	}
+}
+```
+
+**Test:** if the base mixin changes a color, does the variant automatically get it? If not — you're duplicating.
+
+---
+
+## 7. Form Styling — Grid-Based Layout
 
 Forms use a multi-column CSS Grid layout (6 columns recommended, adjustable per project) where column spans communicate expected input width.
 
@@ -173,7 +237,7 @@ label:has(+ [required])::after {
 
 ---
 
-## 7. Collapsible — Grid Animation
+## 8. Collapsible — Grid Animation
 
 Collapse/expand animation uses `grid-template-rows: 0fr / 1fr`, never `max-height` hack.
 
@@ -198,7 +262,7 @@ grid-template-rows solution:
 
 ---
 
-## 8. Visual Defaults Philosophy
+## 9. Visual Defaults Philosophy
 
 ### Buttons — Structure Global, Color Semantic
 
@@ -228,7 +292,7 @@ Form inputs use taller padding for a modern feel. The exact values are a design 
 
 ---
 
-## 9. Hover = Minimal
+## 10. Hover = Minimal
 
 Subtle background change only. No outlines, no `::before` bars, no `translateY`, no scale, no shadow appearing.
 
@@ -243,7 +307,7 @@ table tbody tr:hover { background: hsl(var(--color-bg-secondary)); }
 
 ---
 
-## 10. Theme Override Pattern
+## 11. Theme Override Pattern
 
 To create themed variants, redefine the same token names under a parent selector. Never create new token names per theme.
 
@@ -260,7 +324,7 @@ All components using `hsl(var(--color-primary))` automatically adapt. No extra c
 
 ---
 
-## 11. Override Discipline
+## 12. Override Discipline
 
 Before writing any project style, check if the design system already provides it. Only write SCSS for what the system does NOT provide or what needs to be DIFFERENT.
 
@@ -301,7 +365,7 @@ Any hardcoded value that could change (shadow, color, size) should be a `:root` 
 
 ---
 
-## 12. Container Queries — Component-Aware Responsive
+## 13. Container Queries — Component-Aware Responsive
 
 Components respond to their **container**, not the viewport.
 
@@ -344,7 +408,7 @@ Components respond to their **container**, not the viewport.
 
 ---
 
-## 13. Anti-Patterns — NEVER Do These
+## 14. Anti-Patterns — NEVER Do These
 
 ### Values
 - Hardcoded hex colors (`#2737a1`) — use `hsl(var(--color-*))`
