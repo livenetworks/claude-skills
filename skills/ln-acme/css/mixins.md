@@ -106,10 +106,10 @@ Prefer `typography($role)` over raw `text-*` mixins for component internals. The
 
 ### pill-outline
 
-Switch a pill group container to outline variant (visible input indicator, bordered):
+Base pill label mixin (structure + visible border + visible input). Standalone — does not depend on `pill` being applied first:
 
 ```scss
-#my-form fieldset { @include pill-outline; }
+#my-form label { @include pill-outline; }
 ```
 
 ## Table

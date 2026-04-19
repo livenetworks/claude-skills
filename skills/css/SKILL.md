@@ -131,30 +131,33 @@ Projects use the library default OR re-apply the mixin on their own selector:
 Derived mixins add ONLY what differs from the base. Never duplicate property definitions across mixins. If the same property appears in two mixins for the same element — one is wrong.
 
 ```scss
-// BASE — single source of truth
-@mixin pill {
+// BASE — single source of truth (structure + visible border)
+@mixin pill-outline {
 	@include inline-flex;
 	@include items-center;
+	border: var(--border-width) solid hsl(var(--color-border));
+	&:has(> input:checked) { border-color: hsl(var(--color-primary)); }
+	&:hover:not(:has(> input:checked)) { border-color: hsl(var(--color-primary)); }
+}
+
+// RIGHT — derived adds only the delta (filled bg, hidden input)
+@mixin pill {
+	@include pill-outline;
 	background-color: hsl(var(--color-bg-secondary));
-	border: var(--border-width) solid transparent;
+	border-color: transparent;
+	> input { display: none; }
 	&:has(> input:checked) { background-color: hsl(var(--color-primary)); }
-	&:hover:not(:has(> input:checked)) { border-color: hsl(var(--color-border)); }
 	&:hover:has(> input:checked) { background-color: hsl(var(--color-primary-hover)); }
 }
 
-// RIGHT — derived adds only the delta (2 lines)
-@mixin pill-outline {
-	border-color: hsl(var(--color-border));
-	> input { display: initial; }
-}
-
 // WRONG — derived duplicates base properties
-@mixin pill-outline {
-	background-color: transparent;            // duplicated
-	border-color: hsl(var(--color-border));
+@mixin pill {
+	@include inline-flex;                     // duplicated from pill-outline
+	@include items-center;                    // duplicated from pill-outline
+	background-color: hsl(var(--color-bg-secondary));
+	border: var(--border-width) solid transparent;
 	&:has(> input:checked) {
-		background-color: hsl(...);           // duplicated
-		border-color: hsl(...);
+		background-color: hsl(...);           // border-color logic duplicated
 	}
 }
 ```
@@ -170,10 +173,16 @@ Container/layout mixins handle structure — never element-level styling:
 	li:first-child label { border-radius: var(--radius-md) 0 0 var(--radius-md); }
 }
 
-@mixin check-list {
+@mixin check-list-outline {
 	list-style: none;
 	padding: 0;
 	margin: 0;
+	li label { @include pill-outline; }
+}
+
+@mixin check-list {
+	@include check-list-outline;
+	li label { @include pill; }
 }
 
 // WRONG — container re-declares element styling
