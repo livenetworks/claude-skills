@@ -307,11 +307,13 @@ protected $casts = [
 
 ### `toFormPayload()` — Normalized Payload for Shared Create/Edit Modals
 
-When a resource uses **one modal for both Create and Edit** (an index page lists rows, each row's Edit button carries the record's values, the frontend coordinator populates the form before ln-acme opens it), the model owns a `toFormPayload()` method that returns every form field as a scalar the frontend can assign directly to an HTML input.
+When a resource uses **one modal for both Create and Edit** (an index page lists rows, each row's Edit button carries the record's values, the frontend coordinator populates the form before ln-acme opens it), the **read model** owns a `toFormPayload()` method that returns every form field as a scalar the frontend can assign directly to an HTML input. Place `toFormPayload()` on the read model (the one iterated in Blade index views), not the write model. Write models handle mutations; read models handle display — and form prefill is a display concern.
 
 ```php
-class Package extends LNWriteModel
+class PackageRead extends LNReadModel
 {
+    protected $table = 'packages';
+
     protected $casts = [
         'is_active' => 'boolean',
         // ...
@@ -1129,8 +1131,9 @@ Decide per model. Some write models need timestamps (orders, user actions), othe
 - Eloquent relationships for display data — use SQL views instead
 - `with()` eager loading as substitute for a proper SQL view
 - `belongsTo` / `hasMany` just to show joined fields in templates
-- `$model->only([...])` or inline field lists in Blade for edit-modal prefill — add a `toFormPayload()` method on the model instead
+- `$model->only([...])` or inline field lists in Blade for edit-modal prefill — add a `toFormPayload()` method on the read model instead
 - Returning booleans/`null` from `toFormPayload()` — coerce to `1`/`0` and `''` so JS never type-guesses
+- `toFormPayload()` on write models — this is a display concern, it belongs on the read model (the one iterated in Blade index views)
 
 ### Services
 - Return HTTP responses — return domain objects
