@@ -5,7 +5,7 @@ Decision guide for using the `.density-compact` class. Full docs:
 
 ## What it is
 
-A single CSS class that overrides base design tokens (`--spacing-*`,
+A single CSS class that overrides base design tokens (`--size-*`,
 `--text-body-*`, `--text-label-*`, `--text-title-*`, `--text-heading-*`,
 `--text-display-sm`, `--density-row-h`) on the element where it's
 applied. Every descendant that reads those tokens shrinks via the
@@ -44,7 +44,7 @@ body paragraphs, body chrome.
 
 | Surface | Reason |
 |---|---|
-| Buttons, pills, close-button | WCAG 2.5.5 hit-target floor — cannot shrink. |
+| Buttons, pills | WCAG 2.5.5 hit-target floor — cannot shrink. |
 | Modal outer chrome | Only `max-width` declared; inner content inherits. |
 | Toast | Fixed notification visual. |
 | Page-header outer padding | Structural rhythm; inner h1 does react. |
@@ -67,7 +67,7 @@ Correct fix: make the component consume base tokens.
 
 ```scss
 .my-component {
-	padding: var(--spacing-md); // correct — cascade handles it
+	padding: var(--size-md); // correct — cascade handles it
 }
 ```
 
@@ -75,7 +75,7 @@ Correct fix: make the component consume base tokens.
 
 The parallel `--density-pad-*` / `--density-gap-*` / `--density-font-body`
 scale was DELETED in v1.3. Do not resurrect it. Components react by
-consuming base tokens (`--spacing-*`, `--text-body-md`, role typography
+consuming base tokens (`--size-*`, `--text-body-md`, role typography
 tokens). The only surviving density-named token is `--density-row-h` —
 used for table row `min-height` because it has no analogue in the base
 scale.
@@ -83,7 +83,7 @@ scale.
 ## Orthogonality with dark mode
 
 `.density-compact` and `data-theme` live on different token namespaces
-(`--spacing-*` / `--text-*` vs `--color-*`). They compose without conflict:
+(`--size-*` / `--text-*` vs `--color-*`). They compose without conflict:
 
 ```html
 <html data-theme="dark" class="density-compact">
@@ -91,7 +91,7 @@ scale.
 
 ## Adding a new component to density
 
-1. Replace hardcoded padding/gap rem values with `var(--spacing-*)`.
+1. Replace hardcoded padding/gap rem values with `var(--size-*)`.
 2. Replace `@include text-base` / `@include text-sm` (raw scale) with
    `font-size: var(--text-body-md); line-height: var(--lh-body-md);`
    (or the matching role token) for content text.

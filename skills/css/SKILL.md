@@ -26,8 +26,8 @@ Always use design system recipes (mixins). Never write raw CSS properties when a
 ```scss
 // RIGHT — uses design system recipes
 .card header {
-    @include px(var(--spacing-lg));
-    @include py(var(--spacing-md));
+    @include px(var(--size-lg));
+    @include py(var(--size-md));
     @include font-semibold;
     @include border-b;
 }
@@ -209,7 +209,7 @@ Forms use a multi-column CSS Grid layout (6 columns recommended, adjustable per 
 #my-form {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
-    gap: var(--spacing-md);
+    gap: var(--size-md);
 
     .form-element { grid-column: span 3; }                        // default: half width
     .form-element:has([name="notes"]) { grid-column: span 6; }    // full width for long text

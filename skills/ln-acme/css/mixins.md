@@ -20,8 +20,8 @@
 `p()`, `px()`, `py()`, `pt()`, `pb()`, `pl()`, `pr()`, `m()`, `mx()`, `my()`, `mt()`, `mb()`, `ml()`, `mr()`, `gap()`
 
 ```scss
-#card { @include p(var(--spacing-md)); }
-#card header { @include px(var(--spacing-lg)); @include py(var(--spacing-md)); }
+#card { @include p(var(--size-md)); }
+#card header { @include px(var(--size-lg)); @include py(var(--size-md)); }
 ```
 
 ## Display & Flex
@@ -143,7 +143,7 @@ input.error:focus-visible { @include focus-ring(var(--color-error)); }
 
 **Card:** `card`, `card-accent-top`, `card-accent-bottom`, `card-accent-left`, `card-bg`, `card-stacked`, `panel-header`, `section`, `section-card`
 
-**Button:** `btn` (structure + filled colors), `btn-sm`, `btn-lg`, `btn-group`, `close-button`
+**Button:** `btn` (structure + filled colors), `btn-sm`, `btn-lg`, `btn-group`
 
 **Avatar:** `avatar`, `avatar-sm`, `avatar-lg`, `avatar-xl`
 

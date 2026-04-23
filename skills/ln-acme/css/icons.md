@@ -73,7 +73,7 @@ Exception: custom icons (`lnc-file-pdf`, etc.) have embedded semantic stroke col
 
 ## Close Buttons
 
-Always use `@mixin close-button` — resets padding to 0, sets 2rem fixed size.
+Icon-only close/dismiss buttons use the global `<button>` base styles. Re-bind `--padding-y` and `--padding-x` on the parent scope's descendant `button` selector to tighten the tap area (e.g. `--padding-y: var(--size-2xs); --padding-x: var(--size-2xs);`).
 
 ## Pseudo-Element Awareness
 
