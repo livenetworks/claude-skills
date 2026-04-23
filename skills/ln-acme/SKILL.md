@@ -45,6 +45,7 @@ npm run dev      # Watch mode
 | `css/density.md` | Density variants (compact, default, comfortable) |
 | `css/theming.md` | Dark mode, theme tokens, color-scheme |
 | `css/breakpoints.md` | Media vs container-query breakpoint tokens and rules |
+| `css/app-shell.md` | App-shell mixins (header, sidebar-drawer, main, footer, header regions) and global bindings |
 | `components/stat-card.md` | KPI stat card pattern |
 | `components/popover.md` | Popover / contextual overlay |
 | `components/tooltip.md` | Tooltip (hover/focus hint) |

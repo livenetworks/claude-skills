@@ -12,6 +12,24 @@ Decision guide for using the popover component. Full API: `js/ln-popover/README.
 
 The dividing line: if the user needs to interact WITH the content (click a link, fill a field, read a paragraph), use popover. If the content is just a label or one-line hint, use tooltip. If the content is a list of actions, use dropdown.
 
+## Popover-as-menu — composing `@include menu-items`
+
+When the popover content IS a list of actions (theme picker, language
+picker, user menu) but the trigger semantics or positioning don't fit
+`ln-dropdown`, compose the menu recipe directly:
+
+```scss
+#user-menu { @include floating-panel; @include menu-items;
+    padding-block: var(--size-xs); min-width: 12rem;
+}
+```
+
+Mark the active item with `aria-current="true"` — it reads
+`--color-accent-tint` / `--color-accent` from `@mixin menu-items`.
+The boolean-flavor scope is deliberate: breadcrumbs use
+`aria-current="page"` and stepper uses `aria-current="step"`, so they
+don't collide.
+
 ## Canonical HTML
 
 ```html

@@ -38,7 +38,11 @@ Comfortable is the default — no class needed.
 
 **Reacts (via base-token override):** tables, forms, cards, stat-card,
 nav links, breadcrumbs, alerts, banners, tabs, all headings (`h1`–`h6`),
-body paragraphs, body chrome.
+body paragraphs, body chrome, and any mixin reading the logical
+`--font-size` / `--line-height` (form inputs, menu-items rows, etc.)
+— the compact block explicitly rebinds those alongside
+`--text-body-md`. See `docs/css/density.md` §"Explicit `--font-size`
+rebind" for why the explicit rebind is required.
 
 **Deliberately exempt (hardcoded rem or raw typography scale):**
 

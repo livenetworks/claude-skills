@@ -149,6 +149,8 @@ input.error:focus-visible { @include focus-ring(var(--color-error)); }
 
 **Layout:** `grid`, `grid-2`, `grid-4`, `stack($gap)`, `row($gap)`, `row-between($gap)`, `row-center($gap)`, `container($name)`
 
+**App-shell:** `app-wrapper`, `app-header`, `app-header-left`, `app-header-right`, `app-header-actions`, `header-avatar`, `app-main`, `sidebar` (+ `sidebar-drawer` for drawer variant), `app-scrim`, `app-footer`. Global bindings: `.app-wrapper`, `.app-header`, `.app-main`, `.app-sidebar`, `.app-scrim`, `.app-footer`, `.header-left`, `.header-right`, `.header-actions`, `.header-avatar`. See `css/app-shell.md`. `@mixin header-avatar` is distinct from `@mixin avatar` — image-only circle vs profile button with ring.
+
 **Collapsible:** `collapsible`, `collapsible-content`, `accordion`
 
 **Alerts:** `alert`, `banner`
@@ -168,6 +170,8 @@ input.error:focus-visible { @include focus-ring(var(--color-error)); }
 **Navigation aid:** `breadcrumbs`, `stepper`, `timeline`
 
 **Interaction:** `loader`, `toggle-switch`, `tooltip`
+
+**Menu surfaces:** `menu-items` (shared recipe), `dropdown`, `dropdown-menu` (composes `menu-items`), `floating-panel`. `aria-current="true"` marks the active item in boolean single-select menus (scoped so it doesn't clash with breadcrumbs / stepper). For popover-as-menu: `@include floating-panel; @include menu-items;`.
 
 **Tables:** `tabs-nav`, `tabs-tab`, `tabs-tab-active`, `tabs-tab-disabled`, `tabs-panel`
 
