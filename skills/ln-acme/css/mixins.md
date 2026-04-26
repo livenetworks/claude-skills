@@ -57,6 +57,33 @@ Prefer `typography($role)` over raw `text-*` mixins for component internals. The
 
 `border`, `border-t`, `border-b`, `border-l`, `border-r`, `border-none`, `rounded-sm`, `rounded-md`, `rounded-lg`, `rounded-xl`, `rounded-full`
 
+### Per-side soft tokens for joining
+
+For "joined panels with a single shared rule" patterns, override one
+of the four soft tokens on a parent scope:
+
+- `--border-block-start`
+- `--border-block-end`
+- `--border-inline-start`
+- `--border-inline-end`
+
+These tokens have NO `:root` default. Migrated mixins (`card`,
+`section-card`, `floating-panel`, `stat-card`, `app-header`,
+`app-footer`, accordion items, page-header, table headers/cells,
+etc.) read them with their existing border as fallback, so default
+rendering is unchanged.
+
+Example — flatten the top edge of every panel after the first:
+
+```scss
+.flat-stack > * + * { --border-block-start: none; }
+```
+
+Combined with `--radius: 0` on the same scope, this produces the
+flat-shared-rule industrial card stack. See `@mixin flat-stack` which
+encapsulates this pattern — including `--radius: 0`, `--shadow-default: none`,
+and `--gap: 0` re-binds — as a self-contained mixin. See `docs/css/layout.md`.
+
 ## Shadow
 
 `shadow-none`, `shadow-sm`, `shadow-md`, `shadow-lg`, `shadow-xl`
@@ -147,13 +174,21 @@ input.error:focus-visible { @include focus-ring(var(--color-error)); }
 
 **Avatar:** `avatar`, `avatar-sm`, `avatar-lg`, `avatar-xl`
 
-**Layout:** `grid`, `grid-2`, `grid-4`, `stack($gap)`, `row($gap)`, `row-between($gap)`, `row-center($gap)`, `container($name)`
+**Layout:** `grid`, `grid-2`, `grid-4`, `stack($gap)`, `row($gap)`, `row-between($gap)`, `row-center($gap)`, `container($name)`, `flat-stack`
+
+### `flat-stack`
+
+Parent-scope re-bind mixin: re-binds `--gap: 0`, and on direct
+children `--radius: 0`, `--shadow-default: none`, and
+`--border-block-start: none` (from the second child onward). Works
+with any panel that reads the logical tokens (card, section-card,
+stat-card). Block-axis only. See `docs/css/layout.md`.
 
 **App-shell:** `app-wrapper`, `app-header`, `app-header-left`, `app-header-right`, `app-header-actions`, `header-avatar`, `app-main`, `sidebar` (+ `sidebar-drawer` for drawer variant), `app-scrim`, `app-footer`. Global bindings: `.app-wrapper`, `.app-header`, `.app-main`, `.app-sidebar`, `.app-scrim`, `.app-footer`, `.header-left`, `.header-right`, `.header-actions`, `.header-avatar`. See `css/app-shell.md`. `@mixin header-avatar` is distinct from `@mixin avatar` — image-only circle vs profile button with ring.
 
 **Collapsible:** `collapsible`, `collapsible-content`, `accordion`
 
-**Alerts:** `alert`, `banner`
+**Alerts:** `alert` (with `alert-banner` variant — apply both for full-width banner)
 
 **Badge:** `badge`, `badge-live` — see `components/status-badge.md`
 
