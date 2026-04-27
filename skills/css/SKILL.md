@@ -52,7 +52,7 @@ All colors, spacing, radii, shadows are CSS custom properties. Names reflect **p
 // RIGHT — semantic names, HSL values
 --color-primary: 231 62% 27%;
 --color-error-hover: 0 72% 42%;
---color-bg-secondary: 220 14% 96%;
+--bg-elevated: hsl(var(--color-neutral-50));
 
 // WRONG — named by color
 --color-blue: #2737a1;
@@ -143,7 +143,8 @@ Derived mixins add ONLY what differs from the base. Never duplicate property def
 // RIGHT — derived adds only the delta (filled bg, hidden input)
 @mixin pill {
 	@include pill-outline;
-	background-color: hsl(var(--color-bg-secondary));
+	--color-bg: var(--bg-sunken);
+	background: var(--color-bg);
 	border-color: transparent;
 	> input { display: none; }
 	&:has(> input:checked) { background-color: hsl(var(--color-primary)); }
@@ -154,7 +155,7 @@ Derived mixins add ONLY what differs from the base. Never duplicate property def
 @mixin pill {
 	@include inline-flex;                     // duplicated from pill-outline
 	@include items-center;                    // duplicated from pill-outline
-	background-color: hsl(var(--color-bg-secondary));
+	background-color: var(--bg-sunken);
 	border: var(--border-width) solid transparent;
 	&:has(> input:checked) {
 		background-color: hsl(...);           // border-color logic duplicated
@@ -307,7 +308,7 @@ Subtle background change only. No outlines, no `::before` bars, no `translateY`,
 
 ```scss
 // RIGHT — color change only
-table tbody tr:hover { background: hsl(var(--color-bg-secondary)); }
+table tbody tr:hover { background: var(--bg-sunken); }
 .card:hover { border-color: hsl(var(--color-primary)); }
 
 // WRONG — marketing-page patterns

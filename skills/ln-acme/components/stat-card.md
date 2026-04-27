@@ -36,7 +36,7 @@ All three slots are optional. Omit `data-ln-stat-trend` if no trend is available
 |---|---|
 | `data-ln-stat-trend="up"` | `--color-success` (green) |
 | `data-ln-stat-trend="down"` | `--color-error` (red) |
-| `data-ln-stat-trend="neutral"` | `--color-text-muted` (grey) |
+| `data-ln-stat-trend="neutral"` | `--fg-muted` (grey) |
 
 Pair with a Tabler outline icon (`ln-icon`) at `1rem` size. Icon is `aria-hidden`.
 

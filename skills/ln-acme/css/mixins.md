@@ -51,7 +51,18 @@ Prefer `typography($role)` over raw `text-*` mixins for component internals. The
 
 ## Colors
 
-`text-primary`, `text-secondary`, `text-muted`, `text-white`, `text-error`, `text-success`, `text-warning`, `bg-primary`, `bg-secondary`, `bg-body`
+`text-primary`, `text-white`, `text-error`, `text-success`, `text-warning`, `bg-primary`
+
+For muted/secondary text or sunken/recessed backgrounds, rebind the
+primitive on the component scope rather than using a dedicated mixin:
+
+```scss
+// Muted text
+.my-label { --color-fg: var(--fg-muted); color: var(--color-fg); }
+
+// Sunken background (panel header, thead)
+.my-header { --color-bg: var(--bg-sunken); background: var(--color-bg); }
+```
 
 ## Border & Radius
 
@@ -81,7 +92,7 @@ Example — flatten the top edge of every panel after the first:
 
 Combined with `--radius: 0` on the same scope, this produces the
 flat-shared-rule industrial card stack. See `@mixin flat-stack` which
-encapsulates this pattern — including `--radius: 0`, `--shadow-default: none`,
+encapsulates this pattern — including `--radius: 0`, `--shadow: none`,
 and `--gap: 0` re-binds — as a self-contained mixin. See `docs/css/layout.md`.
 
 ## Shadow
@@ -179,7 +190,7 @@ input.error:focus-visible { @include focus-ring(var(--color-error)); }
 ### `flat-stack`
 
 Parent-scope re-bind mixin: re-binds `--gap: 0`, and on direct
-children `--radius: 0`, `--shadow-default: none`, and
+children `--radius: 0`, `--shadow: none`, and
 `--border-block-start: none` (from the second child onward). Works
 with any panel that reads the logical tokens (card, section-card,
 stat-card). Block-axis only. See `docs/css/layout.md`.

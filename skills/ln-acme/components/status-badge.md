@@ -36,7 +36,7 @@ Sources: `scss/config/mixins/_status-badge.scss`, `scss/components/_status-badge
 | `.warning` | `--color-warning` | Pending, expiring, needs attention |
 | `.error` | `--color-error` | Failed, blocked, critical |
 | `.info` | `--color-info` | Draft, informational |
-| `.neutral` | `--color-text-muted` | Archived, inactive, disabled |
+| `.neutral` | `--fg-muted` | Archived, inactive, disabled |
 
 Note: "danger" is not a variant name — the correct class is `.error`.
 

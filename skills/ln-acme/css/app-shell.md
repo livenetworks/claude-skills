@@ -20,7 +20,7 @@ pages.
 | `app-main` | Main column below the header; sidebar-open padding shift |
 | `sidebar` + `sidebar-drawer` | Apply both — base shell + drawer positioning |
 | `app-scrim` | Mobile overlay behind drawer |
-| `app-footer` | Bottom chrome bar; `> span:last-child` gets `--color-fg-subtle` |
+| `app-footer` | Bottom chrome bar; `> span:last-child` gets `--fg-subtle` |
 
 ## Global bindings (prototyping)
 
@@ -47,7 +47,7 @@ to `.density-compact`.
    the drawer overlays content instead.
 2. **Header buttons default to ghost** — `app-header` applies
    `--btn-bg: transparent; --btn-border: transparent; padding: 0;
-   color: var(--color-fg-muted)` to every descendant `<button>`.
+   color: var(--fg-muted)` to every descendant `<button>`.
    `app-header-actions` layers a bordered variant on top.
 3. **Content column is `> section`** — `app-main > section` is the
    centred, capped, padded, stack-with-gap content column. Projects

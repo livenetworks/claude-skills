@@ -40,9 +40,9 @@ Use timeline for audit logs, version history, and activity feeds where the order
 
 | Element | Typography role | Color |
 |---|---|---|
-| `<time>` | `caption` | `--color-text-muted` |
-| `<h4>` | `title-sm` | `--color-text-primary` |
-| `<p>` | `body-sm` | `--color-text-secondary` |
+| `<time>` | `caption` | `--fg-muted` |
+| `<h4>` | `title-sm` | `--color-fg` |
+| `<p>` | `body-sm` | `--fg-muted` |
 
 All three are optional — a minimal entry needs only `<h4>`.
 

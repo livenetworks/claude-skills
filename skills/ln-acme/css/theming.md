@@ -36,66 +36,99 @@ Keeps light mode even when the OS is dark. Use when the user has explicitly chos
 
 ## How tokens remap
 
-Dark mode works by **reassigning the same token names** to different values. Components consume `--color-bg-primary`, `--color-text-primary`, etc. — they do not change. The token values change.
+Dark mode rebinds **vocabulary** tokens at theme `:root`. Primitives
+(`--color-bg`, `--color-fg`, `--color-border`, `--shadow`) wire to
+vocabulary, so every mixin adapts automatically:
 
-The neutral scale is fully inverted (step 50 ↔ step 900). Because light mode uses `--color-white` as the top elevation layer (not a neutral step), the three surface tokens are restated explicitly so the elevation ladder remains correct:
+```scss
+[data-theme="dark"] {
+	// Background vocabulary
+	--bg-base:     hsl(220 16% 13%);
+	--bg-elevated: hsl(220 16% 17%);
+	--bg-sunken:   hsl(220 16% 20%);
+	--bg-recessed: hsl(220 16%  9%);
 
+	// Foreground vocabulary
+	--fg-default: hsl(0 0% 95%);
+	--fg-muted:   hsl(220  9% 60%);
+	--fg-subtle:  hsl(218 11% 52%);
+
+	// Border vocabulary
+	--border-subtle:       hsl(220 14% 20%);
+	--border-strong:       hsl(220 13% 36%);
+	--border-strong-hover: hsl(218 11% 52%);
+}
 ```
---color-bg-body:      220 16%  9%   (darkest)
---color-bg-primary:   220 16% 13%
---color-bg-secondary: 220 16% 17%   (lightest, most elevated)
+
+Primitives default to vocabulary at `:root`:
+```scss
+:root {
+	--color-bg:     var(--bg-base);
+	--color-fg:     var(--fg-default);
+	--color-border: var(--border-subtle);
+	--shadow:       var(--shadow-resting);
+}
 ```
 
-Shadows switch from cool-tinted to solid black with higher alpha.
+No per-component dark declarations needed — every mixin reads the
+primitives, primitives read vocabulary, vocabulary is rebinding in dark.
 
 ## Anti-pattern — never do this
 
 ```scss
-// WRONG — hardcodes a dark override on the component
+// WRONG — hardcodes a dark override on the component (specificity hack)
 [data-theme="dark"] .my-component {
 	color: hsl(220 20% 90%);
 	background: hsl(220 16% 13%);
 }
 ```
 
-If a component looks wrong in dark mode, a hardcoded color (not a token reference) is almost always the cause. Fix the component to use the correct semantic token; it will then work in both modes automatically.
+If a component looks wrong in dark mode, a hardcoded color (not a token
+reference) is almost always the cause. Fix the component to rebind the
+primitive from vocabulary.
 
 ```scss
-// RIGHT — token reference, works in both modes
+// RIGHT — rebind primitive; theme vocabulary shift flows through
 .my-component {
-	color: hsl(var(--color-text-primary));
-	background: hsl(var(--color-bg-primary));
+	--color-bg: var(--bg-recessed);
+	color:      var(--color-fg);
+	background: var(--color-bg);
 }
 ```
 
 ## Orthogonality with density
 
-Dark mode and density (`.density-compact` class) are fully independent. Both are resolved via CSS custom properties and compose freely:
+Dark mode and density (`.density-compact` class) are fully independent.
+Both are resolved via CSS custom properties and compose freely:
 
 ```html
 <html data-theme="dark" class="density-compact">
 ```
 
-No special handling needed in component SCSS.
-
 ## Consumer re-theming
 
-Override any token at any scope — not just root:
+Override vocabulary at any scope. Prefer vocabulary rebinds for
+component-facing changes:
 
 ```scss
-// Global brand color
+// Global brand color (semantic primitive)
 :root { --color-primary: 340 75% 52%; }
 
-// Section-specific
-.print-preview { --color-bg-body: var(--color-neutral-100); }
+// Scoped surface change (rebind primitive on scope)
+.print-preview { --color-bg: var(--bg-base); }
 
-// Custom named theme
+// Custom named theme — rebind vocabulary at theme :root
 [data-theme="high-contrast"] {
-	--color-neutral-900: 0 0% 100%;
-	--color-neutral-50:  0 0% 0%;
-	--color-border:      var(--color-neutral-900);
+	--fg-default:    hsl(0 0% 100%);
+	--bg-base:       hsl(0 0% 0%);
+	--border-strong: hsl(0 0% 100%);
 }
 ```
+
+Vocabulary tokens: `--bg-base`, `--bg-elevated`, `--bg-sunken`,
+`--bg-recessed`, `--fg-default`, `--fg-muted`, `--fg-subtle`,
+`--border-subtle`, `--border-strong`, `--border-strong-hover`,
+`--shadow-resting`, `--shadow-floating`, `--shadow-overlay`.
 
 ## Accessibility targets
 
@@ -103,4 +136,4 @@ Override any token at any scope — not just root:
 - Secondary text: ≥ 4.5:1 (AA)
 - Focus ring: ≥ 3:1 non-text (WCAG 1.4.11)
 
-Default dark neutral inversion clears all three. Custom themes must re-verify with a contrast checker.
+Default dark vocabulary rebind clears all three. Custom themes must re-verify with a contrast checker.

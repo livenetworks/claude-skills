@@ -261,7 +261,7 @@ ln-acme uses **container queries for components** (respond to the container's wi
 
 ```scss
 // WRONG — ln-acme already does this
-body { margin: 0; background-color: hsl(var(--color-bg-body)); }
+body { margin: 0; background-color: var(--color-bg); }
 a { text-decoration: none; color: hsl(var(--color-primary)); }
 button { border: none; cursor: pointer; }
 
