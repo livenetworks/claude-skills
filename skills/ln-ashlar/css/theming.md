@@ -1,4 +1,4 @@
-# ln-acme — Theming (Dark Mode)
+# ln-ashlar — Theming (Dark Mode)
 
 CSS-only dark mode and consumer re-theming. No JavaScript required for theme switching.
 
@@ -24,7 +24,7 @@ Force dark regardless of OS preference. Store the user's choice in `localStorage
 <html>
 ```
 
-When no `data-theme` is set, ln-acme applies dark tokens automatically via `@media (prefers-color-scheme: dark)` targeting `:root:not([data-theme="light"])`.
+When no `data-theme` is set, ln-ashlar applies dark tokens automatically via `@media (prefers-color-scheme: dark)` targeting `:root:not([data-theme="light"])`.
 
 ### 3. Force light (opt-out of auto)
 

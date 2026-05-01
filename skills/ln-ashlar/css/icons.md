@@ -1,4 +1,4 @@
-# ln-acme — Icon System
+# ln-ashlar — Icon System
 
 > SVG sprite injection via `ln-icons.js`. For icon consistency principles → global ui/visual-language.md §3.
 
@@ -25,7 +25,7 @@
     <svg class="ln-icon" aria-hidden="true"><use href="#ln-x"></use></svg>
 </button>
 
-<!-- Accordion chevron (CSS rotates on open) -->
+<!-- Toggle chevron (CSS rotates on open — works inside accordion or standalone) -->
 <header data-ln-toggle-for="panel1">
     Title
     <svg class="ln-icon ln-chevron" aria-hidden="true"><use href="#ln-arrow-down"></use></svg>

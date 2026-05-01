@@ -263,12 +263,12 @@ The package provides opt-in passwordless auth. Enable with `config('ln-starter.a
 7. Define a `home` named route (or change `auth.home_route`)
 8. Publish views if you need to customize branding: `php artisan vendor:publish --tag=ln-starter-views`
 
-**Peer dependency:** `ln-acme` must be installed via npm — the SCSS uses `@use 'ln-acme/scss/config/mixins'` and `ln-acme/scss/config/tokens`.
+**Peer dependency:** `ln-ashlar` must be installed via npm — the SCSS uses `@use 'ln-ashlar/scss/config/mixins'` and `ln-ashlar/scss/config/tokens`.
 
 ## Stack context
 
 - **Backend**: Laravel 11+, Blade SSR (no SPA frameworks)
 - **Database**: PostgreSQL, JSONB for dynamic/flexible entities
-- **Frontend**: Vanilla JS (IIFE pattern), SCSS, ln-acme component library
+- **Frontend**: Vanilla JS (IIFE pattern), SCSS, ln-ashlar component library
 - **Auth**: Laravel Sanctum (token-based), passwordless (Passkey + Magic Link)
 - **Philosophy**: server-side rendering, minimal client-side JS, long-term stability over trends

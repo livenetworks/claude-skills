@@ -1,4 +1,4 @@
-# ln-acme — Status Badge
+# ln-ashlar — Status Badge
 
 Inline semantic indicator: colored dot + label text. Used for entity status, live states, and filterable labels.
 

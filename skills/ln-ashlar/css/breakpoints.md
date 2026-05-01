@@ -1,7 +1,7 @@
 # Breakpoints
 
 > Canonical docs: `docs/css/breakpoints.md`
-> Container-query doctrine: `docs/ln-acme-container-queries.md`
+> Container-query doctrine: `docs/ln-ashlar-container-queries.md`
 > Source: `scss/config/_breakpoints.scss`
 
 ---
@@ -19,7 +19,7 @@ Never use `@media` inside a component mixin. Components are embedded in layouts 
 
 ## App-shell media breakpoints
 
-Import: `@use 'ln-acme/scss/config/breakpoints' as *;`
+Import: `@use 'ln-ashlar/scss/config/breakpoints' as *;`
 
 | Sass variable | CSS variable | Value |
 |---|---|---|
@@ -31,7 +31,7 @@ Import: `@use 'ln-acme/scss/config/breakpoints' as *;`
 | `$bp-3xl` | `--bp-3xl` | 1920px |
 
 ```scss
-@use 'ln-acme/scss/config/breakpoints' as *;
+@use 'ln-ashlar/scss/config/breakpoints' as *;
 
 .app-shell {
 	display: grid;
@@ -55,7 +55,7 @@ Import: `@use 'ln-acme/scss/config/breakpoints' as *;`
 | `$cq-wide` | `--cq-wide` | 1120px | 3→4 columns |
 
 ```scss
-@use 'ln-acme/scss/config/breakpoints' as *;
+@use 'ln-ashlar/scss/config/breakpoints' as *;
 
 #folders { @include container(foldersgrid); }
 

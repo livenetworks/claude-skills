@@ -283,3 +283,4 @@ the risk profile.
 - No `alert()`, `confirm()`, `prompt()`
 - No inline `style=""` attributes
 - No presentational classes in HTML
+- No inline event handlers (`onclick=""`, `onchange=""`, `onsubmit=""`, etc.) in production HTML — consume `data-ln-*` JS components or attach listeners in script files instead. **Exception:** demo testing pages (`demo/admin/**`, `demo/docuflow/**`) may use inline handlers for trigger/action buttons that exist solely to exercise the library. Demo HTML is the testing playground, not a production-pattern reference; inline handlers there don't propagate into consumer projects. Library mixins, components, and consumer-facing HTML stay strict.

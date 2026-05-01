@@ -307,7 +307,7 @@ protected $casts = [
 
 ### `toFormPayload()` — Normalized Payload for Shared Create/Edit Modals
 
-When a resource uses **one modal for both Create and Edit** (an index page lists rows, each row's Edit button carries the record's values, the frontend coordinator populates the form before ln-acme opens it), the **read model** owns a `toFormPayload()` method that returns every form field as a scalar the frontend can assign directly to an HTML input. Place `toFormPayload()` on the read model (the one iterated in Blade index views), not the write model. Write models handle mutations; read models handle display — and form prefill is a display concern.
+When a resource uses **one modal for both Create and Edit** (an index page lists rows, each row's Edit button carries the record's values, the frontend coordinator populates the form before ln-ashlar opens it), the **read model** owns a `toFormPayload()` method that returns every form field as a scalar the frontend can assign directly to an HTML input. Place `toFormPayload()` on the read model (the one iterated in Blade index views), not the write model. Write models handle mutations; read models handle display — and form prefill is a display concern.
 
 ```php
 class PackageRead extends LNReadModel
@@ -376,7 +376,7 @@ Eloquent's `boolean` cast returns PHP `true`/`false` which JSON-serializes to JS
 
 **When NOT to use this pattern** — prefer a dedicated `GET /{resource}/{id}/edit` route returning a server-rendered partial when: the form has nested or repeating structures, the field set differs per record, or values come from an expensive join you don't want to pay per row on index render.
 
-Frontend coordinator and full recipe: see `.claude/skills/ln-acme/patterns/edit-modal-prefill.md`.
+Frontend coordinator and full recipe: see `.claude/skills/ln-ashlar/patterns/edit-modal-prefill.md`.
 
 ### Scopes — Readable Filter Chains
 

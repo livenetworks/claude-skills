@@ -115,7 +115,7 @@ against the plan. Your job is to produce a clean build, not to audit it.
 
 **Forbidden:**
 
-- `cat dist/ln-acme.css` or any full-file read of a compiled artifact
+- `cat dist/ln-ashlar.css` or any full-file read of a compiled artifact
 - `grep` without `head_limit` on a minified CSS/JS file (returns huge lines)
 - Pasting compiled CSS blocks, bundled JS blobs, or multi-line diffs into your report
 - Running an "acceptance criteria" grep loop after a successful build

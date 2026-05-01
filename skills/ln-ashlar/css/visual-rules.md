@@ -1,10 +1,10 @@
-# ln-acme — Visual Rules Implementation
+# ln-ashlar — Visual Rules Implementation
 
-> Concrete ln-acme values for the principles in global ui/visual-language.md §1-§8.
+> Concrete ln-ashlar values for the principles in global ui/visual-language.md §1-§8.
 
 ---
 
-## §1 Radius + Spacing — ln-acme Implementation
+## §1 Radius + Spacing — ln-ashlar Implementation
 
 ```scss
 // Rounded nav links MUST have mx() — never flush to container
@@ -22,7 +22,7 @@
 
 ## §3 Icon Set
 
-ln-acme standard: **Tabler Icons, outline variant, stroke-width 2**
+ln-ashlar standard: **Tabler Icons, outline variant, stroke-width 2**
 
 ## §4 Spacing Scale
 
@@ -136,11 +136,11 @@ The transition mixins (`@include transition`, `@include transition-fast`) use `e
 .ln-spinner { animation: ln-spin 1s linear infinite; }
 ```
 
-No custom `@keyframes` for UI elements beyond this one. No shimmer / skeleton keyframes — ln-acme consumers are SSR-first, so placeholder rows are never needed; use the spinner for genuine loading states instead.
+No custom `@keyframes` for UI elements beyond this one. No shimmer / skeleton keyframes — ln-ashlar consumers are SSR-first, so placeholder rows are never needed; use the spinner for genuine loading states instead.
 
 ### prefers-reduced-motion
 
-ln-acme uses `@include motion-safe { }` — it gates your animation declarations behind `@media (prefers-reduced-motion: no-preference)`. Wrap `transform`, `opacity`, `translate`, `scale`, `rotate`, and keyframe animations in it. Do NOT use the `!important` override anti-pattern on `*, *::before, *::after`.
+ln-ashlar uses `@include motion-safe { }` — it gates your animation declarations behind `@media (prefers-reduced-motion: no-preference)`. Wrap `transform`, `opacity`, `translate`, `scale`, `rotate`, and keyframe animations in it. Do NOT use the `!important` override anti-pattern on `*, *::before, *::after`.
 
 Color transitions on hover (`@include transition-colors`) are fine unwrapped — they do not trigger vestibular issues.
 
@@ -240,7 +240,7 @@ Standard breakpoints: `480px`, `580px`, `880px`, `1120px`
 
 Container names: noun, singular, lowercase, no hyphens (`foldersgrid`, not `folders-grid`).
 
-ln-acme uses **container queries for components** (respond to the container's width) and **viewport breakpoints for layout** (respond to the page width). Components must not use `@media` breakpoints internally — they must adapt via container queries so they work in any layout slot. See `docs/css/breakpoints.md` and `docs/ln-acme-container-queries.md` for detail.
+ln-ashlar uses **container queries for components** (respond to the container's width) and **viewport breakpoints for layout** (respond to the page width). Components must not use `@media` breakpoints internally — they must adapt via container queries so they work in any layout slot. See `docs/css/breakpoints.md` and `docs/ln-ashlar-container-queries.md` for detail.
 
 ---
 
@@ -257,10 +257,10 @@ ln-acme uses **container queries for components** (respond to the container's wi
 
 ## Override Discipline
 
-### Don't duplicate ln-acme globals
+### Don't duplicate ln-ashlar globals
 
 ```scss
-// WRONG — ln-acme already does this
+// WRONG — ln-ashlar already does this
 body { margin: 0; background-color: var(--color-bg); }
 a { text-decoration: none; color: hsl(var(--color-primary)); }
 button { border: none; cursor: pointer; }
@@ -272,7 +272,7 @@ body { font-feature-settings: 'cv02', 'cv03', 'cv04'; }
 ### Don't restate inherited properties
 
 ```scss
-// WRONG — headings already have text-primary from ln-acme
+// WRONG — headings already have text-primary from ln-ashlar
 #content h1 { @include text-primary; }
 
 // RIGHT — only the delta

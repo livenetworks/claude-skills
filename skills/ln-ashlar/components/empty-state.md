@@ -1,7 +1,7 @@
-# ln-acme — Empty State Implementation
+# ln-ashlar — Empty State Implementation
 
-> HOW to implement empty states with ln-acme. For WHAT an empty state must contain → global ui/components/empty-state.md.
-> Full attribute/token reference → `docs/css/empty-state.md` in the ln-acme repo.
+> HOW to implement empty states with ln-ashlar. For WHAT an empty state must contain → global ui/components/empty-state.md.
+> Full attribute/token reference → `docs/css/empty-state.md` in the ln-ashlar repo.
 
 ---
 
@@ -39,7 +39,7 @@ Show "no matches" messaging and a clear-filter action. Use when items exist but 
 </div>
 ```
 
-The attribute value (`no-data` / `no-results`) is not consumed by ln-acme itself — it exists purely so project CSS can target the distinction if needed.
+The attribute value (`no-data` / `no-results`) is not consumed by ln-ashlar itself — it exists purely so project CSS can target the distinction if needed.
 
 ---
 

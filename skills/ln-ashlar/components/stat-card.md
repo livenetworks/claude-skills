@@ -1,4 +1,4 @@
-# ln-acme — Stat Card
+# ln-ashlar — Stat Card
 
 Dashboard KPI tile. Large numeric value, uppercase label, optional trend indicator.
 

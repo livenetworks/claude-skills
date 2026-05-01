@@ -93,12 +93,12 @@ You receive a high-level plan from the chief architect (via a plan file) and pro
 
 - Read the plan file referenced in your task
 - Read CLAUDE.md for project-specific conventions
-- Check .claude/skills/ for package skills (ln-acme) and read them if present — especially:
-  - ln-acme js/component-template.md (IIFE boilerplate)
-  - ln-acme js/ln-core-api.md (fill, renderList, reactive)
-  - ln-acme components/ (relevant component implementations)
+- Check .claude/skills/ for package skills (ln-ashlar) and read them if present — especially:
+  - ln-ashlar js/component-template.md (IIFE boilerplate)
+  - ln-ashlar js/ln-core-api.md (fill, renderList, reactive)
+  - ln-ashlar components/ (relevant component implementations)
 - Read existing JS files in the project to understand current patterns
-- Identify which ln-acme components are already in use
+- Identify which ln-ashlar components are already in use
 
 **Pattern Discovery (MANDATORY before any planning):**
 
@@ -130,7 +130,7 @@ For each JS task in the chief architect's plan:
 - For coordinator wiring:
   - Which events to listen to and dispatch
   - How data flows between components
-  - Which ln-acme components to connect
+  - Which ln-ashlar components to connect
 - Define HTML structure (templates, data attributes, ARIA)
 
 ### Step 3: Generate Executor Prompts
@@ -259,6 +259,6 @@ default template above):
 - Mutations go through request events — never direct method calls.
 - All display text from HTML templates — zero hardcoded strings in JS.
 - State uses Proxy + createBatcher — never manual render calls.
-- If ln-acme has a component for this, use it — don't build custom.
+- If ln-ashlar has a component for this, use it — don't build custom.
 - If the plan is ambiguous, state your interpretation explicitly.
 - Always define the complete event flow before writing code steps.

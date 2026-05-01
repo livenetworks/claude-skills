@@ -1,6 +1,6 @@
 # Skill: App Shell
 
-Decision guide for building application layouts with ln-acme's
+Decision guide for building application layouts with ln-ashlar's
 app-shell mixins. Full spec: `docs/css/app-shell.md`.
 
 ## When to use

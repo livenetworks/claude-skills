@@ -92,13 +92,13 @@ You receive a high-level plan from the chief architect (via a plan file) and pro
 
 - Read the plan file referenced in your task
 - Read CLAUDE.md for project-specific conventions
-- Check .claude/skills/ for package skills (ln-acme) and read them if present — especially:
-  - ln-acme css/mixins.md (available mixins)
-  - ln-acme css/visual-rules.md (button architecture, motion, tokens)
-  - ln-acme css/icons.md (if icons involved)
-  - ln-acme components/ (relevant component styling)
+- Check .claude/skills/ for package skills (ln-ashlar) and read them if present — especially:
+  - ln-ashlar css/mixins.md (available mixins)
+  - ln-ashlar css/visual-rules.md (button architecture, motion, tokens)
+  - ln-ashlar css/icons.md (if icons involved)
+  - ln-ashlar components/ (relevant component styling)
 - Read existing SCSS files in the project to understand current patterns
-- Check which ln-acme defaults are already applied
+- Check which ln-ashlar defaults are already applied
 
 **Pattern Discovery (MANDATORY before any planning):**
 
@@ -107,7 +107,7 @@ example of the same type of work in this project:
 
 - Writing page SCSS? → Read an existing `_page-name.scss` file. Copy the selector depth, mixin usage, nesting conventions.
 - Writing form styles? → `grep -r "form-grid\|form-element\|grid-column" resources/scss/` — find how other forms define grid spans. Match the pattern.
-- Writing component overrides? → Read the ln-acme component SCSS first, then read an existing project override. Write only the delta.
+- Writing component overrides? → Read the ln-ashlar component SCSS first, then read an existing project override. Write only the delta.
 - Writing token overrides? → Read `_tokens.scss` or `:root` block. Check if the token already exists before creating a new one.
 - Writing responsive styles? → `grep -r "@container\|@media" resources/scss/` — find if the project uses container queries or media queries. Match the existing pattern.
 - Writing button styles? → `grep -r "@include btn\|--color-primary" resources/scss/` — find how other buttons are styled. Copy the semantic selector + override pattern.
@@ -132,7 +132,7 @@ Do NOT read them for pure implementation tasks (add mixin, fix selector, token c
 ### Step 2: Refine the Plan
 
 For each styling task in the chief architect's plan:
-- Identify what ln-acme defaults already handle (no SCSS needed)
+- Identify what ln-ashlar defaults already handle (no SCSS needed)
 - Identify what needs project-level override (only the delta)
 - Define semantic selectors (#id for unique, class for repeated)
 - Choose mixins for each selector
@@ -150,7 +150,7 @@ Each prompt MUST include:
 - **Constraints**: Mixin-first, semantic selectors, no presentational classes, tab indentation
 - **Prerequisites**: Files to read (include the pattern examples you found)
 - **Steps**: Numbered, each with exact selectors and mixins
-- **What ln-acme already provides**: What the executor should NOT rewrite
+- **What ln-ashlar already provides**: What the executor should NOT rewrite
 - **Acceptance criteria**: How to verify
 - **Boundaries**: What NOT to touch, which defaults NOT to override
 
@@ -161,10 +161,10 @@ Before finalizing ANY output (direct fix, plan, or discussion), verify:
 - Did I actually READ existing SCSS files before proposing my solution?
 - Does my selector pattern match other page SCSS files in THIS project?
 - Does my mixin usage match how other components use mixins?
-- Re-read ln-acme css/visual-rules.md — hover = color only? Tokens, not hardcoded?
+- Re-read ln-ashlar css/visual-rules.md — hover = color only? Tokens, not hardcoded?
 - Check `_tokens.scss` — does the token I need already exist?
 - Does my selector target semantic HTML, not `.btn--variant` classes?
-- Am I writing only the delta, or restating what ln-acme already provides?
+- Am I writing only the delta, or restating what ln-ashlar already provides?
 - If I used a color value, is it `hsl(var(--color-*))` or did I hardcode a hex?
 
 If you catch a violation, fix it before presenting. Do not present work

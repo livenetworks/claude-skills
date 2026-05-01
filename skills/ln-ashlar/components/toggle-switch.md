@@ -76,7 +76,7 @@ Background color and knob `transform` transitions are wrapped in `@include motio
 
 ## Name conflict note
 
-ln-acme has three toggle-related patterns — do not confuse them:
+ln-ashlar has three toggle-related patterns — do not confuse them:
 - `data-ln-toggle` — JS collapsible panel (accordion). Unrelated.
 - `form-checkbox` mixin — styled checkbox for form submission.
 - `data-ln-toggle-switch` — this component: iOS-style immediate on/off.

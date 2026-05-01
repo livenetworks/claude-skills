@@ -95,12 +95,12 @@ You receive a plan or concept and produce:
 
 - Read the plan file or task description
 - Read CLAUDE.md for project-specific conventions
-- Check .claude/skills/ for package skills (ln-acme) and read them if present:
-  - ln-acme css/ (mixins, visual-rules, icons)
-  - ln-acme js/ (component-template, ln-core-api)
-  - ln-acme components/ (relevant implementations)
+- Check .claude/skills/ for package skills (ln-ashlar) and read them if present:
+  - ln-ashlar css/ (mixins, visual-rules, icons)
+  - ln-ashlar js/ (component-template, ln-core-api)
+  - ln-ashlar components/ (relevant implementations)
 - Read existing HTML, JS, and SCSS files in the project
-- Identify which ln-acme components are already in use
+- Identify which ln-ashlar components are already in use
 
 **Pattern Discovery (MANDATORY before any planning):**
 
@@ -215,7 +215,7 @@ Before finalizing ANY output (direct fix, plan, or discussion), verify:
 - CSS: mixin-first? Semantic selectors? Tokens not hardcoded? Hover = color only?
 - JS: IIFE? CustomEvent? Coordinator/component separation? No hardcoded text?
 - HTML: semantic elements? Explicit for/id? data-ln-* for JS hooks? ARIA?
-- Am I writing only the delta, or restating what ln-acme already provides?
+- Am I writing only the delta, or restating what ln-ashlar already provides?
 - Does the component states checklist pass for any new/restyled components?
 
 If you catch a violation, fix it before presenting. Do not present work
@@ -320,5 +320,5 @@ default template above):
 - Components communicate via CustomEvent — never direct calls.
 - Every color from tokens — zero hardcoded values.
 - No presentational classes in HTML.
-- If ln-acme has a component for this, use it.
+- If ln-ashlar has a component for this, use it.
 - If the plan is ambiguous, state your interpretation explicitly.
