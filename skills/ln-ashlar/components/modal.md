@@ -7,8 +7,8 @@
 - Attribute: `data-ln-modal` on modal element (value = state: "open"/"close")
 - Trigger: `data-ln-modal-for="id"` on trigger button
 - Close: `data-ln-modal-close` on close/cancel buttons
-- API: `el.lnModal.open()` / `.close()` — just set the attribute
-- Direct attribute: `el.setAttribute('data-ln-modal', 'open')` — identical result
+- API: read state via `el.lnModal.isOpen`; teardown via `el.lnModal.destroy()`.
+- State change: `el.setAttribute('data-ln-modal', 'open'|'close')` — the only write path.
 - ESC listener active only while modal is open
 
 ## HTML Pattern
