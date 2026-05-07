@@ -50,7 +50,7 @@
 | 23 | ln-toast | DONE | `11f1fd2`; subsequent refactors `2eae08f` + `0d68074`; verified against skill checklist on 2026-05-07 |
 | 24 | ln-translations | BUNDLED | `11f1fd2` (older full-audit) |
 | 25 | ln-sortable | DONE | `3ac6dc1` (older bundle); re-passed against skill checklist on 2026-05-07 (plan: `.claude/plans/ln-sortable-doc-discipline.md`; README 133→132, docs/js 197→123) |
-| 26 | ln-store | BUNDLED | `5753209` |
+| 26 | ln-store | DONE | per-component pass landed 2026-05-07 (plan: `.claude/plans/ln-store-doc-discipline.md`; README 138→179, docs/js 182→123 — README grew net to fix drift + add Examples + quota-exceeded; docs/js shed ~70 lines of duplication) |
 | 27 | ln-upload | BUNDLED | `18d4a3e` |
 | 28 | ln-date | DONE | per-component pass landed 2026-05-07 (plan: `.claude/plans/ln-date-doc-discipline.md`; README 147→131, docs/js 170→133) |
 | 29 | ln-filter | DONE | per-component pass landed 2026-05-07 (plan: `.claude/plans/ln-filter-doc-discipline.md`; README 194→180, docs/js 259→228) |
