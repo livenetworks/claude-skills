@@ -38,20 +38,20 @@
 | 11 | ln-autosave | DONE | `0b8f678` (post-`f7dd319` refactor); verified against skill checklist on 2026-05-07 |
 | 12 | ln-confirm | DONE | `0b8f678`; verified against skill checklist on 2026-05-07 |
 | 13 | ln-external-links | DONE | `0b8f678` (initial bundle); per-component pass landed 2026-05-07 (plan: `.claude/plans/ln-external-links-doc-discipline.md`; README 596→314, docs/js 335→277 — landed below plan target ~155-175 / ~200-225, all 24 plan steps + acceptance greps PASS, plan estimation was optimistic) |
-| 14 | ln-form | BUNDLED | `0b8f678`; pilot-doc plan exists at `.claude/plans/ln-form-pilot-doc-and-cleanup.md` |
+| 14 | ln-form | DONE | per-component pass landed 2026-05-07 (plan: `.claude/plans/ln-form-doc-discipline.md`; README 654→408, docs/js 276→276 — README above plan target ~280-310, plan estimation miss; all 11 acceptance greps content-PASS, P1 grep mismatch is markdown-blank-line off-by-one not content failure) |
 | 15 | ln-icons | DONE | `0b8f678` (initial bundle); per-component pass landed 2026-05-07 (plan: `.claude/plans/ln-icons-doc-discipline.md`; README 111→116, docs/js 157→148) |
-| 16 | ln-link | BUNDLED | `0b8f678`; pilot-doc plan exists at `.claude/plans/ln-link-pilot-doc.md` |
+| 16 | ln-link | DONE | per-component pass landed 2026-05-07 (plan: `.claude/plans/ln-link-doc-discipline.md`; README 471→280, docs/js 230→213 — both above plan target ~200-230 / ~170-195, plan estimation miss; 10/10 acceptance greps PASS) |
 | 17 | ln-select | BUNDLED | `0b8f678`; **BLOCKED** — contains third-party code, needs refactor before doc-discipline pass |
-| 18 | ln-table | BUNDLED | `0b8f678`; pilot-doc plan exists at `.claude/plans/ln-table-pilot-doc.md` |
-| 19 | ln-validate | BUNDLED | `0b8f678` |
+| 18 | ln-table | DONE | per-component pass landed 2026-05-07 (plan: `.claude/plans/ln-table-doc-discipline.md`; README 588→327, docs/js 344→334 — both within plan target band; 19/19 acceptance greps PASS) |
+| 19 | ln-validate | DONE | per-component pass landed 2026-05-07 (plan: `.claude/plans/ln-validate-doc-discipline.md`; README 1187→730, docs/js 673→479 — both above plan target ≤450 / ≤350, plan estimation miss; 43/43 acceptance greps PASS; corrected factual misclaim about ln-store dispatching ln-form:error — only ln-form:submit exists) |
 | 20 | ln-ajax | DONE | `11f1fd2` (older); re-passed against skill checklist on 2026-05-07 (plan: `.claude/plans/ln-ajax-doc-discipline.md`) |
-| 21 | ln-data-table | BUNDLED | `11f1fd2` (older full-audit) |
+| 21 | ln-data-table | DONE | per-component pass landed 2026-05-07 (plan: `.claude/plans/ln-data-table-doc-discipline.md`; README 646→586, docs/js 411→396 — both slightly above plan target 510-550 / 360-390; 10/10 acceptance greps PASS; corrected store.lnStore.query() result shape from records.totalCount to detail.total) |
 | 22 | ln-dropdown | DONE | per-component pass landed 2026-05-07 post-refactor (plan: `.claude/plans/ln-dropdown-doc-discipline.md`; README 104→77, docs/js 129→82 — refactor moved teleport/placement to ln-core helpers) |
 | 23 | ln-toast | DONE | `11f1fd2`; subsequent refactors `2eae08f` + `0d68074`; verified against skill checklist on 2026-05-07 |
-| 24 | ln-translations | BUNDLED | `11f1fd2` (older full-audit) |
+| 24 | ln-translations | DONE | per-component pass landed 2026-05-07 (plan: `.claude/plans/ln-translations-doc-discipline.md`; README 233→157, docs/js 176→66 — README slightly above plan target 95-145 due to dense example HTML, docs/js within target; 20/20 acceptance greps PASS) |
 | 25 | ln-sortable | DONE | `3ac6dc1` (older bundle); re-passed against skill checklist on 2026-05-07 (plan: `.claude/plans/ln-sortable-doc-discipline.md`; README 133→132, docs/js 197→123) |
 | 26 | ln-store | DONE | per-component pass landed 2026-05-07 (plan: `.claude/plans/ln-store-doc-discipline.md`; README 138→179, docs/js 182→123 — README grew net to fix drift + add Examples + quota-exceeded; docs/js shed ~70 lines of duplication) |
-| 27 | ln-upload | BUNDLED | `18d4a3e` |
+| 27 | ln-upload | DONE | per-component pass landed 2026-05-07 (plan: `.claude/plans/ln-upload-doc-discipline.md`; README 192→155, docs/js 127→67 — both within plan target ~158 / ~66; 19/20 acceptance greps PASS, F6 dict-count is plan-estimation off-by-one not content failure) |
 | 28 | ln-date | DONE | per-component pass landed 2026-05-07 (plan: `.claude/plans/ln-date-doc-discipline.md`; README 147→131, docs/js 170→133) |
 | 29 | ln-filter | DONE | per-component pass landed 2026-05-07 (plan: `.claude/plans/ln-filter-doc-discipline.md`; README 194→180, docs/js 259→228) |
 | 30 | ln-nav | DONE | per-component pass landed 2026-05-07 (plan: `.claude/plans/ln-nav-doc-discipline.md`; README 61→52, docs/js 28→43) |
@@ -63,22 +63,17 @@
 
 ## Counts
 
-- DONE: 24
-- BUNDLED (re-audit candidate): 9
+- DONE: 31
+- BUNDLED (re-audit candidate): 1
 - PENDING (genuine new pass): 0
 - Out of scope (helpers): 1 (`ln-core`)
 - Total JS folders: 34
 
 ## Recommended priority
 
-1. **PENDING first** — five components with NO doc-discipline-class
-   commit at all: ln-date, ln-nav, ln-number, ln-popover, ln-time.
-2. **BUNDLED `11f1fd2`** (older full-audit, predates current skill)
-   — re-audit candidates: ln-data-table, ln-dropdown,
-   ln-translations.
-3. **BUNDLED `0b8f678`** (prose-discipline pass) — assume DONE
-   unless a specific drift / spec change calls for re-audit. Don't
-   re-process speculatively.
+The campaign is effectively complete. The single remaining BUNDLED row
+(`ln-select`) is blocked on a third-party-code refactor — surface for
+refactor, then run a discipline pass post-refactor.
 
 ## Operating rules
 
