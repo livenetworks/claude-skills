@@ -46,7 +46,7 @@
 | 19 | ln-validate | BUNDLED | `0b8f678` |
 | 20 | ln-ajax | DONE | `11f1fd2` (older); re-passed against skill checklist on 2026-05-07 (plan: `.claude/plans/ln-ajax-doc-discipline.md`) |
 | 21 | ln-data-table | BUNDLED | `11f1fd2` (older full-audit) |
-| 22 | ln-dropdown | BUNDLED | `11f1fd2` (older full-audit) |
+| 22 | ln-dropdown | DONE | per-component pass landed 2026-05-07 post-refactor (plan: `.claude/plans/ln-dropdown-doc-discipline.md`; README 104→77, docs/js 129→82 — refactor moved teleport/placement to ln-core helpers) |
 | 23 | ln-toast | DONE | `11f1fd2`; subsequent refactors `2eae08f` + `0d68074`; verified against skill checklist on 2026-05-07 |
 | 24 | ln-translations | BUNDLED | `11f1fd2` (older full-audit) |
 | 25 | ln-sortable | DONE | `3ac6dc1` (older bundle); re-passed against skill checklist on 2026-05-07 (plan: `.claude/plans/ln-sortable-doc-discipline.md`; README 133→132, docs/js 197→123) |
@@ -63,8 +63,8 @@
 
 ## Counts
 
-- DONE: 22
-- BUNDLED (re-audit candidate): 10
+- DONE: 23
+- BUNDLED (re-audit candidate): 9
 - PENDING (genuine new pass): 1
 - Out of scope (helpers): 1 (`ln-core`)
 - Total JS folders: 34
