@@ -34,7 +34,7 @@
 | 7 | ln-circular-progress | DONE | `eb284fe` + `0ab03c0` |
 | 8 | ln-http | DONE | folded into `0b8f678`; line counts (332/557) hit plan targets, 22/22 acceptance greps PASS |
 | 9 | ln-progress | DONE | folded into `0b8f678`; user-confirmed 2026-05-06 |
-| 10 | ln-autoresize | DONE | `0b8f678`; verified against skill checklist on 2026-05-07 |
+| 10 | ln-autoresize | DONE | `0b8f678` (initial bundle); per-component pass landed 2026-05-07 (plan: `.claude/plans/ln-autoresize-doc-discipline.md`; README 433→252, docs/js 238→199) |
 | 11 | ln-autosave | DONE | `0b8f678` (post-`f7dd319` refactor); verified against skill checklist on 2026-05-07 |
 | 12 | ln-confirm | DONE | `0b8f678`; verified against skill checklist on 2026-05-07 |
 | 13 | ln-external-links | BUNDLED | `0b8f678` |
