@@ -56,16 +56,16 @@
 | 29 | ln-filter | DONE | per-component pass landed 2026-05-07 (plan: `.claude/plans/ln-filter-doc-discipline.md`; README 194→180, docs/js 259→228) |
 | 30 | ln-nav | DONE | per-component pass landed 2026-05-07 (plan: `.claude/plans/ln-nav-doc-discipline.md`; README 61→52, docs/js 28→43) |
 | 31 | ln-number | DONE | per-component pass landed 2026-05-07 (plan: `.claude/plans/ln-number-doc-discipline.md`; README 110→101, docs/js 144→109) |
-| 32 | ln-popover | PENDING | — |
+| 32 | ln-popover | DONE | per-component pass landed 2026-05-07 (plan: `.claude/plans/ln-popover-doc-discipline.md`; README 119→114, docs/js 72→72 — README landed 4 lines above plan target ≤110, plan estimation error not discipline failure; docs/js already at benchmark, no edits needed) |
 | 33 | ln-time | DONE | per-component pass landed 2026-05-07 (plan: `.claude/plans/ln-time-doc-discipline.md`; README 107→99, docs/js 99→13 — pilot-doc follow-up flagged for missing architecture sections) |
 
 `ln-core` is helpers (no README); not in scope for discipline pass.
 
 ## Counts
 
-- DONE: 23
+- DONE: 24
 - BUNDLED (re-audit candidate): 9
-- PENDING (genuine new pass): 1
+- PENDING (genuine new pass): 0
 - Out of scope (helpers): 1 (`ln-core`)
 - Total JS folders: 34
 
