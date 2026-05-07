@@ -37,9 +37,9 @@
 | 10 | ln-autoresize | DONE | `0b8f678` (initial bundle); per-component pass landed 2026-05-07 (plan: `.claude/plans/ln-autoresize-doc-discipline.md`; README 433→252, docs/js 238→199) |
 | 11 | ln-autosave | DONE | `0b8f678` (post-`f7dd319` refactor); verified against skill checklist on 2026-05-07 |
 | 12 | ln-confirm | DONE | `0b8f678`; verified against skill checklist on 2026-05-07 |
-| 13 | ln-external-links | BUNDLED | `0b8f678` |
+| 13 | ln-external-links | DONE | `0b8f678` (initial bundle); per-component pass landed 2026-05-07 (plan: `.claude/plans/ln-external-links-doc-discipline.md`; README 596→314, docs/js 335→277 — landed below plan target ~155-175 / ~200-225, all 24 plan steps + acceptance greps PASS, plan estimation was optimistic) |
 | 14 | ln-form | BUNDLED | `0b8f678`; pilot-doc plan exists at `.claude/plans/ln-form-pilot-doc-and-cleanup.md` |
-| 15 | ln-icons | BUNDLED | `0b8f678` |
+| 15 | ln-icons | DONE | `0b8f678` (initial bundle); per-component pass landed 2026-05-07 (plan: `.claude/plans/ln-icons-doc-discipline.md`; README 111→116, docs/js 157→148) |
 | 16 | ln-link | BUNDLED | `0b8f678`; pilot-doc plan exists at `.claude/plans/ln-link-pilot-doc.md` |
 | 17 | ln-select | BUNDLED | `0b8f678`; **BLOCKED** — contains third-party code, needs refactor before doc-discipline pass |
 | 18 | ln-table | BUNDLED | `0b8f678`; pilot-doc plan exists at `.claude/plans/ln-table-pilot-doc.md` |
@@ -49,34 +49,33 @@
 | 22 | ln-dropdown | BUNDLED | `11f1fd2` (older full-audit) |
 | 23 | ln-toast | DONE | `11f1fd2`; subsequent refactors `2eae08f` + `0d68074`; verified against skill checklist on 2026-05-07 |
 | 24 | ln-translations | BUNDLED | `11f1fd2` (older full-audit) |
-| 25 | ln-sortable | BUNDLED | `3ac6dc1` |
+| 25 | ln-sortable | DONE | `3ac6dc1` (older bundle); re-passed against skill checklist on 2026-05-07 (plan: `.claude/plans/ln-sortable-doc-discipline.md`; README 133→132, docs/js 197→123) |
 | 26 | ln-store | BUNDLED | `5753209` |
 | 27 | ln-upload | BUNDLED | `18d4a3e` |
-| 28 | ln-date | PENDING | — |
-| 29 | ln-filter | PENDING | — |
-| 30 | ln-nav | PENDING | — |
-| 31 | ln-number | PENDING | — |
+| 28 | ln-date | DONE | per-component pass landed 2026-05-07 (plan: `.claude/plans/ln-date-doc-discipline.md`; README 147→131, docs/js 170→133) |
+| 29 | ln-filter | DONE | per-component pass landed 2026-05-07 (plan: `.claude/plans/ln-filter-doc-discipline.md`; README 194→180, docs/js 259→228) |
+| 30 | ln-nav | DONE | per-component pass landed 2026-05-07 (plan: `.claude/plans/ln-nav-doc-discipline.md`; README 61→52, docs/js 28→43) |
+| 31 | ln-number | DONE | per-component pass landed 2026-05-07 (plan: `.claude/plans/ln-number-doc-discipline.md`; README 110→101, docs/js 144→109) |
 | 32 | ln-popover | PENDING | — |
-| 33 | ln-time | PENDING | — |
+| 33 | ln-time | DONE | per-component pass landed 2026-05-07 (plan: `.claude/plans/ln-time-doc-discipline.md`; README 107→99, docs/js 99→13 — pilot-doc follow-up flagged for missing architecture sections) |
 
 `ln-core` is helpers (no README); not in scope for discipline pass.
 
 ## Counts
 
-- DONE: 14
-- BUNDLED (re-audit candidate): 13
-- PENDING (genuine new pass): 6
+- DONE: 22
+- BUNDLED (re-audit candidate): 10
+- PENDING (genuine new pass): 1
 - Out of scope (helpers): 1 (`ln-core`)
 - Total JS folders: 34
 
 ## Recommended priority
 
-1. **PENDING first** — six components with NO doc-discipline-class
-   commit at all: ln-date, ln-filter, ln-nav, ln-number, ln-popover,
-   ln-time.
+1. **PENDING first** — five components with NO doc-discipline-class
+   commit at all: ln-date, ln-nav, ln-number, ln-popover, ln-time.
 2. **BUNDLED `11f1fd2`** (older full-audit, predates current skill)
-   — five re-audit candidates: ln-ajax, ln-data-table, ln-dropdown,
-   ln-toast, ln-translations.
+   — re-audit candidates: ln-data-table, ln-dropdown,
+   ln-translations.
 3. **BUNDLED `0b8f678`** (prose-discipline pass) — assume DONE
    unless a specific drift / spec change calls for re-audit. Don't
    re-process speculatively.
