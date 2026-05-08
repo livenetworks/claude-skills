@@ -238,9 +238,11 @@ If any spot-check fails → spawn `@verifier`, do NOT paper over.
 
 ### Step 4 — Mark task completed
 
-Update the corresponding TaskList entry to `completed`. The chief
-architect's session typically holds an active 30-task list for the
-doc-discipline campaign — see TaskList for current state.
+Update the component's row in
+`.claude/tasks/doc-discipline-tracker.md` from `PENDING` (or
+`BUNDLED`) to `DONE`, with the new commit SHA. The tracker is the
+persistent campaign-wide source of truth — session TodoWrite dies
+on `/clear`, the tracker survives.
 
 ### Step 5 — Commit
 

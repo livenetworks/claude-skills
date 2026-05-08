@@ -111,7 +111,7 @@ and `--gap: 0` re-binds — as a self-contained mixin. See `docs/css/layout.md`.
 
 ## Position & Z-Index
 
-`relative`, `absolute`, `fixed`, `sticky`, `inset-0`, `z-dropdown`, `z-sticky`, `z-overlay`, `z-modal`, `z-toast`
+`relative`, `absolute`, `fixed`, `sticky`, `sticky-top($top)`, `inset-0`, `z-dropdown`, `z-sticky`, `z-overlay`, `z-modal`, `z-toast`
 
 ## Overflow & Interaction
 
