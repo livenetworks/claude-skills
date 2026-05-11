@@ -58,15 +58,15 @@
 | 31 | ln-number | DONE | per-component pass landed 2026-05-07 (plan: `.claude/plans/ln-number-doc-discipline.md`; README 110→101, docs/js 144→109) |
 | 32 | ln-popover | DONE | per-component pass landed 2026-05-07 (plan: `.claude/plans/ln-popover-doc-discipline.md`; README 119→114, docs/js 72→72 — README landed 4 lines above plan target ≤110, plan estimation error not discipline failure; docs/js already at benchmark, no edits needed) |
 | 33 | ln-time | DONE | per-component pass landed 2026-05-07 (plan: `.claude/plans/ln-time-doc-discipline.md`; README 107→99, docs/js 99→13 — pilot-doc follow-up flagged for missing architecture sections) |
+| 34 | ln-core | DONE | per-component pass landed 2026-05-08 (plan: `.claude/plans/ln-core-doc-discipline.md`; docs/js 401→558 — ADDITIVE pass to document 8 helpers missing from prior doc (`isVisible`, `serializeForm`, `populateForm`, `getLocale`, `registerComponent`, `computePlacement`, `teleportToBody`, `measureHidden`) + minor trim; no README created — ln-core is internal helper module, no consumer-facing README by design; 14/14 acceptance greps PASS + heading-style consistency fix) |
 
-`ln-core` is helpers (no README); not in scope for discipline pass.
+`ln-core` is helpers — no consumer-facing README (none should exist). Architecture doc only, see row 34.
 
 ## Counts
 
-- DONE: 31
+- DONE: 32
 - BUNDLED (re-audit candidate): 1
 - PENDING (genuine new pass): 0
-- Out of scope (helpers): 1 (`ln-core`)
 - Total JS folders: 34
 
 ## Recommended priority
