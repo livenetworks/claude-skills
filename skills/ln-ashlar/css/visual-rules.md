@@ -177,7 +177,7 @@ Every `<button>` gets full structure + neutral colors from `scss/base/_global.sc
 ### `<button type="submit">` — Color Only
 
 - Background: solid `hsl(var(--color-primary))`, white text
-- Hover: `hsl(var(--color-primary-hover))`
+- Hover: derived from `--color-primary` at consumer scope via `hsl(from var(--color-accent) h s calc(l - 8))` — single token override on a parent cascades to the hover surface automatically
 
 ### `@mixin btn` — Complete Action Button
 

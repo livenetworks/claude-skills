@@ -51,7 +51,7 @@ All colors, spacing, radii, shadows are CSS custom properties. Names reflect **p
 ```scss
 // RIGHT — semantic names, HSL values
 --color-primary: 231 62% 27%;
---color-error-hover: 0 72% 42%;
+--color-error-light: 0 84% 93%;
 --bg-elevated: hsl(var(--color-neutral-50));
 
 // WRONG — named by color
@@ -148,7 +148,8 @@ Derived mixins add ONLY what differs from the base. Never duplicate property def
 	border-color: transparent;
 	> input { display: none; }
 	&:has(> input:checked) { background-color: hsl(var(--color-primary)); }
-	&:hover:has(> input:checked) { background-color: hsl(var(--color-primary-hover)); }
+	// Hover derived from accent at this scope — see scss/config/mixins/_form.scss
+	&:hover:has(> input:checked) { background-color: var(--color-accent-hover); }
 }
 
 // WRONG — derived duplicates base properties
