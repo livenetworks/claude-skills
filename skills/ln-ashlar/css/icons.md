@@ -6,7 +6,7 @@
 
 ## How It Works
 
-`ln-icons.js` builds a hidden `<svg>` sprite from `js/ln-icons/icons/*.svg` and inserts it into `<body>` at init. Icons render via `<use href="#ln-{name}">` and inherit `currentColor`.
+`ln-icons.js` fetches SVG icons on-demand from a public CDN (Tabler Icons) or a custom CDN at runtime, compiles them into a hidden `<svg>` sprite sheet injected in `<body>` at init, and caches them in `localStorage`. Icons render via `<use href="#ln-{name}">` or `<use href="#lnc-{name}">` and inherit `currentColor`.
 
 ## Markup
 
@@ -34,7 +34,7 @@
 
 ## Two Prefixes
 
-- `#ln-{name}` — Tabler icons (bundled in sprite)
+- `#ln-{name}` — Tabler icons (fetched from jsdelivr CDN)
 - `#lnc-{name}` — Custom CDN icons (served from `window.LN_ICONS_CUSTOM_CDN`)
 
 ## Available Icons
@@ -66,10 +66,10 @@ Exception: custom icons (`lnc-file-pdf`, etc.) have embedded semantic stroke col
 
 ## Adding a Custom Icon
 
-1. Add SVG to `js/ln-icons/icons/{name}.svg`
-2. Run `npm run build`
-3. Upload `dist/icons/{name}.svg` to custom CDN
-4. Use as `#lnc-{name}`
+To host custom icons in production:
+1. Save the custom SVG icon files in a directory on your production asset server or public CDN (e.g., `/public/assets/icons/` or `https://cdn.mycompany.com/assets/icons/`).
+2. Before the library initializes, define the CDN URL globally using `window.LN_ICONS_CUSTOM_CDN = "https://cdn.mycompany.com/assets/icons";`.
+3. In HTML, reference the icon as `#lnc-{name}` (e.g., `<use href="#lnc-corporate-logo"></use>`). The on-demand sprite generator will fetch, cache, and inject the SVG automatically from your custom CDN.
 
 ## Close Buttons
 

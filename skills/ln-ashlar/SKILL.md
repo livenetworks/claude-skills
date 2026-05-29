@@ -14,6 +14,22 @@ description: "Implementation reference for the ln-ashlar frontend library. Use t
 
 Unified frontend library: **SCSS CSS framework** + **vanilla JS components**. Zero dependencies. Used in Laravel projects via npm or git submodule.
 
+## 🏛️ The DOM-First Doctrine
+
+`ln-ashlar` is built on a simple technical reality: **the browser works natively with the DOM, not a Virtual DOM.** The framework enforces the following:
+
+1. **Server-Rendered structure, client-rendered behavior:** The server generates complete, semantic HTML. The browser paints it immediately. A lightweight, native `MutationObserver` registers and binds vanilla JS components dynamically.
+2. **HTML describes WHAT, not HOW:** HTML markup should only consist of semantic tags and structural elements. Visual details belong exclusively in SCSS.
+3. **Pure SCSS Styling via `@include`:** Tailwind-style utility classes are strictly banned in markup (avoid `flex`, `grid-cols-4`, `text-red-500`). Markup is styled by applying SCSS mixins to semantic selectors (e.g., `#user-table { @include table-base; }`).
+4. **Zero Dependencies:** To ensure decades of stability and complete immunity to npm supply chain attacks, `ln-ashlar` contains zero transitive dependencies at runtime.
+
+## 🧭 Four Core Philosophy Principles
+
+1. **HTML describes WHAT, not HOW** — Use semantic elements only. No presentational or utility classes in markup. Visual changes happen in SCSS, never in HTML.
+2. **Style via `@include` on semantic selectors** — Projects write `#user-table { @include table-base; }`, not `<table class="table table-striped">`. The selector describes the element; the mixin describes how it looks.
+3. **Every color is a CSS variable** — Always use `hsl(var(--color-primary))`, never hardcoded hex codes like `#2737a1`. The entire design system is fully customizable at any scope via simple variable overrides.
+4. **JS is attribute-driven, zero init** — Interactivity is declared via attributes (`data-ln-modal`, `data-ln-filter`, `data-ln-toggle`). A single `MutationObserver` registers, binds, and cleans up instances automatically without boilerplate constructor calls.
+
 ## Architecture
 
 ```
