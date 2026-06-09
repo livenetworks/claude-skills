@@ -11,7 +11,7 @@ Imports go **outside** the IIFE — Vite resolves at build time:
 
 ```javascript
 // helpers.js — DOM, events, templates, list rendering
-import { cloneTemplate, cloneTemplateScoped, dispatch, dispatchCancelable, fill, renderList, buildDict, guardBody, findElements } from '../ln-core';
+import { cloneTemplate, cloneTemplateScoped, dispatch, dispatchCancelable, requestData, fill, renderList, buildDict, guardBody, findElements } from '../ln-core';
 
 // reactive.js — state proxies and batching
 import { reactiveState, deepReactive, createBatcher } from '../ln-core';
@@ -43,6 +43,17 @@ Cancelable CustomEvent. Returns the event object — check `defaultPrevented`.
 const event = dispatchCancelable(element, 'ln-modal:before-open', { id: 'my-modal' });
 if (event.defaultPrevented) return; // External listener cancelled
 ```
+
+### `requestData(component, eventName, keyName)`
+
+Shared data-request cycle for `ln-table` / `ln-list`. Re-filters, re-renders the hydrated rows, then dispatches `*:request-data` for the coordinator. Payload: `{ sort, filters, search, [keyName]: name }` — same shape, only the identifier key varies.
+
+```javascript
+requestData(this, 'ln-list:request-data', 'list');    // ln-list
+requestData(this, 'ln-table:request-data', 'table');  // ln-table
+```
+
+Instance contract: `component` must expose `_applyFilterAndSort`, `_render`, `_updateFooter`, `_vStart`, `_vEnd`, `dom`, `name`, `currentSort`, `currentFilters`, `currentSearch`. Each component wraps this in its own one-line `_requestData`.
 
 ---
 
