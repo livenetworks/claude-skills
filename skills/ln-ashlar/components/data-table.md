@@ -53,6 +53,9 @@ document.addEventListener('ln-store:synced', function(e) {
 
 JS takes over for sort, filter, search, virtual scroll, and optimistic mutations after mount.
 
+> Sortable/formatted cells carry the raw value in `data-ln-value` (read by
+> `ln-core.readValue`). See ln-core-api.md → "Codegen rule — formatted/sortable cells".
+
 **Client-cache mode** (1000+ rows, opt-in): Blade renders the shell with an empty `<tbody>` behind a loader; ln-store hydrates and fills rows on first paint. No placeholder/shimmer rows — the loader sits on the shell until real data arrives.
 
 ## Delta Sync Response Format

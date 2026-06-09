@@ -76,6 +76,27 @@ Find and initialize component instances. Standard auto-init pattern.
 
 Defer execution until `<body>` exists. Use in components that run before DOM is ready.
 
+### `readValue(el)`
+
+Read the raw machine value behind a formatted cell/item: `data-ln-value`
+attribute if present, else `el.textContent.trim()`. The single read path for
+value-based sort/filter — that is what makes `data-ln-value` cross-component.
+
+```javascript
+const raw = readValue(td); // '1250.50' (from data-ln-value) or trimmed text
+```
+
+#### Codegen rule — formatted/sortable cells
+
+When emitting a cell or list item whose displayed text is locale-formatted and
+that participates in sort/filter:
+
+- Put the **raw** value in `data-ln-value` (amounts: dot decimal, no grouping —
+  `1250.50`; dates: Unix timestamp). Server formats the visible text.
+- Put the **sort type** in the component-scoped behavior attribute
+  (`data-ln-table-sort="string|number|date"` on `<th>`) — never universalize it.
+- Never sort/filter formatted text. `ln-core.readValue` is the only read path.
+
 ---
 
 ## Declarative DOM Binding (helpers.js)
