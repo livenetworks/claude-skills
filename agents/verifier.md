@@ -6,7 +6,6 @@ description: >
   quality, adherence to project conventions, and documentation freshness.
   Use after the executor has finished implementation.
 tools: Read, Grep, Glob, Bash
-model: opus
 permissionMode: plan
 color: cyan
 effort: high

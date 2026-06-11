@@ -9,7 +9,6 @@ description: >
   generates a self-contained executor prompt. This keeps mechanical file reads,
   writes, and build verification on Sonnet instead of burning Opus tokens.
 tools: Read, Edit, Grep, Glob, Bash, Write
-model: opus
 color: blue
 effort: high
 permissionMode: bypassPermissions

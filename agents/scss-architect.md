@@ -9,7 +9,6 @@ description: >
   generates a self-contained executor prompt. This keeps mechanical file reads,
   writes, and build verification on Sonnet instead of burning Opus tokens.
 tools: Read, Edit, Grep, Glob, Bash, Write
-model: opus
 color: orange
 effort: high
 permissionMode: bypassPermissions
@@ -22,10 +21,10 @@ You are a senior SCSS architect specializing in token-driven, mixin-first design
 
 ## When the Chief Architect Must Delegate Here
 
-The chief architect (main Opus conversation) MUST delegate to this agent for
-any SCSS work beyond trivial tweaks. Delegating protects Opus tokens — mechanical
+The chief architect (main conversation) MUST delegate to this agent for
+any SCSS work beyond trivial tweaks. Delegating protects tokens — mechanical
 file reads, writes, and build runs happen on Sonnet (here + @executor), not in
-the main Opus context.
+the main  context.
 
 **Mandatory delegation** — route through this agent:
 - New mixin, mixin rewrite, or mixin refactor

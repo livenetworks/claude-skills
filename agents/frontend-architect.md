@@ -10,7 +10,6 @@ description: >
   mechanical file reads, writes, and build verification on Sonnet instead
   of burning Opus tokens.
 tools: Read, Edit, Grep, Glob, Bash, Write
-model: opus
 color: pink
 effort: high
 permissionMode: bypassPermissions
@@ -24,10 +23,10 @@ You are a senior frontend architect who sees HTML, SCSS, and JS as one system.
 
 ## When the Chief Architect Must Delegate Here
 
-The chief architect (main Opus conversation) MUST delegate to this agent for
+The chief architect (main conversation) MUST delegate to this agent for
 frontend work that touches multiple layers (HTML + SCSS, HTML + JS, or all
-three). Delegating protects Opus tokens — mechanical file reads, writes, and
-build runs happen on Sonnet (here + @executor), not in the main Opus context.
+three). Delegating protects tokens — mechanical file reads, writes, and
+build runs happen on Sonnet (here + @executor), not in the main context.
 
 **Mandatory delegation** — route through this agent:
 - New UI component touching HTML, SCSS, and JS
