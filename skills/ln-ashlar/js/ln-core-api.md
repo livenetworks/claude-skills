@@ -104,6 +104,9 @@ that participates in sort/filter:
 ### `fill(root, data)`
 
 Replaces querySelector + textContent chains. Idempotent — call again with new data.
+**Nothing calls `fill()` automatically** — your component code calls it (and
+re-calls it to update). Renderer pipelines you don't own (`ln-table` rows)
+never call it.
 
 #### Data Attributes
 
@@ -141,8 +144,51 @@ fill(el, {
 
 - `fill` is idempotent — call again with new data, DOM updates
 - `null`/`undefined` values are skipped (existing content preserved)
-- Works on live DOM and on `<template>` clones (DocumentFragment)
+- Works on live DOM and on `<template>` clones (DocumentFragment) — **but only
+  when your code calls `fill()` on the clone** (e.g. a `renderList` `fillFn`,
+  as in the example above)
 - `data-ln-field` uses `textContent` only — not `innerHTML`
+- `data-ln-field` is read **only** by `fill()` — never by `fillTemplate()`
+- **Never use `data-ln-field` in `ln-table` row templates** — the row pipeline
+  runs `fillTemplate()` (`{{ field }}`) + `data-ln-table-cell-attr` and never
+  `fill()`; the attribute sits inert in the DOM
+
+---
+
+## Template Text Stamping (helpers.js)
+
+### `fillTemplate(clone, data)`
+
+One-shot `{{ field }}` text-node substitution on a fresh template clone.
+Placeholders are **consumed** — the element never re-updates from data. Runs
+automatically inside renderer pipelines: `ln-table` rows, `renderList`'s
+clone pass.
+
+```html
+<template data-ln-template="products-row">
+	<tr data-ln-table-row>
+		<td>{{ name }}</td>
+		<td><a data-ln-table-cell-attr="url:href">{{ label }}</a></td>
+	</tr>
+</template>
+```
+
+#### Decision rule — `{{ }}` vs `data-ln-field`
+
+Ask: **who fills this element?**
+
+- A renderer fills it once at clone time (`ln-table` rows, `renderList` clone
+  pass) → `{{ field }}` for text, `data-ln-table-cell-attr` for attributes.
+- Your code calls `fill()` on it (initial + every update) →
+  `data-ln-field` / `data-ln-attr` / `data-ln-show` / `data-ln-class`.
+
+`fill()` ignores `{{ }}`; `fillTemplate()` ignores `data-ln-field`.
+**`data-ln-field` in an `ln-table` row template is silently inert** — the row
+pipeline never calls `fill()`.
+
+In `renderList` templates both may appear: `{{ }}` for create-time-only
+values (stamped once, never updates), `fill()`-bindings applied in your
+`fillFn` for values that update on re-render.
 
 ---
 
