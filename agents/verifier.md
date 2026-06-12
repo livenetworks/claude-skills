@@ -7,6 +7,7 @@ description: >
   Use after the executor has finished implementation.
 tools: Read, Grep, Glob, Bash
 permissionMode: plan
+model: opus
 color: cyan
 effort: high
 ---
