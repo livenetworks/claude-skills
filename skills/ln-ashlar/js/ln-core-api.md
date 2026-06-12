@@ -1,7 +1,7 @@
 # ln-ashlar — ln-core API Reference
 
 > Shared helpers imported by all ln-ashlar components. Located in `js/ln-core/`.
-> For architecture principles → global js skill §9 (three layers), §11 (reactive state).
+> For architecture principles → global js skill §9 (three layers), §12 (reactive state).
 
 ---
 

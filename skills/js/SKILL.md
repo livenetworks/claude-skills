@@ -248,7 +248,26 @@ Use when: the component has no "own DOM" — it provides a service that other el
 
 ---
 
-## 11. Reactive State
+## 11. Overlay Components — Document-Level Exception
+
+Flow components (toggle, tabs, accordion) live entirely at their element's DOM level. **Overlay components** (modal, dropdown, popover, tooltip) take over part of the viewport while open — their interaction scope is temporarily the document. They get exactly three sanctioned document-level touchpoints:
+
+1. **Dismissal listeners** — Escape / click-outside. Events originating outside the component's subtree can only be heard at `document` level.
+2. **Focus management** — Tab focus trap (catch focus leaving the subtree), focus return to the pre-open `document.activeElement`.
+3. **Body state class** — a `.ln-*` class on `<body>` (e.g. `ln-modal-open`) for page-level state like scroll lock. JS toggles the class; CSS owns the styling. If multiple instances can be open, removal is gated on "no other open instance" (refcount-by-query).
+
+### Hard rules
+
+- **Paired with open/close lifecycle** — document listeners are added on open, removed on close. Zero document listeners while everything is closed.
+- **`destroy()` of an open instance** releases its document listeners and the body state class.
+- **Sensors, not actuators** — document listeners funnel back into the component's own attribute state machine (`setAttribute(DOM_SELECTOR, 'close')`); they never mutate foreign DOM directly.
+- **Nothing else** — any document/body touchpoint outside these three categories is off-doctrine.
+
+Module-level infrastructure (`DOMContentLoaded` boot, the body MutationObserver, trigger click delegation) is component-system plumbing, not an instance touchpoint — it is not covered by, and does not need, this exception.
+
+---
+
+## 12. Reactive State
 
 ### Two-Layer State Model
 
@@ -267,7 +286,7 @@ Use when: the component has no "own DOM" — it provides a service that other el
 
 ---
 
-## 12. Anti-Patterns — NEVER Do These
+## 13. Anti-Patterns — NEVER Do These
 
 ### Architecture
 - Direct component-to-component calls — use CustomEvent

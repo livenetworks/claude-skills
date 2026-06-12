@@ -27,7 +27,7 @@
 |---|---|---|---|
 | 1 | ln-search | DONE | `7a64917` |
 | 2 | ln-accordion | DONE | `b969d69` (set coordinator-glossary precedent) |
-| 3 | ln-modal | DONE | `76e2a46` + `52e876b`; drift-sync to click-delegation refactor landed 2026-06-12 (plan: `.claude/plans/ln-modal-doc-drift-sync.md`; 17/17 acceptance greps PASS; flagged follow-up: `_onClose` dead code, body-class leak on manual destroy of attached open modal) |
+| 3 | ln-modal | DONE | `76e2a46` + `52e876b`; drift-sync to click-delegation refactor landed 2026-06-12 (plan: `.claude/plans/ln-modal-doc-drift-sync.md`; 17/17 acceptance greps PASS; flagged follow-up resolved 2026-06-12: `_onClose` deleted + self-excluding body-class check in destroy() (plan: `.claude/plans/ln-modal-flagged-bugfixes.md`; verifier PASS) |
 | 4 | ln-toggle | DONE | `705985b` |
 | 5 | ln-tabs | DONE | `7a3437c` |
 | 6 | ln-tooltip | DONE | `a162c13` |
