@@ -54,11 +54,11 @@ ln-profile:switched  →  coordinator  →  sidebar[data-ln-playlist-profile] = 
 ln-playlist:changed  →  coordinator  →  lnProfile.persist()
 ```
 
-Example for a CRUD page:
+Example for a CRUD page (coordinator / store-driven fills):
 
 ```
-ln-data-table:row-click  →  coordinator  →  ln-form:fill { data }
-                                           modal[data-ln-modal] = "open"
+ln-table:row-action      →  coordinator  →  modal[data-ln-modal] = "open"
+  (edit, record)                            lnFill(modal, record)   // fans out: form + [data-ln-fillable]
 
 ln-form:submit           →  coordinator  →  ln-store:request-update { data }
 
@@ -67,6 +67,8 @@ ln-store:confirmed       →  coordinator  →  modal[data-ln-modal] = "close"
 
 ln-store:reverted        →  coordinator  →  toast("Error: " + error)
 ```
+
+> **Note:** for click-triggered fills from table rows or inline buttons, the declarative `data-ln-fill-form` + `data-ln-fill-*` attributes (and `data-ln-modal-*` for modal display) handle the fill with **no coordinator code** — see `js/ln-fill/README.md`. Use the coordinator above only for programmatic / store-driven fills (e.g. conflict resolution, deep-link pre-fill).
 
 Project coordinators live in the project's JS (e.g. `resources/js/coordinators/`), not in ln-ashlar.
 
