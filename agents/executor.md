@@ -8,7 +8,7 @@ description: >
   architect. Has full read/write access. Use after a domain architect has
   produced a refined plan with an executor prompt.
 tools: Read, Write, Edit, Bash, Grep, Glob
-model: opus
+model: sonnet
 color: green
 maxTurns: 50
 effort: medium

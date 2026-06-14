@@ -10,7 +10,7 @@ description: >
   mechanical file reads, writes, and build verification on Sonnet instead
   of burning Opus tokens.
 tools: Read, Edit, Grep, Glob, Bash, Write
-model: fable
+model: opus
 color: pink
 effort: high
 permissionMode: bypassPermissions

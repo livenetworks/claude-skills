@@ -10,7 +10,7 @@ description: >
   file reads, writes, and migration/test runs on Sonnet instead of burning
   Opus tokens.
 tools: Read, Edit, Grep, Glob, Bash, Write
-model: fable
+model: opus
 color: purple
 effort: high
 permissionMode: bypassPermissions
