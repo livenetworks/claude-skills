@@ -177,6 +177,16 @@ window.lnCore.lnFill(modalEl, null);    // reset / clear
   back to `name` (backend column). See `js/ln-fill/README.md`,
   `patterns/edit-modal-prefill.md`.
 
+### `populateForm(form, data)`
+
+Fills form fields from a plain data object. Field match key: `data-ln-fill-as` attribute falling back to `name`.
+
+- Checkbox + array → `checked` if `el.value` is in the array.
+- Checkbox group (same `name`, 2+ elements) + scalar → treated as comma-separated list (`"admin,editor"` → membership check).
+- Single checkbox + scalar → boolean coercion: `"false"/"0"/"off"/"no"/""` → unchecked; anything else → checked.
+- Radio → `checked` if value matches.
+- `<select multiple>` + array → marks matching options selected.
+
 ---
 
 ## Template Text Stamping (helpers.js)
