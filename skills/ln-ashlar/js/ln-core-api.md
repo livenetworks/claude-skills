@@ -155,14 +155,40 @@ fill(el, {
 
 ---
 
+### `lnFill(container, record)`
+
+Coordinator-facing fan-out fill, exposed on `window.lnCore`. Dispatches an
+`ln-fill` event at every `[data-ln-form]` and `[data-ln-fillable]` inside
+`container` — **and at `container` itself** when it matches either selector.
+`ln-form` fills its fields; `[data-ln-fillable]` regions fill their
+`[data-ln-field]`. `record = null` → each resets/clears.
+
+```javascript
+window.lnCore.lnFill(modalEl, record);  // fill form + display regions
+window.lnCore.lnFill(modalEl, null);    // reset / clear
+```
+
+- The **declarative** `ln-fill` module (`data-ln-fill-form` + `data-ln-fill-*`
+  on a trigger) calls this for you on click — no coordinator needed for
+  click-triggered fills.
+- Call it directly only for **programmatic** fills (store conflict, deep-link,
+  import-after-fetch).
+- Fields match the record by `data-ln-fill-as` (camelCase fill key) falling
+  back to `name` (backend column). See `js/ln-fill/README.md`,
+  `patterns/edit-modal-prefill.md`.
+
+---
+
 ## Template Text Stamping (helpers.js)
 
 ### `fillTemplate(clone, data)`
 
-One-shot `{{ field }}` text-node substitution on a fresh template clone.
-Placeholders are **consumed** — the element never re-updates from data. Runs
-automatically inside renderer pipelines: `ln-table` rows, `renderList`'s
-clone pass.
+One-shot `{{ field }}` substitution on a fresh template clone — in **both text
+nodes and attribute values** (attributes via `setAttribute`, so
+`data-ln-fill-id="{{ id }}"` in a row template resolves per row and enables
+declarative `ln-fill` triggers on table rows). Placeholders are **consumed** —
+the element never re-updates from data. Runs automatically inside renderer
+pipelines: `ln-table` rows, `renderList`'s clone pass.
 
 ```html
 <template data-ln-template="products-row">

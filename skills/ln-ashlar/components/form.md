@@ -16,7 +16,7 @@
 - Attribute: `data-ln-form` on `<form>`
 - Listens: `ln-validate:valid/invalid` from child fields
 - Tracks all-valid state → enables/disables submit button
-- Fill: receives data object, populates inputs by `name` attribute
+- Fill: receives the `ln-fill` event (from a declarative `data-ln-fill-*` trigger or a programmatic `lnFill()` call) → populates inputs by `name`, or by `data-ln-fill-as` when the camelCase fill key differs from the backend `name` column
 - Submit: `preventDefault`, emits `ln-form:submit` with serialized data
 - Auto-submit: `data-ln-form-auto` — submits on any input change
 - Debounce: `data-ln-form-debounce="300"`

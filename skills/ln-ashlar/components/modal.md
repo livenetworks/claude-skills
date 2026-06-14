@@ -55,6 +55,29 @@
 | `ln-modal:before-close` | Before closing (cancelable) |
 | `ln-modal:close` | After closed |
 
+## Display Fill (`data-ln-modal-*`)
+
+A `data-ln-modal-for` trigger can also fill the modal's `[data-ln-field]` display and set its mode — no coordinator:
+
+```html
+<button data-ln-modal-for="user-modal" data-ln-modal-name="Ana">Edit</button>
+
+<div class="ln-modal" data-ln-modal data-ln-modal-mode="new" id="user-modal">
+	<form data-ln-form>
+		<header>
+			<h3>
+				<span data-ln-modal-when="new">New user</span>
+				<span data-ln-modal-when="edit">Edit — <span data-ln-field="name"></span></span>
+			</h3>
+		</header>
+	</form>
+</div>
+```
+
+- `data-ln-modal-<key>` on the trigger → fills modal `[data-ln-field]` (keys camelCased: `data-ln-modal-user-name` → `userName`).
+- `data-ln-modal-mode` is set automatically: `edit` if any `data-ln-modal-*` payload, `new` if none; an explicit `data-ln-modal-mode` on the trigger wins. `[data-ln-modal-when]` spans toggle on it (co-located SCSS).
+- This is the modal **display** namespace; the **form** fill is the separate `data-ln-fill-*` namespace → `patterns/edit-modal-prefill.md`, `js/ln-fill/README.md`.
+
 ## Rules
 - `<form>` is the content root — select via `.ln-modal > form`
 - Cancel needs `type="button"` to prevent form submission
