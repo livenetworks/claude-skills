@@ -54,6 +54,7 @@
 | `ln-modal:open` | After opened |
 | `ln-modal:before-close` | Before closing (cancelable) |
 | `ln-modal:close` | After closed |
+| `ln-modal:destroyed` | After `destroy()` is called; `{ modalId, target }` |
 
 ## Display Fill (`data-ln-modal-*`)
 

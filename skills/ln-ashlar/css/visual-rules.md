@@ -26,7 +26,28 @@ ln-ashlar standard: **Tabler Icons, outline variant, stroke-width 2**
 
 ## §4 Spacing Scale
 
-Token scale: `0.25 / 0.5 / 0.75 / 1 / 1.25 / 1.5 / 2 / 3rem`
+Full 14-step scale (verified against `_tokens.scss`):
+
+| Token | Value |
+|---|---|
+| `--size-2xs` | `0.125rem` — 2px |
+| `--size-xs` | `0.25rem` — 4px |
+| `--size-xs-up` | `0.375rem` — 6px |
+| `--size-sm` | `0.5rem` — 8px |
+| `--size-sm-up` | `0.75rem` — 12px |
+| `--size-md` | `1rem` — 16px |
+| `--size-md-up` | `1.25rem` — 20px |
+| `--size-lg` | `1.5rem` — 24px |
+| `--size-xl` | `2rem` — 32px |
+| `--size-2xl` | `3rem` — 48px |
+| `--size-3xl` | `4rem` — 64px |
+| `--size-4xl` | `6rem` — 96px |
+| `--size-5xl` | `8rem` — 128px |
+
+Doctrine shorthand: `2xs < xs < xs-up < sm < sm-up < md < md-up < lg < xl < 2xl < 3xl < 4xl < 5xl`
+
+Components read spacing via primitives (`--padding-x/y`, `--gap`) not directly from
+`--size-*`. Use `--size-*` only when a logical primitive doesn't semantically fit.
 
 ## §6 Typography
 

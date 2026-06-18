@@ -20,7 +20,7 @@ Use timeline for audit logs, version history, and activity feeds where the order
 ## HTML pattern
 
 ```html
-<ol data-ln-timeline>
+<ol class="timeline">
 	<li>
 		<time datetime="2026-04-14T09:32">Apr 14, 09:32</time>
 		<h4>Document approved</h4>
@@ -52,7 +52,7 @@ All three are optional — a minimal entry needs only `<h4>`.
 
 - Vertical 2px rail drawn via `::before` on `<ol>`, centered on the bullet column.
 - Bullets are 12px primary-coloured circles via `::before` on each `<li>`.
-- A 3px ring in `--color-bg-primary` separates bullet from rail, adapting to dark mode via the surface token.
+- A 3px ring in `--color-bg` separates bullet from rail, adapting to dark mode via the surface token.
 
 ---
 
@@ -66,8 +66,10 @@ All three are optional — a minimal entry needs only `<h4>`.
 
 ## Project usage
 
+The component is class-bound: `.timeline { @include timeline; }` in `scss/components/_timeline.scss`.
+There is no JS component and no data attribute binding — pure SCSS.
+
 ```scss
-// Default selector via attribute — no extra CSS needed.
-// For a custom selector:
+// Use the default .timeline class out of the box, or apply the mixin to your own selector:
 #audit-log { @include timeline; }
 ```

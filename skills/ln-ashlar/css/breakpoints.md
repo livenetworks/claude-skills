@@ -31,14 +31,14 @@ Import: `@use 'ln-ashlar/scss/config/breakpoints' as *;`
 | `$bp-3xl` | `--bp-3xl` | 1920px |
 
 ```scss
-@use 'ln-ashlar/scss/config/breakpoints' as *;
+@use 'ln-ashlar/scss/config/mixins' as *;
 
-.app-shell {
+#app-main {
 	display: grid;
 	grid-template-columns: 1fr;
 
-	@media (min-width: $bp-md) {
-		grid-template-columns: 16rem 1fr;
+	@include mq-up(md) {
+		grid-template-columns: 14.5rem 1fr;
 	}
 }
 ```
@@ -55,7 +55,7 @@ Import: `@use 'ln-ashlar/scss/config/breakpoints' as *;`
 | `$cq-wide` | `--cq-wide` | 1120px | 3→4 columns |
 
 ```scss
-@use 'ln-ashlar/scss/config/breakpoints' as *;
+@use 'ln-ashlar/scss/config/mixins' as *;
 
 #folders { @include container(foldersgrid); }
 
@@ -63,13 +63,26 @@ Import: `@use 'ln-ashlar/scss/config/breakpoints' as *;`
 	display: grid;
 	grid-template-columns: 1fr;
 
-	@container foldersgrid (min-width: $cq-compact) {
+	@include cq-up(compact, foldersgrid) {
 		grid-template-columns: repeat(2, 1fr);
 	}
-	@container foldersgrid (min-width: $cq-medium) {
+	@include cq-up(medium, foldersgrid) {
 		grid-template-columns: repeat(3, 1fr);
 	}
 }
+```
+
+### Raw Sass variables — when (rarely) needed
+
+The Sass variables (`$bp-*`, `$cq-*`) are available when you need the raw pixel
+value in a calc expression or when writing a non-standard query form. Prefer the
+mixin API for all standard min/max queries.
+
+```scss
+@use 'ln-ashlar/scss/config/breakpoints' as bp;
+
+// Calc that needs the raw value
+width: calc(100vw - #{bp.$bp-md});
 ```
 
 ---

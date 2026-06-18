@@ -129,7 +129,7 @@ Create-only fields (those absent from `toFormPayload()`) hide on edit via CSS ke
 
 ## Anti-patterns to avoid
 
-❌ **A JSON blob + a JS fill loop** (`data-fields='@json(...)'` → `JSON.parse` → populate). This *was* the recipe; the declarative trigger replaces it for click-triggered fills. A parsed object survives only for genuinely programmatic fills — see `architecture/coordinator-pattern.md`.
+❌ **A JSON blob + a JS fill loop** (`data-fields='@json(...)'` → `JSON.parse` → populate). This *was* the recipe; the declarative trigger replaces it for click-triggered fills. A parsed object survives only for genuinely programmatic fills — see `docs/architecture/coordinator.md`.
 
 ❌ **Guessing types in JS** (`!!parseInt(val)` breaks on JS `true`). Normalize to scalars at the backend (`toFormPayload()`).
 

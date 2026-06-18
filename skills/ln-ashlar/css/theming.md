@@ -57,6 +57,22 @@ vocabulary, so every mixin adapts automatically:
 	--border-subtle:       hsl(220 14% 20%);
 	--border-strong:       hsl(220 13% 36%);
 	--border-strong-hover: hsl(218 11% 52%);
+
+	// Shadow scale — solid black, boosted alpha (cool-tint disappears on dark surfaces)
+	--shadow-xs:  0 1px 2px 0 hsl(0 0% 0% / 0.32);
+	--shadow-sm:  0 1px 3px 0 hsl(0 0% 0% / 0.40), 0 1px 2px -1px hsl(0 0% 0% / 0.30);
+	--shadow-md:  0 4px 12px -2px hsl(0 0% 0% / 0.48), 0 2px 4px -2px hsl(0 0% 0% / 0.32);
+	--shadow-lg:  0 12px 24px -6px hsl(0 0% 0% / 0.56), 0 8px 12px -4px hsl(0 0% 0% / 0.40);
+	--shadow-xl:  0 24px 48px -12px hsl(0 0% 0% / 0.64), 0 12px 24px -6px hsl(0 0% 0% / 0.48);
+	--shadow-2xl: 0 36px 72px -18px hsl(0 0% 0% / 0.72), 0 18px 36px -9px hsl(0 0% 0% / 0.56);
+	--shadow-inner: inset 0 2px 4px 0 hsl(0 0% 0% / 0.32);
+
+	// Primary tint layers — re-tuned for dark surfaces
+	--color-primary-light:   232 60% 22%;
+	--color-primary-lighter: 232 50% 15%;
+
+	// Scrim — override because neutral-900 inverts to near-white in dark mode
+	--color-scrim: hsl(0 0% 0% / 0.6);
 }
 ```
 
@@ -98,11 +114,11 @@ primitive from vocabulary.
 
 ## Orthogonality with density
 
-Dark mode and density (`.density-compact` class) are fully independent.
-Both are resolved via CSS custom properties and compose freely:
+Dark mode and density are fully independent — different token namespaces, no
+conflict. Compose freely:
 
 ```html
-<html data-theme="dark" class="density-compact">
+<html data-theme="dark" data-density="comfortable">
 ```
 
 ## Consumer re-theming
@@ -128,7 +144,11 @@ component-facing changes:
 Vocabulary tokens: `--bg-base`, `--bg-elevated`, `--bg-sunken`,
 `--bg-recessed`, `--fg-default`, `--fg-muted`, `--fg-subtle`,
 `--border-subtle`, `--border-strong`, `--border-strong-hover`,
-`--shadow-resting`, `--shadow-floating`, `--shadow-overlay`.
+`--shadow-resting`, `--shadow-floating`, `--shadow-overlay`,
+`--shadow-xs` through `--shadow-2xl` (shadow scale rebinds in dark mode).
+
+Primary tint layers are also rebinding in dark: `--color-primary-light`,
+`--color-primary-lighter` (and parallel status tints).
 
 ## Accessibility targets
 

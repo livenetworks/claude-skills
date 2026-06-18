@@ -36,7 +36,7 @@ Sources: `scss/config/mixins/_status-badge.scss`, `scss/components/_status-badge
 | `.warning` | `--color-warning` | Pending, expiring, needs attention |
 | `.error` | `--color-error` | Failed, blocked, critical |
 | `.info` | `--color-info` | Draft, informational |
-| `.neutral` | `--fg-muted` | Archived, inactive, disabled |
+| `.neutral` | `--color-neutral-400` | Archived, inactive, disabled |
 
 Note: "danger" is not a variant name — the correct class is `.error`.
 
@@ -71,10 +71,10 @@ All badge parts (dot, text, background tint) derive from `--color-primary`. Over
 | Pattern | Use when |
 |---|---|
 | **Status badge** | Entity has a defined status lifecycle (draft, active, archived). Status is the primary signal. |
-| **chip** (`data-ln-chip`) | A removable tag, filter token, or multi-select value. Not a status — more like a label or category. |
+| **chip** (`.ln-chip`) | A removable tag, filter token, or multi-select value. Not a status — more like a label or category. |
 | **Plain text** | No color semantic needed, status is implied by context. |
 
-Chips support `data-ln-chip="success|warning|error|info"` tone variants but they are not interchangeable with badges — chips carry a remove button and are used in multi-value inputs.
+Chips support tone variants via modifier classes (`.ln-chip.success`, `.ln-chip.warning`, `.ln-chip.error`, `.ln-chip.info`) but they are not interchangeable with badges — chips carry a remove button and are used in multi-value inputs.
 
 ## Project selector pattern
 

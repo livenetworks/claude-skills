@@ -54,25 +54,37 @@ npm run dev      # Watch mode
 
 | File | Content |
 |------|---------|
-| `css/mixins.md` | Complete mixin reference with examples |
-| `css/tokens.md` | Token values (colors, spacing, radii, shadows) |
-| `css/icons.md` | SVG sprite system, Tabler icons, custom icons |
-| `css/visual-rules.md` | ln-ashlar specific visual rules (§1-§8 implementation) |
-| `css/density.md` | Density variants (compact, default, comfortable) |
-| `css/theming.md` | Dark mode, theme tokens, color-scheme |
-| `css/breakpoints.md` | Media vs container-query breakpoint tokens and rules |
+| `references/doctrine.md` | Core doctrine rules — DOM-first, no utility classes, attribute-driven JS; read before writing any ln-ashlar code |
 | `css/app-shell.md` | App-shell mixins (header, sidebar-drawer, main, footer, header regions) and global bindings |
-| `components/stat-card.md` | KPI stat card pattern |
-| `components/popover.md` | Popover / contextual overlay |
-| `components/tooltip.md` | Tooltip (hover/focus hint) |
-| `components/chip.md` | Removable filter token / selected value |
-| `components/stepper.md` | Linear wizard progress indicator |
-| `components/timeline.md` | Chronological event list (audit log, activity feed) |
+| `css/breakpoints.md` | Media vs container-query breakpoint tokens and rules |
+| `css/cards.md` | Card and panel mixin reference (`card`, `card-flush`, `panel`, etc.) |
+| `css/density.md` | Density variants (compact, default, comfortable) and token values |
+| `css/forms.md` | Form layout and input mixin reference (`form-grid`, `input`, `label`, etc.) |
+| `css/icons.md` | SVG sprite system, Tabler icons, custom icons |
+| `css/mixins.md` | Complete mixin reference with examples |
+| `css/tables.md` | Table mixin reference (`table-base`, `table-striped`, etc.) |
+| `css/theming.md` | Dark mode, theme tokens, color-scheme |
+| `css/tokens.md` | Token values (colors, spacing, radii, shadows) from `_tokens.scss` and `_density.scss` |
+| `css/visual-rules.md` | ln-ashlar specific visual rules (§1-§8 implementation) |
+| `components/chip.md` | Removable filter token / selected value (chip mixin + SCSS source) |
+| `components/data-table.md` | Data table implementation — `ln-table` JS component, store, coordinator wiring |
+| `components/empty-state.md` | Empty state implementation — markup, mixin, and zero-data handling |
+| `components/form.md` | Form component implementation — `ln-form`, `data-ln-form`, `toFormPayload()` |
+| `components/loading-state.md` | Loading state implementation — skeleton, spinner, and state toggling |
+| `components/modal.md` | Modal implementation — `data-ln-modal`, trigger/close attributes, events, fill |
 | `components/page-header.md` | Standard page title + breadcrumbs + actions |
+| `components/popover.md` | Popover / contextual overlay |
 | `components/prose.md` | Scoped long-form content typography wrapper |
-| `components/toggle-switch.md` | iOS-style immediate on/off toggle (styled checkbox) |
-| `js/component-template.md` | Full IIFE boilerplate for new components (includes naming conventions for `data-ln-*`, events, `window.ln*`) |
-| `js/ln-core-api.md` | fill, renderList, cloneTemplate, reactive, batcher API |
+| `components/search.md` | Search implementation — `ln-search`, `data-ln-search`, client-side filtering |
+| `components/stat-card.md` | KPI stat card pattern |
+| `components/status-badge.md` | Inline semantic status indicator — colored dot + label, filterable |
+| `components/stepper.md` | Linear wizard progress indicator |
+| `components/tabs.md` | Tabs implementation — `ln-tabs`, `data-ln-tabs`, active-tab state |
+| `components/timeline.md` | Chronological event list (audit log, activity feed) |
+| `components/toggles-and-pills.md` | Pill toggles, radio-pill groups, and switch controls (styled form elements) |
+| `components/tooltip.md` | Tooltip (hover/focus hint) |
+| `js/component-template.md` | Full IIFE boilerplate for new components (naming conventions for `data-ln-*`, events, `window.ln*`) |
+| `js/ln-core-api.md` | `fill`, `renderList`, `cloneTemplate`, `reactive`, `batcher`, `dispatch` API reference |
 | `patterns/edit-modal-prefill.md` | Shared create/edit modal — declarative `data-ln-fill-*` trigger prefill (no coordinator), `toFormPayload()` backend contract |
 
 ## Quick Reference
@@ -107,8 +119,8 @@ npm run dev      # Watch mode
 import { dispatch, fill, renderList, cloneTemplate } from '../ln-core';
 import { deepReactive, createBatcher } from '../ln-core';
 
-// Event communication
-dispatch(element, 'ln-modal:open', { id: modalId });
+// Open a modal programmatically (attribute is the single source of truth)
+document.getElementById('my-modal').setAttribute('data-ln-modal', 'open');
 
 // Declarative DOM binding
 fill(el, { name: user.name, email: user.email });

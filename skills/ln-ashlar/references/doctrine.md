@@ -1,6 +1,6 @@
 # ln-ashlar Doctrine
 
-> **Read this first, every time you write SCSS or HTML for an ln-ashlar consumer.**
+> **Read this first, every time you write SCSS, HTML, or JS for an ln-ashlar consumer.**
 > Rules are ordered by how much damage breaking them does, not by topic.
 
 ---
@@ -150,7 +150,7 @@ Whenever two or more elements of the same type sit side by side, they are a list
 </ul>
 
 <!-- Error messages under an input -->
-<ul data-ln-errors>
+<ul data-ln-validate-errors>
     <li>Email must be valid</li>
 </ul>
 
@@ -189,13 +189,13 @@ Every form input that can produce a validation error has an empty error list dir
 <label>
     Email
     <input type="email" name="email" required>
-    <ul data-ln-errors></ul>
+    <ul data-ln-validate-errors></ul>
 </label>
 
 <label>
     Password
     <input type="password" name="password" required minlength="8">
-    <ul data-ln-errors></ul>
+    <ul data-ln-validate-errors></ul>
 </label>
 ```
 
@@ -204,7 +204,7 @@ CSS reserves space (via `min-height` or a single-line ghost) so the layout does 
 **Only one error is shown at a time, even when validation produces several.** The user fixes one problem at a time; the layout does not grow vertically to display three simultaneous errors. Show the highest-priority error and hide the rest until the first is resolved.
 
 ```scss
-[data-ln-errors] li:not(:first-child) { display: none; }
+[data-ln-validate-errors] li:not(:first-child) { display: none; }
 ```
 
 **Why:** stable layout is a usability requirement, not a polish detail. Inputs that grow and shrink as the user types create motion sickness. Reserving space and capping visible errors keeps the form predictable. One error at a time matches how users actually fix forms — sequentially, not in parallel.
@@ -243,6 +243,41 @@ Both `ln-filter` (filtering DOM elements) and `ln-data-table` (filtering data-dr
 - **Never "all values checked"** — that state is represented by "All" checked and all values unchecked.
 
 **Why:** A unified filter philosophy ensures a predictable and consistent user experience throughout the entire ecosystem. Users don't have to relearn how column-level filters work compared to list filters. It also reduces logic complexity by eliminating the "all values checked = clear filter" state, aligning both components' event payloads on `values: []` for clear/unfiltered.
+
+### S6 — Domain truth lives at the source
+
+Filter options and `<select>` options come from the **domain owner** — a backend enum, a lookup table — rendered into markup at authoring or SSR time. Never derive them from the visible dataset at runtime (`[...new Set(rows.map(r => r.category))]`).
+
+```html
+<!-- RIGHT — options authored from the backend enum; "Legal" is valid even with zero current employees -->
+<select name="department">
+    <option value="engineering">Engineering</option>
+    <option value="legal">Legal</option>
+    <option value="marketing">Marketing</option>
+</select>
+
+<!-- WRONG — options generated from visible rows only -->
+<!-- JS: [...new Set(rows.map(r => r.department))] — disappears under pagination -->
+```
+
+**Why:** "what is possible" ≠ "what currently exists in the visible window." Dataset derivation breaks under pagination (only page-1 values visible), creates filter circularity (filtering changes which options appear), and hides valid domain states.
+
+### S7 — Raw vs formatted: sorting and filtering never read displayed text
+
+`data-ln-value` on cells and `data-ln-filter-value` on filter checkboxes carry **machine values**. `td.textContent` is presentation only. Sorting and filtering read the raw attribute; they never parse the displayed string.
+
+```html
+<!-- Salary cell — sorts by 120000, displays "$120,000" -->
+<td data-ln-value="120000">$120,000</td>
+
+<!-- Status cell — filters on "active", badge shows "● Active" -->
+<td data-ln-value="active"><span class="badge">Active</span></td>
+
+<!-- Filter checkbox — matches against machine value, not badge text -->
+<li><label><input type="checkbox" data-ln-filter-key="status" data-ln-filter-value="active"> Active</label></li>
+```
+
+**Why:** formatted numbers (`"$1,234.56"`), dates (`"Apr 12, 2026"`), and status badge strings are not correctly sortable or matchable as text. The raw value is the truth. This is the `ln-core.readValue` contract.
 
 ---
 
@@ -361,6 +396,31 @@ Real failures from past sessions, each a 2-second grep away:
 - Claimed `ln-form:success` / `ln-form:error` existed — only `ln-form:submit` does.
 - Suggested `document.querySelectorAll` for runtime fan-out — direct violation of "no post-init DOM scans."
 
+### A5 — CSS/JS hook boundary
+
+`data-ln-*` attributes are JS behavior wiring. They are **never** used as CSS styling selectors for cross-component or consumer decoration.
+
+Three tiers:
+
+1. **Decorating via a hook's bare presence is forbidden.** `[data-ln-modal] { padding: ... }` — the attribute is a JS init target, not a styling hook.
+2. **A component styling its OWN `data-ln-x="state"` in its OWN co-located SCSS is sanctioned** — this is the dominant library pattern. The component owns both sides of the contract. Examples: `[data-ln-modal="open"] { display: flex }`, `[data-ln-filter-hide="true"] { display: none }`. These are attribute-**value** selectors; the component authored the state.
+3. **Consumer / cross-component CSS reaching through a foreign `data-ln-*` hook is forbidden.** Use a `.ln-*` state class (JS toggles, SCSS styles) or a plain app-owned `data-*` instead.
+
+```scss
+/* WRONG — consumer styling a JS init hook */
+[data-ln-modal] { padding: 2rem; }
+
+/* RIGHT — component styling its own state value in co-located SCSS */
+[data-ln-modal="open"] { display: flex; }
+
+/* RIGHT — JS toggles a state class; SCSS owns the visual output */
+.ln-filter-active { /* accent dot + color */ }
+```
+
+Practical test: *who owns this state, and where does the rule live?* Component's own state → `data-ln-x="value"` styled in co-located SCSS. App / coordinator state → app-owned `data-*` or `.ln-*` class, styled in app SCSS.
+
+**Why:** `data-ln-*` hooks are implementation details of the component. Styling them externally creates fragile coupling between consumer CSS and library internals — any refactor of an internal attribute breaks consumer styles silently.
+
 ---
 
 ## B. Button & modal rules
@@ -458,6 +518,32 @@ Two distinct grouping patterns. Don't confuse them.
 ```
 
 For pill-group, use `@include pill-outline` on the parent if you want bordered + visible inputs instead of filled-default.
+
+### B6 — Declarative wiring over coordinators for click-triggered CRUD
+
+The dominant click-triggered fill pattern is **declared in attributes on the trigger** — no coordinator JS:
+
+```html
+<!-- AFTER — zero coordinator JS. Row template stamps per-row values. -->
+<button data-ln-table-row-action="edit"
+        data-ln-modal-for="pkg-modal"
+        data-ln-modal-name="{{ name }}"
+        data-ln-fill-form="pkg-form"
+        data-ln-fill-id="{{ id }}"
+        data-ln-fill-name="{{ name }}">Edit</button>
+```
+
+- `data-ln-modal-for` — opens the modal
+- `data-ln-fill-form` + `data-ln-fill-*` — fills the form fields
+- `data-ln-modal-name` / `data-ln-modal-*` — sets the modal title per row
+
+The record rides in the DOM — inspectable in DevTools, teleport-safe, nothing to keep in sync. A field whose `name` is the backend column (`max_users`) carries `data-ln-fill-as="maxUsers"` to decouple the fill key from the wire name.
+
+**Rule:** click-triggered → declarative; programmatic (store conflict, import, deep-link) → coordinator via `window.lnCore.lnFill(el, record)`.
+
+See `js/ln-fill/README.md` and `patterns/edit-modal-prefill.md` for the full pattern.
+
+**Why:** declared behavior has nothing to maintain, is inspectable, and is teleport-safe. A coordinator for the common case is code you read, test, and keep in sync — deleting it is the feature done right.
 
 ---
 
@@ -669,6 +755,25 @@ Cover all layers touched. Wait for confirmation before executing. Doesn't apply 
 
 Auto mode biases toward "action over planning." That bias makes skip-grep MORE likely, not less. The rule is strictest in auto mode — discovery is part of the action, not a separate planning step.
 
+### F4 — Developer misuse surfaces as a CSS affordance, not a console warning
+
+When a component's required attribute is missing or misused, the signal is a dev-only CSS `::after` affordance on the broken element — not `console.warn`, not a thrown exception.
+
+```scss
+/* In component stylesheet — dev-only affordance */
+[data-ln-filter]:not([data-ln-filter=""]):not([id]) {
+    &::after {
+        content: "⚠ data-ln-filter target id missing";
+        color: red;
+        display: block;
+    }
+}
+```
+
+No `console.warn`. No thrown error. The developer sees the warning directly on the element in the page.
+
+**Why:** console warnings disappear unnoticed; a red `::after` label on the broken element is impossible to miss during development, requires zero JS, and costs nothing in production when the pattern is used correctly.
+
 ---
 
 ## Quick "before writing code" checklist
@@ -685,6 +790,11 @@ Before pasting an SCSS or HTML proposal in chat, verify:
 - [ ] For variants: does it rebind surface tokens, or duplicate base properties?
 - [ ] For themes: vocabulary rebind at `:root`, or descendant override?
 - [ ] For substantial work: did I explain the approach before writing code?
+- [ ] For filter/select options: are they authored from the domain source, not derived from the dataset?
+- [ ] For table data: are sort/filter values in `data-ln-value` / `data-ln-filter-value`, not read from `textContent`?
+- [ ] For click-triggered fills: is the flow declared in trigger attributes, not coordinator JS?
+- [ ] For misuse signals: CSS `::after` affordance, not `console.warn`?
+- [ ] For `data-ln-*` in CSS: only styling own `data-ln-x="value"` in co-located SCSS?
 
 If any box is unchecked, stop and either fix or ask.
 

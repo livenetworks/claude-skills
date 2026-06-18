@@ -12,6 +12,8 @@ ln-ashlar consumers are SSR-first: the server returns ready markup with real dat
 .my-spinner { @include loader; }
 ```
 
+The default CSS binding is the `.loader` class (`scss/components/_loader.scss`). No JS — pure CSS spinner.
+
 ## Button Loading
 
 Coordinator toggles `aria-busy="true"` and `disabled` on submit button during request.

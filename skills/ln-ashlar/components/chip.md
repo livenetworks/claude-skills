@@ -20,36 +20,39 @@ Use chip when a selection or filter value needs to be displayed AND removed by t
 
 ## HTML pattern
 
+The binding is the CSS class `.ln-chip` — not a data attribute.
+Tone variants are modifier classes on the same element.
+
 ```html
 <!-- Plain chip (passive label) -->
-<span data-ln-chip>Draft</span>
+<span class="ln-chip">Draft</span>
 
 <!-- Dismissible chip (active filter token) -->
-<span data-ln-chip>
+<span class="ln-chip">
 	Quality Manual
 	<button type="button" aria-label="Remove Quality Manual filter">
 		<svg class="ln-icon" aria-hidden="true"><use href="#ln-x"></use></svg>
 	</button>
 </span>
 
-<!-- Tone variants -->
-<span data-ln-chip="success">Approved</span>
-<span data-ln-chip="warning">Pending</span>
-<span data-ln-chip="error">Rejected</span>
-<span data-ln-chip="info">Draft</span>
+<!-- Tone variants — modifier class, not attribute value -->
+<span class="ln-chip success">Approved</span>
+<span class="ln-chip warning">Pending</span>
+<span class="ln-chip error">Rejected</span>
+<span class="ln-chip info">Draft</span>
 ```
 
 ---
 
 ## Tone variants
 
-| Attribute value | Background | Text |
+| Class | Background | Text |
 |---|---|---|
-| (none) | `--color-neutral-100` | Primary text |
-| `success` | Success 12% tint | Success token |
-| `warning` | Warning 12% tint | Warning token |
-| `error` | Error 12% tint | Error token |
-| `info` | Info 12% tint | Info token |
+| (none) | `--bg-recessed` (neutral) | `--color-fg` |
+| `.ln-chip.success` | `hsl(var(--color-success) / 0.12)` | `hsl(var(--color-success))` |
+| `.ln-chip.warning` | `hsl(var(--color-warning) / 0.12)` | `hsl(var(--color-warning))` |
+| `.ln-chip.error` | `hsl(var(--color-error) / 0.12)` | `hsl(var(--color-error))` |
+| `.ln-chip.info` | `hsl(var(--color-info) / 0.12)` | `hsl(var(--color-info))` |
 
 ---
 
@@ -62,7 +65,7 @@ The close `<button>` inside a chip uses `all: unset` to strip browser defaults. 
 ## Project usage
 
 ```scss
-// Default selector is applied automatically via data attribute.
+// Default .ln-chip selector is applied automatically by scss/components/_chip.scss.
 // For a custom selector:
 .document-tag { @include chip; }
 ```

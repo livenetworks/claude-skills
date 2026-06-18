@@ -20,6 +20,7 @@
 - Submit: `preventDefault`, emits `ln-form:submit` with serialized data
 - Auto-submit: `data-ln-form-auto` — submits on any input change
 - Debounce: `data-ln-form-debounce="300"`
+- Typed serialization: `data-ln-form-typed` — opt-in coercion: numbers stay numeric, `"true"`/`"false"` → boolean, empty → `null` in the `ln-form:submit` payload
 
 ## Validation Rules → HTML Attributes
 

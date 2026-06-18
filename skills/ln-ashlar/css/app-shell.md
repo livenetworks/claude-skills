@@ -32,12 +32,15 @@ In production: semantic selectors + `@include`.
 
 ## Intrinsic tokens
 
-- `--app-header-height` (3.5rem)
-- `--app-sidebar-width` (16rem) — also the desktop content shift
-- `--app-scrim-bg`
+| Token | Dense base (`:root`) | comfortable | spacious |
+|---|---|---|---|
+| `--app-header-height` | `3.25rem` (52px) | `3.5rem` (56px) | `4rem` (64px) |
+| `--app-sidebar-width` | `14.5rem` (232px) | `16rem` (256px) | `17.5rem` (280px) |
+| `--app-scrim-bg` | `hsl(var(--color-neutral-900) / 0.4)` | — | — |
 
-These are component geometry, not spacing rhythm. They do NOT react
-to `.density-compact`.
+These ARE density-reactive — `[data-density="comfortable|spacious"]` overrides them
+in `_density.scss`. They are not spacing-rhythm tokens (do not read `--size-*`), but
+they do scale with density tiers.
 
 ## Key behaviors
 
@@ -61,8 +64,10 @@ to `.density-compact`.
 - Do NOT put `margin-left: var(--app-sidebar-width)` on the content
   or footer directly — overflows at viewport width. Let
   `app-main`'s parent-padding trick handle the shift.
-- Do NOT shrink `--app-header-height` / `--app-sidebar-width` under
-  `.density-compact` — intrinsic geometry, not rhythm.
+- Do NOT manually re-override `--app-header-height` / `--app-sidebar-width`
+  outside of a density scope — they are already density-reactive via
+  `[data-density]`. Only override them for project-specific geometry
+  deviations, never to "undo" density behavior.
 - Do NOT use `@mixin avatar` in the header bar — it has a ring +
   hover that compete with the header's chrome. Use
   `@mixin header-avatar`.

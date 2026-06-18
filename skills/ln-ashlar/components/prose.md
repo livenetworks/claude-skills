@@ -7,7 +7,7 @@
 
 ## Decision: when to use prose
 
-`[data-ln-prose]` (or `@include prose`) is the scoped wrapper for arbitrary long-form HTML — TipTap output, Markdown renders, help articles, document body content. It applies typography rhythm using child selectors (`> * + * { margin-top: 1em }`).
+`.prose` (or `@include prose`) is the scoped wrapper for arbitrary long-form HTML — TipTap output, Markdown renders, help articles, document body content. It applies typography rhythm using child selectors (`> * + * { margin-top: 1em }`).
 
 **Do NOT apply globally.** Scoping it to a specific content block prevents the heading/list styles from leaking into form UIs or navigation elements.
 
@@ -43,8 +43,10 @@
 
 ## HTML pattern
 
+The binding is the CSS class `.prose` — not a data attribute.
+
 ```html
-<article data-ln-prose>
+<article class="prose">
 	<h2>Introduction</h2>
 	<p>Lorem ipsum dolor sit amet...</p>
 	<ul>
@@ -61,7 +63,7 @@
 ## Project usage
 
 ```scss
-// Default selector via attribute — no extra CSS needed.
+// Default .prose selector is applied automatically by scss/components/_prose.scss.
 // For custom selectors:
 #document-viewer { @include prose; }
 #help-article    { @include prose; }

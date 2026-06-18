@@ -43,10 +43,8 @@ Pair with a Tabler outline icon (`ln-icon`) at `1rem` size. Icon is `aria-hidden
 ## Internals
 
 The mixin (`@include stat-card`) provides:
-- `flex-col`, `gap(0.25rem)`, `p(var(--density-pad-lg))` — density-aware padding
+- `flex-col`, `gap: var(--size-xs)`, `padding: var(--size-lg)` on both axes
 - `bg-primary` surface, `rounded-lg`, `shadow-sm`, `border`
-
-Padding uses `--density-pad-lg` so the card automatically adapts to the `.density-compact` class.
 
 ## Grid layout
 
@@ -59,10 +57,10 @@ Stat cards are displayed in a grid. Use `@include container` for the wrapper:
 	grid-template-columns: 1fr;
 	@include gap(1rem);
 
-	@container kpigrid (min-width: 480px) {
+	@container kpigrid (min-width: $cq-compact) {
 		grid-template-columns: repeat(2, 1fr);
 	}
-	@container kpigrid (min-width: 880px) {
+	@container kpigrid (min-width: $cq-medium) {
 		grid-template-columns: repeat(4, 1fr);
 	}
 }
