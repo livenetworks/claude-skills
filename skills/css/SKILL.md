@@ -93,6 +93,43 @@ Why: Classic BEM (`.card__header`, `.table__row`) pollutes HTML with redundant n
 
 **No visual classes in HTML.** The only classes allowed in HTML are structural (`.form-element`, `.form-actions`) and behavioral (data-attribute-driven JS components, icon classes).
 
+### State & status classes — name by domain, not presentation
+
+A component class names WHAT the element is — `.badge`, `.card` — and that is fine. But a **state/variant** class must name the DOMAIN meaning, never the presentation. `success`/`error` describe a tone (HOW it looks); `active`/`suspended`/`obsolete` describe the real status (WHAT it is). HTML states the domain truth; SCSS maps it to a tone.
+
+```scss
+// RIGHT — HTML carries the real status; the status→tone map lives in SCSS (one place)
+// <span class="badge active">    <button class="badge suspended">
+.badge {
+	&.active,
+	&.published   { @include semantic-color(success); }
+	&.trial       { @include semantic-color(info); }
+	&.suspended   { @include semantic-color(error); }
+	&.draft,
+	&.archived    { --color-primary: var(--color-neutral-400); }
+}
+
+// WRONG — HTML carries the tone; the domain meaning is gone
+// <span class="badge success">   <button class="badge error">
+```
+
+Why: a tone is a styling decision — it belongs in SCSS, not markup. The status may map to a different tone tomorrow; only the SCSS line changes, the HTML stays true. This is §3 ("names reflect purpose, never color") applied to classes.
+
+### One component, one definition
+
+A reusable component is defined ONCE — its mixin applied to a single shared selector (the component class). Markup then just uses that class. Never re-apply the same recipe (`@include badge`) across several bespoke selectors: that is N parallel definitions of one thing, and they drift apart.
+
+```scss
+// WRONG — same component, three definitions that will diverge
+.filter-chips li button    { @include badge; }
+#tenants-table .status li   { @include badge; }
+.pkg-status li              { @include badge; }
+
+// RIGHT — defined once (the shared .badge class); markup uses class="badge {status}" everywhere
+```
+
+**The mindset:** don't repeat a definition unless the two things are genuinely SEMANTICALLY DISTINCT. Same component → one definition, reused. Different components → separate definitions. Duplication is only earned by crossing a real semantic boundary.
+
 ---
 
 ## 5. Two-Layer CSS Architecture
@@ -474,6 +511,8 @@ Verify the architectural layer:
 - Visual styling in co-located JS SCSS (`js/ln-*/`) — belongs in mixin + component
 - Project-specific CSS (ID-scoped) in library files — belongs in project SCSS
 - Creating new component features that duplicate existing components
+- Re-applying one component's recipe across bespoke selectors (`@include badge` ×N) — define once, consume the shared component class everywhere
+- Presentational/tone class in HTML for a state (`.success`/`.error` on a status) — name by domain status (`.active`/`.suspended`) and map status→tone in SCSS
 - Fighting specificity with hacks instead of fixing the HTML structure
 
 ### Motion
