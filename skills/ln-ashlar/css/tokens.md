@@ -10,15 +10,17 @@ For theming overrides → `css/theming.md`. For density tier values → `css/den
 ```
 Scale       →  --size-*, --color-neutral-*, --shadow-sm/md/xl
                back-end plumbing; NEVER read inside mixin bodies
-Vocabulary  →  --bg-base, --fg-default, --border-subtle, --shadow-resting
-               named value choices; themes rebind these
+Vocabulary  →  --bg-base, --fg-default, --border-subtle, --shadow-resting,
+               --text-{role}, --lh-{role}
+               named value choices; density + themes rebind these
 Primitives  →  --color-bg, --color-fg, --color-border, --shadow,
-               --padding-x, --padding-y, --gap, --radius
+               --padding-x, --padding-y, --gap, --radius,
+               --font-size, --line-height
                what mixin bodies read
 ```
 
 Mixin bodies read **primitives**. Components rebind primitives on their own scope
-to select a vocabulary value. Themes rebind vocabulary at theme `:root`.
+to select a vocabulary value. Themes + density rebind vocabulary at their scope root.
 
 ---
 
@@ -170,9 +172,15 @@ Color-aware (token values, not mixins — apply via `box-shadow: var(--shadow-pr
 
 ---
 
-## Typography — role tokens
+## Typography — role tokens (VOCABULARY)
 
-Paired `--text-*` / `--lh-*`. Use via `@include typography($role)`.
+Paired `--text-*` / `--lh-*`. These are VOCABULARY — density + themes rebind them.
+Mixins must NOT read these tokens directly. Instead use `@include typography($role)`,
+which rebinds the `--font-size`/`--line-height` PRIMITIVES at the consuming element's
+scope (mirror of how `@mixin card` rebinds `--color-bg`). The only valid direct read
+is the `:root` wiring: `--font-size: var(--text-body-md)`.
+
+Direct read in a mixin `font-size: var(--text-label-sm)` is WRONG — frozen under density.
 
 | Role | Size | Line-height |
 |---|---|---|
