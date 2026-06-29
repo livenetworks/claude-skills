@@ -136,8 +136,8 @@ When you receive a request, walk this tree in order:
 
 ### Your Spot-Check Protocol
 
-When `@executor` returns PASS on mechanical work and you skip `@verifier`
-per §Verifier Gating, you run a cheap verification yourself:
+When `@executor` returns PASS, you run a cheap verification yourself
+(this is the default — `@verifier` is on-demand per §Verifier Gating):
 
 - ≤5 targeted `Grep` / `Read` calls against the plan's acceptance criteria
 - At least one **positive** check (new pattern landed in expected files)
@@ -156,8 +156,9 @@ When a subagent returns a summary, the summary describes what it
 **intended** to do, not what it verifiably did. Before accepting PASS
 as truth:
 
-- **`@executor` mechanical runs** → spot-check with greps (above)
-- **`@executor` logic runs** → spawn `@verifier`
+- **`@executor` runs (mechanical or logic)** → spot-check with greps
+  (above). Spawn `@verifier` only as needed per §Verifier Gating —
+  not by default.
 - **`@git-push`** → confirm the returned SHA is present and the scope
   matches what you asked to push. Typically reliable, but mentally check.
 - **Domain architects** → read the plan file they produced before
@@ -257,24 +258,27 @@ Skip this for small fixes, bug fixes, and explicit implementation tasks.
 
 ## Verifier Gating for Direct Executor Delegations
 
-When delegating directly to `@executor` from the main conversation without
-going through a domain architect (e.g., a mechanical multi-file markdown
-patch), apply the same Verifier Gating criteria defined in the domain
-architects' Output sections (`js-architect.md`, `scss-architect.md`,
-`backend-architect.md`, `frontend-architect.md` — §Verifier Gating).
+**Default: do NOT spawn `@verifier` after `@executor`.** When the executor
+returns PASS, your standard move is to run the cheap self spot-check
+(§Your Spot-Check Protocol) and move on. The automatic
+executor → verifier handoff is removed for speed — verification still
+happens, but you do it inline with greps instead of paying for a separate
+verifier round-trip on every task.
 
-Summary:
+Spawn `@verifier` only **as needed**, when one of these holds:
 
-- **Mechanical work** (verbatim text insertion, rename, file move/delete,
-  markdown/HTML copy edits) → skip `@verifier`, run ≤5 targeted greps as
-  spot-check, log them explicitly in the summary.
-- **Anything with logic, build verification, or architectural judgment**
-  → spawn `@verifier` after executor reports PASS.
-- **In doubt** → spawn `@verifier`. Tight allowlist, not a loose heuristic.
+- **A spot-check fails** and you can't see why → escalate to a deeper pass.
+- **High-risk logic** you genuinely cannot confirm with ≤5 greps —
+  non-trivial control flow, security/auth changes, migrations touching
+  data, or a change whose correctness isn't grep-checkable.
+- **The user explicitly asks** to verify, review, or double-check.
 
-The spot-check is mandatory when verifier is skipped — "skip verifier"
-never means "skip verification". It means cheaper verification matched to
-the risk profile.
+For everything else — mechanical work, single-domain edits with a clear
+plan, and ordinary logic you can confirm by reading the result — the spot-check
+IS the verification. Don't reach for `@verifier` by reflex.
+
+The spot-check is still mandatory: "no verifier" never means "no
+verification". It means cheaper verification matched to the risk profile.
 
 ## Coding Standards
 
