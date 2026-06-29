@@ -46,7 +46,8 @@ Everything reading these logical / role tokens reacts via the cascade:
 
 - `--padding-y`, `--gap` — base rhythm
 - `--text-body-md/sm`, `--lh-body-md/sm` — body text
-- `--text-label-md/sm`, `--lh-label-md/sm`
+- `--text-label-md/sm`, `--lh-label-md/sm` (label-sm and caption added to comfortable + spacious up-tiers; dense base inherits `:root`)
+- `--text-caption`, `--lh-caption` (comfortable + spacious up-tiers only)
 - `--text-title-md/sm`, `--lh-title-md/sm`
 - `--text-heading-sm/md/lg`, `--lh-heading-sm/md/lg`
 - `--text-display-sm`, `--lh-display-sm`
@@ -102,6 +103,9 @@ without conflict:
 ## Adding a new component to density
 
 1. Replace hardcoded padding/gap rem values with `var(--padding-y)` / `var(--gap)`.
-2. Replace raw size mixins with `font-size: var(--font-size); line-height: var(--line-height);`
-   for content text.
+2. For role typography in a mixin, use `@include typography(role)` — this rebinds
+   `--font-size`/`--line-height` at the consuming element's scope so the lazy var()
+   resolves under the active density tier. The direct `font-size: var(--text-body-md)`
+   form is discouraged (vocabulary direct-read, may be frozen for roles not rebound in
+   all density tiers). For bare non-mixin text, `font-size: var(--font-size)` is fine.
 3. Leave structural chrome (avatar px, toggle geometry, modal max-width) hardcoded.

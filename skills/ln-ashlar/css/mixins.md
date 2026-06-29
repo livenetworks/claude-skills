@@ -36,18 +36,25 @@
 
 `text-xs`, `text-sm`, `text-base`, `text-lg`, `text-xl`, `text-2xl`, `font-normal`, `font-medium`, `font-semibold`, `font-bold`, `text-left`, `text-center`, `text-right`, `uppercase`, `lowercase`, `capitalize`, `normal-case`, `truncate`, `whitespace-nowrap`, `font-mono`, `font-sans`, `tracking-tight`, `tracking-normal`, `tracking-wide`, `tracking-wider`
 
-### `typography($role)` — semantic role mixin (v1.1)
+### `typography($role)` — semantic role mixin (v1.1) — canonical primitive rebind
 
-Sets `font-size` + `line-height` from paired `--text-*` / `--lh-*` tokens.
+**Doctrine:** This is the ONLY way mixins set `font-size`/`line-height`. It rebinds
+the `--font-size`/`--line-height` PRIMITIVES at the consuming element's scope, then reads
+them — mirror of how `@mixin card` rebinds `--color-bg`. The `--text-{role}`/`--lh-{role}`
+tokens are VOCABULARY (density + themes rebind them); mixins never read them directly.
 
 Valid roles: `display-lg`, `display-md`, `display-sm`, `heading-lg`, `heading-md`, `heading-sm`, `title-md`, `title-sm`, `body-lg`, `body-md`, `body-sm`, `label-md`, `label-sm`, `caption`.
 
 ```scss
+// RIGHT — rebinds --font-size/--line-height at the element's scope
 h1 { @include typography(heading-lg); }
 .caption { @include typography(caption); }
+
+// WRONG — reads vocabulary directly (frozen if density does not rebind that role)
+.caption { font-size: var(--text-caption); }
 ```
 
-Prefer `typography($role)` over raw `text-*` mixins for component internals. The raw size mixins (`text-sm`, etc.) remain valid for one-off adjustments.
+Prefer `typography($role)` over raw `text-*` mixins for all role-based typography in mixins. The raw size mixins (`text-sm`, etc.) remain valid for one-off adjustments outside density-reactive contexts.
 
 ## Colors
 
