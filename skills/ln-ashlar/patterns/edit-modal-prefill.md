@@ -109,19 +109,24 @@ Standalone checkboxes submit nothing when unchecked. The hidden input guarantees
 ## Submit: create vs update
 
 - **SPA / store layer (default):** `ln-form:submit` → `ln-store:request-create | request-update`; create-vs-update is decided by the filled hidden `id` (empty → create). No coordinator for fill *or* routing.
-- **Laravel REST:** the per-record update URL + verb are not form fields, so a *thin* coordinator remains — fill stays declarative; this only sets `form.action` + `_method`:
+- **Laravel REST (ln-form fold):** add `data-ln-form-action-edit` to the form. On edit, `ln-form` rewrites `form.action` to `/{resource}/{id}` and auto-ensures `<input name="_method">` with `PUT` (or the value of `data-ln-form-action-method`). No coordinator JS, no second click listener.
 
-```js
-// Laravel REST only. Fill is declarative; this sets action/method per record.
-document.addEventListener('click', function (e) {
-	const t = e.target.closest('[data-ln-fill-form][data-action]');
-	if (!t) return;
-	const form = document.getElementById(t.dataset.lnFillForm);
-	if (!form) return;
-	form.action = t.dataset.action;
-	form.querySelector('[name="_method"]').value = t.dataset.method || 'POST';
-});
-```
+  ```html
+  <!-- Minimal: baseAction + '/' + id -->
+  <form data-ln-form action="/packages" data-ln-form-action-edit>
+
+  <!-- Custom template with :id placeholder -->
+  <form data-ln-form action="/packages" data-ln-form-action-edit="/packages/:id">
+
+  <!-- Custom verb -->
+  <form data-ln-form action="/packages"
+        data-ln-form-action-edit="/packages/:id"
+        data-ln-form-action-method="PATCH">
+  ```
+
+  The `<input name="_method">` is auto-ensured — do not author it. Fill stays
+  fully declarative; the form's action/verb is the only coordinator concern, and
+  `ln-form` handles it from the fill record.
 
 Create-only fields (those absent from `toFormPayload()`) hide on edit via CSS keyed on the mode — `[data-ln-modal-mode="edit"] [data-create-only] { display: none }` — and are `disabled` in the same small loop when they must be excluded from submit.
 
