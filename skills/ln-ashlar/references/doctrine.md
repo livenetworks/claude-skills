@@ -721,7 +721,7 @@ The fallback pattern makes theme overrides transparent. Don't introduce per-comp
 
 ### E3 — Solid vs translucent accent surfaces have separate fg tokens
 
-- **Solid:** `--color-accent` + `--color-accent-fg` — used by toast-side, pill checked, stepper active, btn under default theme. fg = white.
+- **Solid:** `--color-accent` + `--color-accent-fg` — used by toast-icon, pill checked, stepper active, btn under default theme. fg = white.
 - **Translucent:** `--color-accent-bg` + `--color-accent-bg-fg` — used by btn under themes that opt in. fg flips to match accent for legibility.
 
 Themes that introduce the translucent variant rebind `-bg-*` companions ONLY. Don't conflate them — setting `--color-accent-fg: var(--color-primary)` at theme `:root` collapses toast/pill/stepper text to invisible primary-on-primary.

@@ -178,13 +178,12 @@ The table listens to `ln-filter:changed` (bubbled from the filter panel). `ln-se
 | `ln-store:loaded` | Store → Coordinator | First server load complete |
 | `ln-store:synced` | Store → Coordinator | Background delta sync complete |
 | `ln-store:created` | Store → Coordinator | Optimistic create applied |
-| `ln-store:updated` | Store → Coordinator | Optimistic update applied |
-| `ln-store:deleted` | Store → Coordinator | Optimistic delete applied |
-| `ln-store:confirmed` | Store → Coordinator | Server confirmed mutation |
-| `ln-store:reverted` | Store → Coordinator | Server rejected mutation; local state rolled back |
-| `ln-store:request-create` | Coordinator → Store | Request optimistic create |
+| `ln-store:updated` | Store → Coordinator | Optimistic update applied (also fires on server-confirm id-swap and server-wins conflict reconciliation — there is no separate "confirmed" event) |
+| `ln-store:deleted` | Store → Coordinator | Optimistic delete applied (also fires on create-reject cleanup) |
+| `ln-store:request-create` | Coordinator → Store | Request optimistic create — dispatched both at form/API intake AND at server-confirm reconciliation (id-swap via `ln-store:request-update`) |
 | `ln-store:request-update` | Coordinator → Store | Request optimistic update |
 | `ln-store:request-delete` | Coordinator → Store | Request optimistic delete |
+| `ln-store:request-bulk-delete` | Coordinator → Store | Request optimistic bulk delete |
 | `ln-store:destroyed` | Store → (global) | Instance torn down |
 
 > Sortable/formatted cells carry the raw value in `data-ln-value`.
