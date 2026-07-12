@@ -97,7 +97,7 @@ Design ALL FOUR states for every view. If you only design the OK state, the feat
 
 ### Toast Rules
 
-- Position: top-right (desktop), top-center (mobile)
+- Position: bottom-right (desktop), full-width bottom (mobile)
 - **Success/info:** auto-dismiss
 - **Warning:** auto-dismiss, longer duration
 - **Error:** persists until user dismisses
@@ -315,7 +315,7 @@ Animation is communication — it tells the user what happened and where to look
 - Destructive action without "where do I go after"
 
 ### Forms
-- Submit button enabled when form is invalid — submit is disabled until all fields valid
+- Disabled-until-valid submit button (submit button must remain active, showing inline validation errors on click)
 - Validation only on blur (too late — should be on keyup from first keystroke)
 - Required fields not visible until error
 - Untouched required fields shown as errors on load

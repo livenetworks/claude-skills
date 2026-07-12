@@ -192,7 +192,7 @@ Each component has a detailed spec in `components/`. Read the relevant spec BEFO
 | Component | Spec File | Key Features That Must Be Present |
 |-----------|-----------|----------------------------------|
 | Data Table | `components/data-table.md` | Client-side cache, virtual scroll, sticky header/footer, sort toggle per column, filter dropdown per column, search, row selection, delta sync |
-| Form | `components/form.md` | per-field validation (keyup) + form coordinator, reserved error space, submit disabled until valid, fill for edit mode, auto-submit for search/filter forms |
+| Form | `components/form.md` | per-field validation (keyup) + form coordinator, reserved error space, active submit button (validation on click), fill for edit mode, auto-submit for search/filter forms |
 | Modal | `components/modal.md` | Four sizes (sm/md/lg/xl), `<form>` root, focus trap, ESC close, backdrop does NOT close, no nested modals |
 | Tabs | `components/tabs.md` | URL hash sync (mandatory), multiple groups per page via namespace, badge counts, content in DOM from start (no lazy load) |
 | Search | `components/search.md` | Client-side = instant keyup DOM filtering. Server-side = form auto-submit + AJAX |
@@ -353,7 +353,7 @@ A page is not done until all these are addressed.
 - [ ] Required fields marked (CSS-driven, not manual asterisks)
 - [ ] Related fields grouped (visual sections via grid spans)
 - [ ] ln-validate on inputs, reserved error space below each field
-- [ ] Submit button disabled until form valid, loading state on submit
+- [ ] Submit button active (shows inline errors on click), loading state on submit
 - [ ] Cancel button that navigates back
 - [ ] Sensible defaults pre-filled
 

@@ -49,7 +49,7 @@ A form is a conversation: the system asks questions (labels), the user answers (
 - Keyup validation from first keystroke
 - Reserved error space below every field (no layout shift)
 - Untouched required fields start clean — error only after first interaction
-- Submit disabled until all fields valid
+- Submit button active (validates and intercepts on click, showing inline errors)
 - Submit button shows loading state during request
 - Success = navigate away + toast. Never show success on the form itself.
 - Preserve input on server error — never clear the form
@@ -62,7 +62,7 @@ A form is a conversation: the system asks questions (labels), the user answers (
 - Validate on blur only / on submit only
 - Clear form on error
 - Generic "Form is invalid" instead of per-field errors
-- Submit always enabled with re-validate on click
+- Disabled-until-valid submit button (breaks accessibility and prevents error correction)
 - Modal for complex forms (use page)
 - Layout shift on error
 - Validation rules in JS config instead of HTML attributes
