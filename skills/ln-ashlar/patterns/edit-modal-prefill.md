@@ -108,7 +108,7 @@ Standalone checkboxes submit nothing when unchecked. The hidden input guarantees
 
 ## Submit: create vs update
 
-- **SPA / store layer (default):** `ln-form:submit` → `ln-store:request-create | request-update`; create-vs-update is decided by the filled hidden `id` (empty → create). No coordinator for fill *or* routing.
+- **SPA / store layer (default):** `data-ln-form-scope` → native submit intake by `ln-data-coordinator` → `ln-data-store:request-create | request-update`; create-vs-update is decided by form method (`POST` → create, `PUT` → update) and hidden `id`. No application JS for fill *or* routing.
 - **Laravel REST (ln-form fold):** add `data-ln-form-action-edit` to the form. On edit, `ln-form` rewrites `form.action` to `/{resource}/{id}` and auto-ensures `<input name="_method">` with `PUT` (or the value of `data-ln-form-action-method`). No coordinator JS, no second click listener.
 
   ```html

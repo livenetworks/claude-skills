@@ -135,7 +135,7 @@ document.addEventListener('ln-table:request-data', function (e) {
 });
 
 // Store synced → re-request data (table refreshes automatically)
-document.addEventListener('ln-store:synced', function () {
+document.addEventListener('ln-data-store:synced', function () {
 	const tableEl = document.getElementById('packages-table');
 	if (tableEl && tableEl.lnTable) {
 		tableEl.lnTable._requestData();
@@ -173,18 +173,18 @@ The table listens to `ln-filter:changed` (bubbled from the filter panel). `ln-se
 
 | Event | Direction | Purpose |
 |---|---|---|
-| `ln-store:request-remote-sync` | Store → Coordinator | Needs remote data fetch |
-| `ln-store:ready` | Store → Coordinator | Cache loaded (from IDB or server first load) |
-| `ln-store:loaded` | Store → Coordinator | First server load complete |
-| `ln-store:synced` | Store → Coordinator | Background delta sync complete |
-| `ln-store:created` | Store → Coordinator | Optimistic create applied |
-| `ln-store:updated` | Store → Coordinator | Optimistic update applied (also fires on server-confirm id-swap and server-wins conflict reconciliation — there is no separate "confirmed" event) |
-| `ln-store:deleted` | Store → Coordinator | Optimistic delete applied (also fires on create-reject cleanup) |
-| `ln-store:request-create` | Coordinator → Store | Request optimistic create — dispatched both at form/API intake AND at server-confirm reconciliation (id-swap via `ln-store:request-update`) |
-| `ln-store:request-update` | Coordinator → Store | Request optimistic update |
-| `ln-store:request-delete` | Coordinator → Store | Request optimistic delete |
-| `ln-store:request-bulk-delete` | Coordinator → Store | Request optimistic bulk delete |
-| `ln-store:destroyed` | Store → (global) | Instance torn down |
+| `ln-data-store:request-remote-sync` | Store → Coordinator | Needs remote data fetch |
+| `ln-data-store:ready` | Store → Coordinator | Cache loaded (from IDB or server first load) |
+| `ln-data-store:loaded` | Store → Coordinator | First server load complete |
+| `ln-data-store:synced` | Store → Coordinator | Background delta sync complete |
+| `ln-data-store:created` | Store → Coordinator | Optimistic create applied |
+| `ln-data-store:updated` | Store → Coordinator | Optimistic update applied (also fires on server-confirm id-swap and server-wins conflict reconciliation — there is no separate "confirmed" event) |
+| `ln-data-store:deleted` | Store → Coordinator | Optimistic delete applied (also fires on create-reject cleanup) |
+| `ln-data-store:request-create` | Coordinator → Store | Request optimistic create — dispatched both at form/API intake AND at server-confirm reconciliation (id-swap via `ln-data-store:request-update`) |
+| `ln-data-store:request-update` | Coordinator → Store | Request optimistic update |
+| `ln-data-store:request-delete` | Coordinator → Store | Request optimistic delete |
+| `ln-data-store:request-bulk-delete` | Coordinator → Store | Request optimistic bulk delete |
+| `ln-data-store:destroyed` | Store → (global) | Instance torn down |
 
 > Sortable/formatted cells carry the raw value in `data-ln-value`.
 > See ln-core-api.md → "Codegen rule — formatted/sortable cells".

@@ -60,12 +60,11 @@ Example for a CRUD page (coordinator / store-driven fills):
 ln-table:row-action      →  coordinator  →  modal[data-ln-modal] = "open"
   (edit, record)                            lnFill(modal, record)   // fans out: form + [data-ln-fillable]
 
-ln-form:submit           →  coordinator  →  ln-store:request-update { data }
+data-ln-form-scope       →  coordinator  →  ln-data-store:request-update { id, data }
+(native submit intake)                       ln-api-connector:request-update { url, data, meta }
 
-ln-store:confirmed       →  coordinator  →  modal[data-ln-modal] = "close"
-                                           toast("Saved")
-
-ln-store:reverted        →  coordinator  →  toast("Error: " + error)
+ln-data-store:updated    →  coordinator  →  modal[data-ln-modal] = "close"
+                                            toast("Saved")
 ```
 
 > **Note:** for click-triggered fills from table rows or inline buttons, the declarative `data-ln-fill-form` + `data-ln-fill-*` attributes (and `data-ln-modal-*` for modal display) handle the fill with **no coordinator code** — see `js/ln-fill/README.md`. Use the coordinator above only for programmatic / store-driven fills (e.g. conflict resolution, deep-link pre-fill).

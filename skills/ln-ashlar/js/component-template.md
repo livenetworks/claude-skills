@@ -14,7 +14,7 @@
 | Window API | `window.ln{Component}` | `window.lnModal` |
 | DOM instance | `el.ln{Component}` | `el.lnModal` |
 | Custom event (notification) | `ln-{component}:{action}` | `ln-modal:open` |
-| Custom event (request) | `ln-{component}:request-{action}` | `ln-store:request-create` |
+| Custom event (request) | `ln-{component}:request-{action}` | `ln-data-store:request-create` |
 | Custom event (before, cancelable) | `ln-{component}:before-{action}` | `ln-modal:before-close` |
 | Private function | `_functionName` | `_render`, `_tick` |
 | Dictionary attribute | `data-ln-{component}-dict` | `data-ln-toast-dict` |
