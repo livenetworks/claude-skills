@@ -519,6 +519,7 @@ panel.setAttribute('data-ln-placement', placement);
   `'bottom-start'`, `'bottom-end'`, `'top-start'`, `'top-end'`, etc.
 - Returns `{ top, left, placement }`. `placement` is the winning side (flip may change it).
 - Fallback chain: preferred → opposite → perpendicular pair → clamps to viewport edge.
+- Setting `top`/`left` inline on the floating element (as above) is the sanctioned **runtime-geometry exception** — coordinates are computed each frame, so no static class can hold them. The positioning *context* (`position: fixed`, `z-index`) still lives in the component's SCSS.
 
 ### `teleportToBody(el)`
 
@@ -530,7 +531,7 @@ const restore = teleportToBody(panel);
 restore();
 ```
 
-- Does NOT set inline styles — the component's SCSS (`position: fixed`) is responsible.
+- Does not set positioning styles — `position: fixed` / `z-index` stay in the component's SCSS. (Only the computed `top`/`left` coordinates are set inline, by the caller after `computePlacement` — the runtime-geometry exception.)
 
 ### `measureHidden(el)`
 

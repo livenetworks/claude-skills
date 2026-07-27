@@ -1,6 +1,6 @@
 # Skill: ln-popover
 
-Decision guide for using the popover component. Full API: `js/ln-popover/README.md` and `docs/js/popover.md`.
+Decision guide for using the popover component. Full API: `js/ln-popover/README.md`.
 
 ## When to use popover vs dropdown vs tooltip
 
@@ -96,7 +96,7 @@ If `before-open` or `before-close` is cancelled, the observer reverts the attrib
 
 ## Portal / teleport
 
-On open, the popover element is moved to `<body>` end via `teleportToBody()` from `ln-core`. This makes `position: fixed` coordinates reliable regardless of ancestor `transform` or `contain` rules. The element is restored to its original DOM position on close. This is the same pattern as `ln-dropdown`. See `docs/js/popover.md` and `js/ln-core/README.md` § Positioning Helpers.
+On open, the popover element is moved to `<body>` end via `teleportToBody()` from `ln-core`. This makes `position: fixed` coordinates reliable regardless of ancestor `transform` or `contain` rules. The element is restored to its original DOM position on close. This is the same pattern as `ln-dropdown`. See `js/ln-popover/README.md` § Internals and `js/ln-core/README.md` § Positioning Helpers.
 
 ## Escape and nested popovers
 

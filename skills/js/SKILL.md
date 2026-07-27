@@ -116,6 +116,7 @@ Every component includes a MutationObserver to auto-initialize elements in two s
 ### Key Rules
 
 - **`attributeFilter` is mandatory** — without it, the observer fires on EVERY attribute change (performance issue)
+- **Observe every attribute the bridge reads** — `extraAttributes` must list every self-attribute your `onAttributeChange`/bridge (or a helper it calls synchronously) reads as a render/derive input, not just the primary. Read-but-not-observed = a runtime change silently no-ops. Behaviour flags checked only at a transition (e.g. `data-ln-persist`, read at open/close for a side-effect) are exempt. Cross-check siblings: `ln-time` observes `datetime`, so `ln-date`'s text mode must too.
 - **On attribute mutation**: if the element has a bridge method, call it (attribute → state sync). Otherwise, initialize.
 - **Guard against duplicate listeners** — set a flag on the element before `addEventListener`
 - **Always check `ctrlKey || metaKey || button === 1`** before `preventDefault` — allow browser shortcuts (new tab, etc.)
@@ -299,7 +300,8 @@ Module-level infrastructure (`DOMContentLoaded` boot, the body MutationObserver,
 ### Code
 - `var` declarations — use `const` (default) or `let`
 - `createElement` chains — use `<template>` + cloneNode
-- Inline styles via JS (`el.style.display = 'none'`) — use class toggle or CSS-driven state
+- Decorative or state inline styles via JS (`el.style.display = 'none'`, color, visibility) — use class toggle or CSS-driven state.
+  **Allowed exception — runtime geometry:** a number you compute *this frame* may be set inline, because no static class can hold it — floating position (`top`/`left`), virtualization/autoresize size (`height`/`width`), data-driven fill (`width: N%`). The visual treatment (position context, `z-index`, color, `display`) still belongs in SCSS. Tell: if it's a *look* → SCSS; if it's a *number you just computed* → inline.
 - `alert()`, `confirm()`, `prompt()` — never use
 - Throwing exceptions in event handlers — catch and `console.warn`
 - Manual render calls after state change — use Proxy + batcher

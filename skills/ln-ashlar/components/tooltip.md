@@ -1,6 +1,6 @@
 # Skill: ln-tooltip
 
-Decision guide for CSS baseline vs JS enhance. Full docs: `docs/js/tooltip.md`, `docs/css/tooltip.md`, `js/ln-tooltip/README.md`, `scss/components/_tooltip.scss`.
+Decision guide for CSS baseline vs JS enhance. Full docs: `js/ln-tooltip/README.md`, `docs/css/tooltip.md`, `scss/components/_tooltip.scss`.
 
 ## The two modes
 
@@ -67,7 +67,7 @@ Without `-enhance`, CSS baseline also triggers (it reads `attr(data-ln-tooltip)`
 
 ## No events by design
 
-Tooltip dispatches no show/hide events. It is a purely presentational hover/focus affordance. The only event is `ln-tooltip:destroyed` (fired when cleanup removes a JS-enhanced instance). See architectural reasoning in `docs/js/tooltip.md`.
+Tooltip dispatches no show/hide events. It is a purely presentational hover/focus affordance. The only event is `ln-tooltip:destroyed` (fired when cleanup removes a JS-enhanced instance). See architectural reasoning in `js/ln-tooltip/README.md`.
 
 ## Attributes
 

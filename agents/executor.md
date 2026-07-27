@@ -131,7 +131,7 @@ After implementation is complete, check if documentation needs updating:
 
 - If you created a new component → create `js/ln-{name}/README.md`
 - If you changed attributes, events, or API → update the component's README.md
-- If you changed architecture (new store, new coordinator wiring) → update `docs/js/{name}.md`
+- If you changed architecture (new store, new coordinator wiring) → update the component README's `## 🔧 Internals` section
 - If you added new data attributes → update CLAUDE.md data attributes table
 - If this is a significant change → add changelog entry in CLAUDE.md
 

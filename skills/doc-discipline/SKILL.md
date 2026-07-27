@@ -1,6 +1,6 @@
 ---
 name: doc-discipline
-description: "Doc-discipline pass workflow for ln-ashlar JS components. Use this skill when running a documentation cleanup/tightening pass on a `js/ln-{name}/README.md` and its companion `docs/js/{name}.md`. Covers: the standard checklist, completed-component benchmarks, the architect → executor → spot-check flow, and hard rules about untouched source/demo files. Triggers on phrases like 'doc-discipline pass', 'почни ln-{name}', or any cleanup of an existing component's docs."
+description: "Doc-discipline pass workflow for ln-ashlar JS components. Use this skill when running a documentation cleanup/tightening pass on a component's single `js/ln-{name}/README.md` (Contract + `## 🔧 Internals`). Covers: the standard checklist, completed-component benchmarks, the architect → executor → spot-check flow, and hard rules about untouched source/demo files. Triggers on phrases like 'doc-discipline pass', 'почни ln-{name}', or any cleanup of an existing component's docs."
 ---
 
 # Doc-Discipline Pass
@@ -35,10 +35,9 @@ NOT for: pilot-doc rewrites of components that don't yet have a README
 
 For component `ln-{name}`:
 
-- `js/ln-{name}/README.md` — usage-facing doc (attributes, events, API,
-  examples)
-- `docs/js/{name}.md` — architecture-facing doc (lifecycle, internal
-  flow, state, mechanism)
+- `js/ln-{name}/README.md` — the single programmer doc, in two halves:
+  - **Contract** (top) — attributes, events, API, examples.
+  - **`## 🔧 Internals`** (bottom) — lifecycle, internal flow, state, mechanism.
 
 ALWAYS untouched (hard rule):
 
@@ -53,7 +52,7 @@ ALWAYS untouched (hard rule):
 
 ## The Checklist
 
-Apply to BOTH `README.md` and `docs/js/{name}.md`:
+Apply to the whole `README.md` — both the Contract and the `## 🔧 Internals` half:
 
 ### 1. No speculative edge cases
 
@@ -75,20 +74,19 @@ arriving from `ln-popover` know the difference already.
 
 ### 3. No double-coverage
 
-README and `docs/js/{name}.md` MUST split roles cleanly:
+The README's two halves MUST split roles cleanly:
 
-- **README** = usage. Attributes, events, examples, API, sizing
+- **Contract** (top) = usage. Attributes, events, examples, API, sizing
   variants, cross-component composition (when the component is
   meant to be composed). What a CONSUMER needs.
-- **docs/js** = architecture. Lifecycle, internal state,
+- **`## 🔧 Internals`** (bottom) = architecture. Lifecycle, internal state,
   MutationObserver flow, focus management mechanism, DOM mutations
   performed, z-index stack, persistence path. What an INTERNAL
   reader / contributor needs.
 
-If both files explain the same thing (e.g. focus management mechanism
-in README's §Philosophy AND in docs/js's §Focus management), the
-README copy is redundant — trim or replace with a one-line back-link
-to docs/js.
+If both halves explain the same thing (e.g. focus management mechanism
+in the Contract's §Philosophy AND in §Internals), the Contract copy is
+redundant — trim it; the mechanism belongs in `## 🔧 Internals`.
 
 ### 4. No historical prose after refactor
 
@@ -144,35 +142,34 @@ must lead with the attribute.
 
 ---
 
-## Cross-doc consistency
+## Internal consistency
 
-After per-doc trims, do a final pass comparing the two files:
+After per-section trims, do a final pass across the whole README:
 
-- Same fact stated twice → keep in the better-fitting doc per the
-  README/docs/js role split (rule §3).
-- Contradicting facts → trust the source code, fix both docs to
-  match.
-- README mentions an architecture detail with no docs/js back-link
-  → either remove (if internal-only) or add a one-liner `see
-  [docs/js/{name}.md](../../docs/js/{name}.md#section)`.
+- Same fact in Contract AND Internals → keep it in the better-fitting
+  half per the role split (rule §3).
+- Contradicting facts → trust the source code, fix the README to match.
+- A Contract section that drifts into mechanism → move that detail down
+  into `## 🔧 Internals`.
 
 ---
 
 ## Benchmarks (completed passes)
 
-| Component | README lines | docs/js lines | Commit |
-|---|---|---|---|
-| ln-search | (post-pass figures pending) | — | `7a64917` |
-| ln-accordion | 414 | 264 | `b969d69` |
-| ln-modal | 269 | 288 | (uncommitted at time of skill creation) |
+Post-consolidation the doc is a single README (Contract + `## 🔧 Internals`).
+Gold-standard anchors from the 2026-07-27 docs/js consolidation:
+
+| Component | README lines (Contract + Internals) |
+|---|---|
+| ln-confirm | ~200 (~110 Contract + ~90 Internals) |
+| ln-ajax | ~205 (~100 Contract + ~105 Internals) |
 
 **Targets**: there is NO universal line-count target. Aim for "as tight
-as the contract allows." If `docs/js` has many genuinely-protected
-sections (full §Lifecycle for a 4-state component, full §Focus
-management mechanism, full §State table), the file will land at
-~280-300; that's fine. Reaching for an unrealistic target across all
-components causes either scope creep into protected sections or
-discipline drift.
+as the contract allows." If `## 🔧 Internals` has many genuinely-protected
+subsections (full §Lifecycle for a 4-state component, full §Focus
+management mechanism, full §State), the README will run long; that's
+fine. Reaching for an unrealistic target across all components causes
+either scope creep into protected subsections or discipline drift.
 
 The architect step's job is to PROPOSE a target based on the audit;
 the executor's job is to hit the architect's targets WITHIN the
@@ -216,7 +213,7 @@ with:
 
 Standard executor invocation. Key constraints in the prompt:
 
-- Touch only the two doc files named in the plan
+- Touch only the component's `README.md`
 - Do NOT modify `ln-{name}.js`, `ln-{name}.scss`, `demo/admin/{name}.html`
 - Do NOT touch other components' docs
 - Run the plan's acceptance-criteria greps and report PASS/FAIL each
@@ -263,10 +260,10 @@ single commit; otherwise one component per commit.
   pilot-doc rewrite.
 - **Don't restructure heading order** unless the current order is
   actively wrong. Keep the reader's mental map stable across passes.
-- **Don't trim "protected" sections** in `docs/js` (§Lifecycle,
+- **Don't trim "protected" subsections** of `## 🔧 Internals` (§Lifecycle,
   §Focus management mechanism, §State, §MutationObserver,
-  §Body scroll lock, §DOM mutations). These are the architecture
-  doc's reason to exist. Trim drift in §Why-not-X / §Cross-component /
+  §Body scroll lock, §DOM mutations). These are the Internals
+  section's reason to exist. Trim drift in §Why-not-X / §Cross-component /
   §Known-gaps / §Performance-considerations sections instead.
 - **Don't unify with other components' docs.** Each component's docs
   are scope-isolated.
@@ -280,20 +277,20 @@ single commit; otherwise one component per commit.
 
 ## Frequently-asked discipline-pass questions
 
-**Q: The component already has a clean README — only `docs/js` needs
+**Q: The Contract half is already clean — only `## 🔧 Internals` needs
 trim. Skip the architect?**
 
 No. The architect step also produces the plan file that the executor
-needs. Even if the audit is short ("README clean, docs/js has §Why
+needs. Even if the audit is short ("Contract clean, Internals has §Why
 not X? bloat"), the plan still needs concrete edits and acceptance
 greps. Architect cost is small for clean components.
 
-**Q: There's no `docs/js/{name}.md` file. Discipline pass on README
-only?**
+**Q: The component has no `## 🔧 Internals` section (helpers, very small
+components). Discipline pass on the Contract only?**
 
-Yes. Some components (helpers, very small components) only have a
-README. Apply checklist to the single file. Do NOT create a new
-`docs/js` file during a discipline pass — that's pilot-doc territory.
+Yes. Apply the checklist to the Contract. Do NOT invent a new
+`## 🔧 Internals` section during a discipline pass — adding genuinely
+new architecture material is pilot-doc territory.
 
 **Q: The component's source has changed significantly since the last
 README touch. How much can I update?**

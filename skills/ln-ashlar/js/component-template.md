@@ -225,12 +225,10 @@ Console `warn` messages (`[ln-{name}] Missing datetime attribute`) are developer
 1. Create `js/ln-{name}/src/ln-{name}.js` — IIFE from `registerComponent` template above
 2. Add `import './ln-{name}/src/ln-{name}.js'` to `js/index.js`
 3. DOM structure → `<template data-ln-template>` elements in HTML
-4. Create `js/ln-{name}/README.md` — attributes, events, API, HTML examples
-5. Create `docs/js/{name}.md` — internal state, render flow, event lifecycle
-6. Create `demo/admin/{name}.html` — interactive demo page
+4. Create `js/ln-{name}/README.md` — the single programmer doc: **Contract** (attributes, events, API, HTML examples) + a `## 🔧 Internals` section (internal state, render flow, event lifecycle)
+5. Create `demo/admin/{name}.html` — interactive demo page
 
 ## Checklist: Update Existing Component
 
-1. Update `js/ln-{name}/README.md` — reflect new/changed usage
-2. Update `docs/js/{name}.md` — reflect architectural changes
-3. Update `demo/admin/{name}.html` — add/update examples
+1. Update `js/ln-{name}/README.md` — reflect new/changed usage (Contract) and any architectural change (`## 🔧 Internals`)
+2. Update `demo/admin/{name}.html` — add/update examples
