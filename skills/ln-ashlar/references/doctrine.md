@@ -403,7 +403,7 @@ Real failures from past sessions, each a 2-second grep away:
 Three tiers:
 
 1. **Decorating via a hook's bare presence is forbidden.** `[data-ln-modal] { padding: ... }` — the attribute is a JS init target, not a styling hook.
-2. **A component styling its OWN `data-ln-icon-x="state"` in its OWN co-located SCSS is sanctioned** — this is the dominant library pattern. The component owns both sides of the contract. Examples: `[data-ln-modal="open"] { display: flex }`, `[data-ln-filter-hide="true"] { display: none }`. These are attribute-**value** selectors; the component authored the state.
+2. **A component styling its OWN `data-ln-x="state"` in its OWN co-located SCSS is sanctioned** — this is the dominant library pattern. The component owns both sides of the contract. Examples: `[data-ln-modal="open"] { display: flex }`, `[data-ln-filter-hide="true"] { display: none }`. These are attribute-**value** selectors; the component authored the state.
 3. **Consumer / cross-component CSS reaching through a foreign `data-ln-*` hook is forbidden.** Use a `.ln-*` state class (JS toggles, SCSS styles) or a plain app-owned `data-*` instead.
 
 ```scss
@@ -417,7 +417,7 @@ Three tiers:
 .ln-filter-active { /* accent dot + color */ }
 ```
 
-Practical test: *who owns this state, and where does the rule live?* Component's own state → `data-ln-icon-x="value"` styled in co-located SCSS. App / coordinator state → app-owned `data-*` or `.ln-*` class, styled in app SCSS.
+Practical test: *who owns this state, and where does the rule live?* Component's own state → `data-ln-x="value"` styled in co-located SCSS. App / coordinator state → app-owned `data-*` or `.ln-*` class, styled in app SCSS.
 
 **Why:** `data-ln-*` hooks are implementation details of the component. Styling them externally creates fragile coupling between consumer CSS and library internals — any refactor of an internal attribute breaks consumer styles silently.
 
@@ -794,7 +794,7 @@ Before pasting an SCSS or HTML proposal in chat, verify:
 - [ ] For table data: are sort/filter values in `data-ln-value` / `data-ln-filter-value`, not read from `textContent`?
 - [ ] For click-triggered fills: is the flow declared in trigger attributes, not coordinator JS?
 - [ ] For misuse signals: CSS `::after` affordance, not `console.warn`?
-- [ ] For `data-ln-*` in CSS: only styling own `data-ln-icon-x="value"` in co-located SCSS?
+- [ ] For `data-ln-*` in CSS: only styling own `data-ln-x="value"` in co-located SCSS?
 
 If any box is unchecked, stop and either fix or ask.
 
