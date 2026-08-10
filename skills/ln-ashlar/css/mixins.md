@@ -326,10 +326,11 @@ Separator between rows; none after last. Targets descendant `.field`, `.label`,
 
 ### Table interaction mixins
 
-`table-sort` / `table-sort-active` — sort button for `<th>`. Applied by `scss/components/_table.scss`
-to `.table-sort` — project rarely needs to apply directly.
+`sort` / `sort-active` — sort control cycle for `[data-ln-sort]` (works on any target, not
+table-only). Lives in `scss/config/mixins/_sort.scss`, applied by `scss/components/_sort.scss`.
+See `js/ln-sort/README.md` and `css/tables.md` → Column header controls.
 
-`table-filter` / `table-filter-active` — filter button for `<th>`. Same pattern as sort.
+`table-filter` / `table-filter-active` — filter button for `<th>`. Same visual pattern as sort.
 
 `table-row` — clickable row (cursor pointer + hover bg).
 `table-row-selected` — accent tint on a selected row.

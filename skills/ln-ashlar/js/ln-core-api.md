@@ -154,9 +154,11 @@ const raw = readValue(td); // '1250.50' (from data-ln-value) or trimmed text
 ```
 
 When emitting a cell whose displayed text is locale-formatted and participates in sort/filter:
-put the raw value (`1250.50`, Unix timestamp) in `data-ln-value`; put the sort type in the
-component-scoped behavior attribute (`data-ln-table-sort="number"` on `<th>`). Never sort
-formatted text.
+put the raw value (`1250.50`, Unix timestamp) in `data-ln-value`. Sort type is never
+author-declared — `ln-core.detectValueType(values)` infers it once per sort from the current
+value set (all-finite-number → numeric compare, else `Intl.Collator` string compare). Never sort
+formatted text. See `js/ln-sort/README.md` and `js/ln-core/README.md` for the full inference
+contract.
 
 ### `isVisible(el)`
 
@@ -486,7 +488,7 @@ persistRemove(component, el)           // removes single key
 persistClear(component)                // removes ALL keys for this component name
 ```
 
-- `component` — string name, e.g. `'tabs'`, `'filter'`, `'table-sort'`
+- `component` — string name, e.g. `'tabs'`, `'filter'`, `'sort'`
 - `el` — root element with `id` or `data-ln-persist`
 - Storage key format: `ln:<component>:<page-path>:<id>`
 - Persistence is always opt-in: add `data-ln-persist` (or `data-ln-persist="custom-key"`) to the

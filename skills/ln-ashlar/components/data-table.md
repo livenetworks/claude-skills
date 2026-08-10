@@ -34,8 +34,22 @@
 	<table>
 		<thead>
 			<tr>
-				<th data-ln-table-sort="string">Name</th>
-				<th data-ln-table-sort="number">Max Users</th>
+				<th>
+					<span>Name</span>
+					<ul data-ln-sort="packages-table" data-ln-sort-state="none">
+						<li><button type="button" data-ln-sort-dir="asc" aria-label="Sort ascending"><svg class="ln-icon" aria-hidden="true"><use href="#ln-icon-arrows-sort"></use></svg></button></li>
+						<li><button type="button" data-ln-sort-dir="desc" aria-label="Sort descending"><svg class="ln-icon" aria-hidden="true"><use href="#ln-icon-arrow-up"></use></svg></button></li>
+						<li><button type="button" data-ln-sort-dir="none" aria-label="Remove sort"><svg class="ln-icon" aria-hidden="true"><use href="#ln-icon-arrow-down"></use></svg></button></li>
+					</ul>
+				</th>
+				<th>
+					<span>Max Users</span>
+					<ul data-ln-sort="packages-table" data-ln-sort-state="none">
+						<li><button type="button" data-ln-sort-dir="asc" aria-label="Sort ascending"><svg class="ln-icon" aria-hidden="true"><use href="#ln-icon-arrows-sort"></use></svg></button></li>
+						<li><button type="button" data-ln-sort-dir="desc" aria-label="Sort descending"><svg class="ln-icon" aria-hidden="true"><use href="#ln-icon-arrow-up"></use></svg></button></li>
+						<li><button type="button" data-ln-sort-dir="none" aria-label="Remove sort"><svg class="ln-icon" aria-hidden="true"><use href="#ln-icon-arrow-down"></use></svg></button></li>
+					</ul>
+				</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -57,12 +71,20 @@
 		<thead>
 			<tr>
 				<th data-ln-table-col="name">
-					Name
-					<button data-ln-table-col-sort aria-label="Sort by name"></button>
+					<span>Name</span>
+					<ul data-ln-sort="packages-table" data-ln-sort-field="name" data-ln-sort-state="none">
+						<li><button type="button" data-ln-sort-dir="asc" aria-label="Sort ascending"><svg class="ln-icon" aria-hidden="true"><use href="#ln-icon-arrows-sort"></use></svg></button></li>
+						<li><button type="button" data-ln-sort-dir="desc" aria-label="Sort descending"><svg class="ln-icon" aria-hidden="true"><use href="#ln-icon-arrow-up"></use></svg></button></li>
+						<li><button type="button" data-ln-sort-dir="none" aria-label="Remove sort"><svg class="ln-icon" aria-hidden="true"><use href="#ln-icon-arrow-down"></use></svg></button></li>
+					</ul>
 				</th>
 				<th data-ln-table-col="max_users">
-					Max Users
-					<button data-ln-table-col-sort aria-label="Sort by max users"></button>
+					<span>Max Users</span>
+					<ul data-ln-sort="packages-table" data-ln-sort-field="max_users" data-ln-sort-state="none">
+						<li><button type="button" data-ln-sort-dir="asc" aria-label="Sort ascending"><svg class="ln-icon" aria-hidden="true"><use href="#ln-icon-arrows-sort"></use></svg></button></li>
+						<li><button type="button" data-ln-sort-dir="desc" aria-label="Sort descending"><svg class="ln-icon" aria-hidden="true"><use href="#ln-icon-arrow-up"></use></svg></button></li>
+						<li><button type="button" data-ln-sort-dir="none" aria-label="Remove sort"><svg class="ln-icon" aria-hidden="true"><use href="#ln-icon-arrow-down"></use></svg></button></li>
+					</ul>
 				</th>
 				<th><!-- actions --></th>
 			</tr>
@@ -99,7 +121,7 @@
 | `data-ln-table-source` | Wrapper | Opt-in: Data-Driven mode |
 | `data-ln-table-selectable` | Wrapper | Enable row checkboxes |
 | `data-ln-table-col="field"` | `<th>` | Maps header to record field key |
-| `data-ln-table-col-sort` | Button in `<th>` | Three-state sort trigger |
+| `data-ln-sort="tableId"` | `<ul>` in `<th>` | Sort control root — value is the sorted table's `id`. Full attribute contract → `js/ln-sort/README.md` |
 | `data-ln-table-col-filter` | Button in `<th>` | Opens filter popover |
 | `data-ln-table-filter-col="key"` | `<th>` | Maps filter key to column |
 | `data-ln-table-col-select` | `<th>` | Select-all checkbox column |
@@ -161,7 +183,6 @@ The table listens to `ln-filter:changed` (bubbled from the filter panel). `ln-se
 | `ln-table:set-loading` | Coordinator → Table | `{ loading }` | Toggle loading overlay |
 | `ln-table:ready` | Table → Coordinator | `{ total }` | After initial parse |
 | `ln-table:rendered` | Table → Coordinator | `{ table, total, visible }` | After rows drawn |
-| `ln-table:sort` | Table → Coordinator | `{ table, field, direction }` | Sort changed |
 | `ln-table:filter` | Table → Coordinator | `{ term, matched, total }` | Filter/search changed (SSR) |
 | `ln-table:row-click` | Table → Coordinator | `{ table, id, record }` | Row body clicked |
 | `ln-table:row-action` | Table → Coordinator | `{ table, id, action, record }` | Row action button clicked |

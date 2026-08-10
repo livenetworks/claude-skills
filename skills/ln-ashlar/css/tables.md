@@ -98,15 +98,20 @@ Zero-padding, borderless `<tr>` for group separation. All `td` get `padding: 0`.
 
 ## Column header controls
 
-### `table-sort` / `table-sort-active`
+### `[data-ln-sort]` (sort control)
 
-Circular 28px button inside `<th>` for sort direction. `table-sort-active` sets
-accent color at full opacity. Applied globally to `.table-sort`.
+Not a table-only mixin — `sort` / `sort-active` live in their own file,
+`scss/config/mixins/_sort.scss`, applied globally to `[data-ln-sort]` in
+`scss/components/_sort.scss`. `sort-active` sets accent color only while the state is
+`asc`/`desc` (an active sort), not `none`. Full markup and cycle contract →
+`js/ln-sort/README.md`.
 
 ### `table-filter` / `table-filter-active`
 
-Same as sort but for column filter trigger. `table-filter-active` adds a small
+Circular 28px button inside `<th>` for column filter trigger. `table-filter-active` adds a small
 accent dot (`:after`) to indicate an active filter. Applied globally to `.table-filter`.
 
-`<th>` with both `.table-sort` and `.table-filter` auto-repositions both absolutely
-via the `&:has(.table-sort):has(.table-filter)` selector in `table-base`.
+`<th>` header-button positioning is shared across `[data-ln-sort]` and `.table-filter` — a `<th>`
+containing both auto-repositions each absolutely (sort to the left of filter) via the
+`&:has([data-ln-sort]):has(.table-filter)` selector in `table-base`; either alone still gets
+absolute positioning via its own `:has()` branch.
