@@ -31,14 +31,14 @@ When placed on a **wrapper** element (not the input itself), the component finds
 <div class="search-field">
 	<input type="search" name="search" placeholder="Search…">
 	<button type="button" data-ln-search-clear aria-label="Clear search">
-		<svg class="ln-icon" aria-hidden="true"><use href="#ln-x"></use></svg>
+		<svg class="ln-icon" aria-hidden="true"><use href="#ln-icon-x"></use></svg>
 	</button>
 </div>
 <!-- data-ln-search goes on the wrapper in this case: -->
 <div class="search-field" data-ln-search="my-list">
 	<input type="search" name="search" placeholder="Search…">
 	<button type="button" data-ln-search-clear aria-label="Clear search">
-		<svg class="ln-icon" aria-hidden="true"><use href="#ln-x"></use></svg>
+		<svg class="ln-icon" aria-hidden="true"><use href="#ln-icon-x"></use></svg>
 	</button>
 </div>
 ```

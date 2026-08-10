@@ -133,7 +133,7 @@ renderList(container, items, 'template-name', keyFn, fillFn, 'ln-component');
 
 ```html
 <!-- Icon (SVG sprite) -->
-<svg class="ln-icon" aria-hidden="true"><use href="#ln-plus"></use></svg>
+<svg class="ln-icon" aria-hidden="true"><use href="#ln-icon-plus"></use></svg>
 
 <!-- Modal -->
 <div class="ln-modal" data-ln-modal id="my-modal">

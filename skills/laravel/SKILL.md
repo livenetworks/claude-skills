@@ -363,7 +363,7 @@ Eloquent's `boolean` cast returns PHP `true`/`false` which JSON-serializes to JS
         data-method="PUT"
         data-title="{{ __('Edit Package') }}: {{ $package->name }}"
         data-fields='@json($package->toFormPayload())'>
-    <svg class="ln-icon"><use href="#ln-edit"></use></svg>
+    <svg class="ln-icon"><use href="#ln-icon-edit"></use></svg>
 </button>
 ```
 

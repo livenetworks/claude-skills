@@ -13,7 +13,7 @@ Sources: `scss/config/mixins/_stat-card.scss`, `scss/components/_stat-card.scss`
 	<p data-ln-stat-label>Total Documents</p>
 	<p data-ln-stat-value>1,247</p>
 	<p data-ln-stat-trend="up">
-		<svg class="ln-icon" aria-hidden="true"><use href="#ln-arrow-up"></use></svg>
+		<svg class="ln-icon" aria-hidden="true"><use href="#ln-icon-arrow-up"></use></svg>
 		12% from last month
 	</p>
 </article>

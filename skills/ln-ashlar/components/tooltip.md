@@ -15,7 +15,7 @@ Decision guide for CSS baseline vs JS enhance. Full docs: `js/ln-tooltip/README.
 
 ```html
 <button data-ln-tooltip="Edit this item">
-	<svg class="ln-icon" aria-hidden="true"><use href="#ln-edit"></use></svg>
+	<svg class="ln-icon" aria-hidden="true"><use href="#ln-icon-edit"></use></svg>
 	<span class="sr-only">Edit</span>
 </button>
 ```
@@ -28,7 +28,7 @@ Same markup, add the opt-in flag:
 
 ```html
 <button data-ln-tooltip="Edit this item" data-ln-tooltip-enhance>
-	<svg class="ln-icon" aria-hidden="true"><use href="#ln-edit"></use></svg>
+	<svg class="ln-icon" aria-hidden="true"><use href="#ln-icon-edit"></use></svg>
 	<span class="sr-only">Edit</span>
 </button>
 ```

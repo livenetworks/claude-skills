@@ -125,7 +125,7 @@ import { registerComponent, dispatch, dispatchCancelable, fill, renderList, deep
    - `childList` — new element added → `findElements` + optional `onInit`.
    - `attributes` (filtered) — existing element attribute changes:
      - If element is initialized AND `onAttributeChange` is set → calls `onAttributeChange`.
-     - Otherwise → `findElements` (handles late `data-ln-x` stamp on existing element).
+     - Otherwise → `findElements` (handles late `data-ln-icon-x` stamp on existing element).
 5. Auto-calls `destroy()` when an initialized element is removed from the DOM.
 6. Builds `attributeFilter` from the selector plus `extraAttributes`.
 

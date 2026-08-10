@@ -31,7 +31,7 @@ Tone variants are modifier classes on the same element.
 <span class="ln-chip">
 	Quality Manual
 	<button type="button" aria-label="Remove Quality Manual filter">
-		<svg class="ln-icon" aria-hidden="true"><use href="#ln-x"></use></svg>
+		<svg class="ln-icon" aria-hidden="true"><use href="#ln-icon-x"></use></svg>
 	</button>
 </span>
 

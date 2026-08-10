@@ -21,7 +21,7 @@
         <header>
             <h3>Title</h3>
             <button type="button" aria-label="Close" data-ln-modal-close>
-                <svg class="ln-icon" aria-hidden="true"><use href="#ln-x"></use></svg>
+                <svg class="ln-icon" aria-hidden="true"><use href="#ln-icon-x"></use></svg>
             </button>
         </header>
         <main>...</main>

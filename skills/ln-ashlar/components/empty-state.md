@@ -19,7 +19,7 @@ Show an inviting message and the primary "create" action. Use when the dataset i
 
 ```html
 <div data-ln-empty-state="no-data">
-	<svg class="ln-icon ln-icon--xl" aria-hidden="true"><use href="#ln-folder"></use></svg>
+	<svg class="ln-icon ln-icon--xl" aria-hidden="true"><use href="#ln-icon-folder"></use></svg>
 	<h3>No documents yet</h3>
 	<p>Upload your first document to get started.</p>
 	<button type="button">Upload document</button>
@@ -32,7 +32,7 @@ Show "no matches" messaging and a clear-filter action. Use when items exist but 
 
 ```html
 <div data-ln-empty-state="no-results">
-	<svg class="ln-icon ln-icon--xl" aria-hidden="true"><use href="#ln-search"></use></svg>
+	<svg class="ln-icon ln-icon--xl" aria-hidden="true"><use href="#ln-icon-search"></use></svg>
 	<h3>No matches</h3>
 	<p>Try a different search or clear your filters.</p>
 	<button type="button">Clear filters</button>

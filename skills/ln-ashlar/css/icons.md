@@ -1,41 +1,41 @@
 # ln-ashlar — Icon System
 
-> SVG sprite injection via `ln-icons.js`. For icon consistency principles → global ui/visual-language.md §3.
+> SVG sprite injection via `ln-icon.js`. For icon consistency principles → global ui/visual-language.md §3.
 
 ---
 
 ## How It Works
 
-`ln-icons.js` fetches SVG icons on-demand from a public CDN (Tabler Icons) or a custom CDN at runtime, compiles them into a hidden `<svg>` sprite sheet injected in `<body>` at init, and caches them in `localStorage`. Icons render via `<use href="#ln-{name}">` or `<use href="#lnc-{name}">` and inherit `currentColor`.
+`ln-icon.js` fetches SVG icons on-demand from a public CDN (Tabler Icons) or a custom CDN at runtime, compiles them into a hidden `<svg>` sprite sheet injected in `<body>` at init, and caches them in `localStorage`. Icons render via `<use href="#ln-icon-{name}">` or `<use href="#ln-icon-custom-{name}">` and inherit `currentColor`.
 
 ## Markup
 
 ```html
 <!-- Standalone icon -->
-<svg class="ln-icon" aria-hidden="true"><use href="#ln-plus"></use></svg>
+<svg class="ln-icon" aria-hidden="true"><use href="#ln-icon-plus"></use></svg>
 
 <!-- Icon in button with text -->
 <button>
-    <svg class="ln-icon" aria-hidden="true"><use href="#ln-plus"></use></svg>
+    <svg class="ln-icon" aria-hidden="true"><use href="#ln-icon-plus"></use></svg>
     Add
 </button>
 
 <!-- Icon-only button — aria-label required -->
 <button aria-label="Close">
-    <svg class="ln-icon" aria-hidden="true"><use href="#ln-x"></use></svg>
+    <svg class="ln-icon" aria-hidden="true"><use href="#ln-icon-x"></use></svg>
 </button>
 
 <!-- Toggle chevron (CSS rotates on open — works inside accordion or standalone) -->
 <header data-ln-toggle-for="panel1">
     Title
-    <svg class="ln-icon ln-chevron" aria-hidden="true"><use href="#ln-arrow-down"></use></svg>
+    <svg class="ln-icon ln-chevron" aria-hidden="true"><use href="#ln-icon-arrow-down"></use></svg>
 </header>
 ```
 
 ## Two Prefixes
 
 - `#ln-{name}` — Tabler icons (fetched from jsdelivr CDN)
-- `#lnc-{name}` — Custom CDN icons (served from `window.LN_ICONS_CUSTOM_CDN`)
+- `#lnc-{name}` — Custom CDN icons (served from `window.LN_ICON_CUSTOM_CDN`)
 
 ## Available Icons
 
@@ -48,7 +48,7 @@ Any icon from [Tabler Icons](https://tabler.io/icons). Common ones:
 
 Full list: `scss/tabler-icons.txt`
 
-Custom icons: `lnc-file-pdf` `lnc-file-doc` `lnc-file-epub`
+Custom icons: `ln-icon-custom-file-pdf` `ln-icon-custom-file-doc` `ln-icon-custom-file-epub`
 
 ## Sizes
 
@@ -62,14 +62,14 @@ Custom icons: `lnc-file-pdf` `lnc-file-doc` `lnc-file-epub`
 ## Color
 
 Icons inherit parent's `color` property automatically. No color properties needed in SCSS.
-Exception: custom icons (`lnc-file-pdf`, etc.) have embedded semantic stroke colors.
+Exception: custom icons (`ln-icon-custom-file-pdf`, etc.) have embedded semantic stroke colors.
 
 ## Adding a Custom Icon
 
 To host custom icons in production:
 1. Save the custom SVG icon files in a directory on your production asset server or public CDN (e.g., `/public/assets/icons/` or `https://cdn.mycompany.com/assets/icons/`).
-2. Before the library initializes, define the CDN URL globally using `window.LN_ICONS_CUSTOM_CDN = "https://cdn.mycompany.com/assets/icons";`.
-3. In HTML, reference the icon as `#lnc-{name}` (e.g., `<use href="#lnc-corporate-logo"></use>`). The on-demand sprite generator will fetch, cache, and inject the SVG automatically from your custom CDN.
+2. Before the library initializes, define the CDN URL globally using `window.LN_ICON_CUSTOM_CDN = "https://cdn.mycompany.com/assets/icons";`.
+3. In HTML, reference the icon as `#lnc-{name}` (e.g., `<use href="#ln-icon-custom-corporate-logo"></use>`). The on-demand sprite generator will fetch, cache, and inject the SVG automatically from your custom CDN.
 
 ## Close Buttons
 
