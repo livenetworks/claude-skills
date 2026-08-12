@@ -6,7 +6,7 @@
 
 - Attribute: `data-ln-tabs` on the tab container (wrapper)
 - Tab triggers: `data-ln-tab="key"`
-- Tab panels: `data-ln-panel="key"` (inactive panels start with `class="hidden"`)
+- Tab panels: `data-ln-panel="key"` (inactive panels start with the `hidden` attribute)
 - Default tab: `data-ln-tabs-default="key"` on the wrapper
 
 ## Mode is set by the trigger type
@@ -28,8 +28,8 @@ Mixing both in one group falls back to persist + a console warning. An `id` no l
         <button type="button" data-ln-tab="history">History</button>
     </nav>
     <section data-ln-panel="general">...</section>
-    <section data-ln-panel="permissions" class="hidden">...</section>
-    <section data-ln-panel="history" class="hidden">...</section>
+    <section data-ln-panel="permissions" hidden>...</section>
+    <section data-ln-panel="history" hidden>...</section>
 </div>
 ```
 
@@ -42,7 +42,7 @@ Mixing both in one group falls back to persist + a console warning. An `id` no l
         <a href="#user-tabs:permissions" data-ln-tab>Permissions</a>
     </nav>
     <section data-ln-panel="general">...</section>
-    <section data-ln-panel="permissions" class="hidden">...</section>
+    <section data-ln-panel="permissions" hidden>...</section>
 </section>
 ```
 
@@ -54,7 +54,7 @@ Mixing both in one group falls back to persist + a console warning. An `id` no l
 [data-ln-tabs] [data-ln-panel] { @include tabs-panel; }
 ```
 
-The active trigger carries `data-active` (an attribute, not a class) + `aria-selected="true"`, synced from `data-ln-tabs-active` on the wrapper.
+The active trigger carries `aria-selected="true"`, synced from `data-ln-tabs-active` on the wrapper. The active panel has no `hidden` attribute; inactive panels do.
 
 ## Events
 
