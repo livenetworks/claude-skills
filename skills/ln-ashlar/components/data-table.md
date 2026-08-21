@@ -172,7 +172,7 @@ Filter UI is **not built into the table**. It is composed from:
 - `ln-search` — search input inside the panel
 - `ln-filter` — checkbox/radio options inside the panel
 
-The table listens to `ln-filter:changed` (bubbled from the filter panel). `ln-search:change` is listened on the table wrapper when the search input targets the table's ID.
+The table listens to `ln-filter:change` (bubbled from the filter panel in SSR mode). `ln-search:change` is listened on the table wrapper when the search input targets the table's ID.
 
 ## Events
 
