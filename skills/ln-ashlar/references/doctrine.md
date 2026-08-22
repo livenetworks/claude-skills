@@ -57,17 +57,17 @@ Primitives    →  --color-bg, --color-fg, --color-border, --shadow,
 ### Rule 2 — Every visual pattern has TWO layers: mixin + component
 
 ```
-scss/config/mixins/_card.scss     →  @mixin card { ... }       ← recipe (no CSS output)
-scss/components/_card.scss        →  .card { @include card; }  ← applied default (CSS output)
+theme/config/mixins/_card.scss     →  @mixin card { ... }       ← recipe (no CSS output)
+theme/components/_card.scss        →  .card { @include card; }  ← applied default (CSS output)
 ```
 
 Never blur them. A mixin defines HOW. A component applies WHERE.
 
 When adding a new visual pattern:
-1. Mixin file `scss/config/mixins/_<name>.scss`
-2. Register in `scss/config/mixins/_index.scss` with `@forward '<name>'`
-3. Component file `scss/components/_<name>.scss` applying mixin to default selector
-4. Add `@use 'components/<name>'` to `scss/ln-ashlar.scss`
+1. Mixin file `theme/config/mixins/_<name>.scss`
+2. Register in `theme/config/mixins/_index.scss` with `@forward '<name>'`
+3. Component file `theme/components/_<name>.scss` applying mixin to default selector
+4. Add `@use 'components/<name>'` to `theme/ln-ashlar.scss`
 
 **Why:** projects consume mixins on their own semantic selectors. If the recipe is locked inside a component CSS block, projects cannot reuse it without copy-paste. Two layers means one source of truth + flexible application.
 
@@ -427,7 +427,7 @@ Practical test: *who owns this state, and where does the rule live?* Component's
 
 ### B1 — `<button>` is styled by structure + type, not class
 
-Every `<button>` gets full structure and neutral colors from `scss/base/_global.scss` automatically. No class needed for cancel/close/toggle/icon buttons.
+Every `<button>` gets full structure and neutral colors from `theme/base/_global.scss` automatically. No class needed for cancel/close/toggle/icon buttons.
 
 ```html
 <!-- Cancel: neutral from global, no class -->
@@ -541,7 +541,7 @@ The record rides in the DOM — inspectable in DevTools, teleport-safe, nothing 
 
 **Rule:** click-triggered → declarative; programmatic (store conflict, import, deep-link) → coordinator via `window.lnCore.lnFill(el, record)`.
 
-See `js/ln-fill/README.md` and `patterns/edit-modal-prefill.md` for the full pattern.
+See `components/ln-fill/README.md` and `patterns/edit-modal-prefill.md` for the full pattern.
 
 **Why:** declared behavior has nothing to maintain, is inspectable, and is teleport-safe. A coordinator for the common case is code you read, test, and keep in sync — deleting it is the feature done right.
 
@@ -605,7 +605,7 @@ Token values that contain raw HSL channels (e.g. `--color-primary: 232 75% 48%`)
 
 ### C3 — Density-compact must be respected
 
-When extending `--size-*`, every addition MUST be mirrored in `scss/config/_density.scss` under `.density-compact` with a value that preserves ascending order across the whole scale.
+When extending `--size-*`, every addition MUST be mirrored in `theme/config/_density.scss` under `.density-compact` with a value that preserves ascending order across the whole scale.
 
 ```scss
 // _tokens.scss
@@ -686,7 +686,7 @@ Components rebind these on their own scope to select a different vocabulary valu
 @include cq-down(compact) { ... }   // anonymous container
 ```
 
-Breakpoint names live in `$breakpoints` map in `scss/config/_breakpoints.scss`. New breakpoint? Extend the map; never silo a literal.
+Breakpoint names live in `$breakpoints` map in `theme/config/_breakpoints.scss`. New breakpoint? Extend the map; never silo a literal.
 
 **Allowed raw `@media`:**
 - `prefers-color-scheme` in `_theme.scss` — OS-level, not a breakpoint
@@ -745,7 +745,7 @@ This applies to architecture discussions and spec reviews. For implementation ta
 
 For new mixins, new components, new patterns, or architectural changes: present the approach **before writing any code**.
 
-- **SCSS:** "Create `@mixin X` in `scss/config/mixins/`, apply in `scss/components/` on `[selector]`, project uses `@include X` on `#element`"
+- **SCSS:** "Create `@mixin X` in `theme/config/mixins/`, apply in `theme/components/` on `[selector]`, project uses `@include X` on `#element`"
 - **JS:** "Component uses `data-ln-X` on `<element>`, dispatches event Y, project wires via Z"
 - **HTML:** "Structure is `<parent> > <child>`, component X on `<element>`, styled via mixin Y"
 

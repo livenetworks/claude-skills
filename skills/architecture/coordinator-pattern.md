@@ -67,7 +67,7 @@ ln-data-store:updated    →  coordinator  →  modal[data-ln-modal] = "close"
                                             toast("Saved")
 ```
 
-> **Note:** for click-triggered fills from table rows or inline buttons, the declarative `data-ln-fill-form` + `data-ln-fill-*` attributes (and `data-ln-modal-*` for modal display) handle the fill with **no coordinator code** — see `js/ln-fill/README.md`. Use the coordinator above only for programmatic / store-driven fills (e.g. conflict resolution, deep-link pre-fill).
+> **Note:** for click-triggered fills from table rows or inline buttons, the declarative `data-ln-fill-form` + `data-ln-fill-*` attributes (and `data-ln-modal-*` for modal display) handle the fill with **no coordinator code** — see `components/ln-fill/README.md`. Use the coordinator above only for programmatic / store-driven fills (e.g. conflict resolution, deep-link pre-fill).
 
 Project coordinators live in the project's JS (e.g. `resources/js/coordinators/`), not in ln-ashlar.
 

@@ -1,6 +1,6 @@
 # Skill: ln-tooltip
 
-Decision guide for CSS baseline vs JS enhance. Full docs: `js/ln-tooltip/README.md`, `docs/css/tooltip.md`, `scss/components/_tooltip.scss`.
+Decision guide for CSS baseline vs JS enhance. Full docs: `components/ln-tooltip/README.md`, `docs/css/tooltip.md`, `theme/components/_tooltip.scss`.
 
 ## The two modes
 
@@ -20,7 +20,7 @@ Decision guide for CSS baseline vs JS enhance. Full docs: `js/ln-tooltip/README.
 </button>
 ```
 
-The tooltip text is rendered via `content: attr(data-ln-tooltip)` on `::after`. Pure CSS, zero JS, no events. Position is fixed relative to the element via the stylesheet in `scss/components/_tooltip.scss`.
+The tooltip text is rendered via `content: attr(data-ln-tooltip)` on `::after`. Pure CSS, zero JS, no events. Position is fixed relative to the element via the stylesheet in `theme/components/_tooltip.scss`.
 
 ## JS enhance — canonical HTML
 
@@ -43,7 +43,7 @@ When `-enhance` is present, the co-located `ln-tooltip.scss` rule suppresses the
 </button>
 ```
 
-`data-ln-tooltip-position` accepts `top` (default), `bottom`, `left`, `right`. JS uses `computePlacement()` from `ln-core` and auto-flips if the preferred side clips the viewport. For full positioning rules see `js/ln-core/README.md` § Positioning Helpers.
+`data-ln-tooltip-position` accepts `top` (default), `bottom`, `left`, `right`. JS uses `computePlacement()` from `ln-core` and auto-flips if the preferred side clips the viewport. For full positioning rules see `components/ln-core/README.md` § Positioning Helpers.
 
 ## Title fallback and the `<abbr>` pattern
 
@@ -67,7 +67,7 @@ Without `-enhance`, CSS baseline also triggers (it reads `attr(data-ln-tooltip)`
 
 ## No events by design
 
-Tooltip dispatches no show/hide events. It is a purely presentational hover/focus affordance. The only event is `ln-tooltip:destroyed` (fired when cleanup removes a JS-enhanced instance). See architectural reasoning in `js/ln-tooltip/README.md`.
+Tooltip dispatches no show/hide events. It is a purely presentational hover/focus affordance. The only event is `ln-tooltip:destroyed` (fired when cleanup removes a JS-enhanced instance). See architectural reasoning in `components/ln-tooltip/README.md`.
 
 ## Attributes
 

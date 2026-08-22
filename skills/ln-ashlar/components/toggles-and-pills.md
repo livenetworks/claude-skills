@@ -1,7 +1,7 @@
 # Pills & Switches Skill Guide
 
 > Canonical docs: `docs/css/toggles-and-pills.md`
-> Source: `scss/config/mixins/_form.scss` + `scss/components/_form.scss`
+> Source: `theme/config/mixins/_form.scss` + `theme/components/_form.scss`
 
 ---
 

@@ -1,7 +1,7 @@
 # ln-ashlar — ln-core API Reference
 
-> Shared helpers imported by all ln-ashlar components. Located in `js/ln-core/`.
-> Source of truth: `js/ln-core/index.js` (barrel), `helpers.js`, `reactive.js`, `persist.js`,
+> Shared helpers imported by all ln-ashlar components. Located in `components/ln-core/`.
+> Source of truth: `components/ln-core/index.js` (barrel), `helpers.js`, `reactive.js`, `persist.js`,
 > `positioning.js`, `crypto.js`.
 > For architecture principles → global js skill §9 (three layers), §12 (reactive state).
 
@@ -157,7 +157,7 @@ When emitting a cell whose displayed text is locale-formatted and participates i
 put the raw value (`1250.50`, Unix timestamp) in `data-ln-value`. Sort type is never
 author-declared — `ln-core.detectValueType(values)` infers it once per sort from the current
 value set (all-finite-number → numeric compare, else `Intl.Collator` string compare). Never sort
-formatted text. See `js/ln-sort/README.md` and `js/ln-core/README.md` for the full inference
+formatted text. See `components/ln-sort/README.md` and `components/ln-core/README.md` for the full inference
 contract.
 
 ### `isVisible(el)`
@@ -309,7 +309,7 @@ back to `name`. This decouples the fill key from the wire name.
 | User clicks a button or table row action | `data-ln-fill-form` + `data-ln-fill-*` (declarative) |
 | Programmatic / store-event-driven | `window.lnCore.lnFill(container, record)` in coordinator |
 
-Source: `js/ln-fill/src/ln-fill.js`, `js/ln-fill/README.md`.
+Source: `components/ln-fill/src/ln-fill.js`, `components/ln-fill/README.md`.
 
 ---
 

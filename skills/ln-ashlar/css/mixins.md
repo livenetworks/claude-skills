@@ -7,7 +7,7 @@
 ## Usage
 
 ```scss
-@use 'ln-ashlar/scss/config/mixins' as *;
+@use 'ln-ashlar/theme/config/mixins' as *;
 
 // Apply mixin to semantic selector
 #add-user { @include btn; }
@@ -327,8 +327,8 @@ Separator between rows; none after last. Targets descendant `.field`, `.label`,
 ### Table interaction mixins
 
 `sort` / `sort-active` — sort control cycle for `[data-ln-sort]` (works on any target, not
-table-only). Lives in `scss/config/mixins/_sort.scss`, applied by `scss/components/_sort.scss`.
-See `js/ln-sort/README.md` and `css/tables.md` → Column header controls.
+table-only). Lives in `theme/config/mixins/_sort.scss`, applied by `theme/components/_sort.scss`.
+See `components/ln-sort/README.md` and `css/tables.md` → Column header controls.
 
 `table-filter` / `table-filter-active` — filter button for `<th>`. Same visual pattern as sort.
 
@@ -355,26 +355,26 @@ kbd { @include kbd; }
 ## Architecture — Three Layers
 
 ```
-scss/config/_tokens.scss        → CSS custom properties (:root)
-scss/config/mixins/*.scss       → Mixin recipes (never generate CSS)
-scss/components/*.scss          → Apply mixins to default selectors (generate CSS)
+theme/config/_tokens.scss        → CSS custom properties (:root)
+theme/config/mixins/*.scss       → Mixin recipes (never generate CSS)
+theme/components/*.scss          → Apply mixins to default selectors (generate CSS)
 ```
 
 ### Adding a new mixin + component
 
-1. Create `scss/config/mixins/_thing.scss` with `@mixin thing { ... }`
-2. Register: `@forward 'thing'` in `scss/config/mixins/_index.scss`
-3. Update header comment in `scss/config/_mixins.scss`
-4. Create `scss/components/_thing.scss`: `#thing { @include thing; }`
-5. Add `@use 'components/thing'` to `scss/ln-ashlar.scss`
+1. Create `theme/config/mixins/_thing.scss` with `@mixin thing { ... }`
+2. Register: `@forward 'thing'` in `theme/config/mixins/_index.scss`
+3. Update header comment in `theme/config/_mixins.scss`
+4. Create `theme/components/_thing.scss`: `#thing { @include thing; }`
+5. Add `@use 'components/thing'` to `theme/ln-ashlar.scss`
 
 ### Project integration
 
 ```scss
 // project/app.scss
-@use 'ln-ashlar/scss/ln-ashlar';       // full framework
+@use 'ln-ashlar/theme/ln-ashlar';       // full framework
 @use 'scss/overrides';                  // project token overrides
-@use 'scss/components/my-feature';      // project components
+@use 'theme/components/my-feature';      // project components
 ```
 
 ### Override tokens

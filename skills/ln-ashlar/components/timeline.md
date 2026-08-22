@@ -1,7 +1,7 @@
 # Timeline
 
 > Canonical docs: `docs/css/timeline.md`
-> Source: `scss/config/mixins/_timeline.scss` + `scss/components/_timeline.scss`
+> Source: `theme/config/mixins/_timeline.scss` + `theme/components/_timeline.scss`
 
 ---
 
@@ -66,7 +66,7 @@ All three are optional — a minimal entry needs only `<h4>`.
 
 ## Project usage
 
-The component is class-bound: `.timeline { @include timeline; }` in `scss/components/_timeline.scss`.
+The component is class-bound: `.timeline { @include timeline; }` in `theme/components/_timeline.scss`.
 There is no JS component and no data attribute binding — pure SCSS.
 
 ```scss

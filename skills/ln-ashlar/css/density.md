@@ -1,7 +1,7 @@
 # Skill: Density system
 
 Attribute-based density system (`[data-density]`). Full docs: `docs/css/density.md`,
-`scss/config/_density.scss`.
+`theme/config/_density.scss`.
 
 ## The 4 tiers — inverted default
 

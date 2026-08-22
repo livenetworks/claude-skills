@@ -1,7 +1,7 @@
 # Page Header
 
 > Canonical docs: `docs/css/page-header.md`
-> Source: `scss/config/mixins/_page-header.scss` + `scss/components/_page-header.scss`
+> Source: `theme/config/mixins/_page-header.scss` + `theme/components/_page-header.scss`
 
 ---
 

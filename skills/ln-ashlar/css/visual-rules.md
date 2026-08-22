@@ -187,7 +187,7 @@ Color transitions on hover (`@include transition-colors`) are fine unwrapped —
 
 ### Global `<button>` — Structure + Neutral (out of the box)
 
-Every `<button>` gets full structure + neutral colors from `scss/base/_global.scss`:
+Every `<button>` gets full structure + neutral colors from `theme/base/_global.scss`:
 - Structure: `inline-flex`, centered, `px(1.25rem) py(0.625rem)`, `text-sm`, `font-medium`, `rounded-md`
 - Default: transparent bg, muted text
 - Hover: `hsl(var(--color-bg-secondary))` — gray, no transform

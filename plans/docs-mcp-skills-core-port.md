@@ -40,10 +40,10 @@
 За секое: grep во `js/` и/или `scss/`, врати verdict (постои со file:line / не постои → aspirational):
 
 1. **`ln-validate`** — постои ли воопшто како компонента? (grep `js/`)
-2. **focus-trap / ESC во modal** — што од тоа е рачно имплементирано во `js/ln-modal/src/ln-modal.js` сега? (Внимание: native `<dialog>` миграцијата е ИДЕН рефактор — `docs-mcp/refactor-todo.md` §5. Документирај ја СЕГАШНАТА состојба; не го документирај `<dialog>` однесувањето како тековно.)
+2. **focus-trap / ESC во modal** — што од тоа е рачно имплементирано во `components/ln-modal/src/ln-modal.js` сега? (Внимание: native `<dialog>` миграцијата е ИДЕН рефактор — `docs-mcp/refactor-todo.md` §5. Документирај ја СЕГАШНАТА состојба; не го документирај `<dialog>` однесувањето како тековно.)
 3. **virtual scroll** — постои ли (ln-list? ln-table?) — grep `virtual` во `js/`
-4. **delta sync** — постои ли такво однесување во data слојот (`js/ln-data-store/`, `js/ln-data-coordinator/`) или е аспирација?
-5. **reserved error space во форми** — резервираат ли form микс-ините простор за validation порака? (grep `scss/config/mixins/` — form/field mixins)
+4. **delta sync** — постои ли такво однесување во data слојот (`components/ln-data-store/`, `components/ln-data-coordinator/`) или е аспирација?
+5. **reserved error space во форми** — резервираат ли form микс-ините простор за validation порака? (grep `theme/config/mixins/` — form/field mixins)
 
 ## Ревју на ux-interaction-patterns (непрегледан извор)
 

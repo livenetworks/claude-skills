@@ -14,7 +14,7 @@ Data-driven / windowed views (client-fetched pages, cold-cache client-cache mode
 .my-spinner { @include loader; }
 ```
 
-The default CSS binding is the `.loader` class (`scss/components/_loader.scss`). No JS — pure CSS spinner.
+The default CSS binding is the `.loader` class (`theme/components/_loader.scss`). No JS — pure CSS spinner.
 
 ## Button Loading
 

@@ -1,6 +1,6 @@
 # ln-ashlar — Tables Mixin Reference
 
-Quick reference for table mixins. Full source: `scss/config/mixins/_table.scss`.
+Quick reference for table mixins. Full source: `theme/config/mixins/_table.scss`.
 For `ln-table` (data-driven enhanced table) → JS component docs.
 
 ---
@@ -12,7 +12,7 @@ For `ln-table` (data-driven enhanced table) → JS component docs.
 Full table chrome: `w-full`, rounded corners, `overflow: clip`, resting shadow,
 tabular-nums. Thead: sunken bg, strong border-bottom. `th`: label-sm, semibold,
 uppercase, `letter-spacing: 0.06em`. `td`: density-reactive padding, border-bottom.
-Last row border removed. Applied globally to `table` in `scss/components/_table.scss`.
+Last row border removed. Applied globally to `table` in `theme/components/_table.scss`.
 
 `$sticky: true` enables `border-collapse: separate` + `sticky thead` +
 sticky footer support for scrollable tables.
@@ -88,7 +88,7 @@ Ghost row-action button: no border/shadow, half-opacity idle, full opacity on ho
 
 Absolute-positioned `<ul>` overlay that fades in on row hover (right side of row).
 Includes a gradient fade-out to the left. Triggered by `tbody tr:hover`. Applied
-globally to `.table-row-actions` in `scss/components/_table.scss`.
+globally to `.table-row-actions` in `theme/components/_table.scss`.
 
 ### `table-spacer-row`
 
@@ -101,10 +101,10 @@ Zero-padding, borderless `<tr>` for group separation. All `td` get `padding: 0`.
 ### `[data-ln-sort]` (sort control)
 
 Not a table-only mixin — `sort` / `sort-active` live in their own file,
-`scss/config/mixins/_sort.scss`, applied globally to `[data-ln-sort]` in
-`scss/components/_sort.scss`. `sort-active` sets accent color only while the state is
+`theme/config/mixins/_sort.scss`, applied globally to `[data-ln-sort]` in
+`theme/components/_sort.scss`. `sort-active` sets accent color only while the state is
 `asc`/`desc` (an active sort), not `none`. Full markup and cycle contract →
-`js/ln-sort/README.md`.
+`components/ln-sort/README.md`.
 
 ### `table-filter` / `table-filter-active`
 

@@ -2,7 +2,7 @@
 
 Dashboard KPI tile. Large numeric value, uppercase label, optional trend indicator.
 
-Sources: `scss/config/mixins/_stat-card.scss`, `scss/components/_stat-card.scss`, `docs/css/stat-card.md`.
+Sources: `theme/config/mixins/_stat-card.scss`, `theme/components/_stat-card.scss`, `docs/css/stat-card.md`.
 
 ---
 

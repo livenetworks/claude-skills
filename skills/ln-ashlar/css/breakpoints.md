@@ -2,7 +2,7 @@
 
 > Canonical docs: `docs/css/breakpoints.md`
 > Container-query doctrine: `docs/ln-ashlar-container-queries.md`
-> Source: `scss/config/_breakpoints.scss`
+> Source: `theme/config/_breakpoints.scss`
 
 ---
 
@@ -19,7 +19,7 @@ Never use `@media` inside a component mixin. Components are embedded in layouts 
 
 ## App-shell media breakpoints
 
-Import: `@use 'ln-ashlar/scss/config/breakpoints' as *;`
+Import: `@use 'ln-ashlar/theme/config/breakpoints' as *;`
 
 | Sass variable | CSS variable | Value |
 |---|---|---|
@@ -31,7 +31,7 @@ Import: `@use 'ln-ashlar/scss/config/breakpoints' as *;`
 | `$bp-3xl` | `--bp-3xl` | 1920px |
 
 ```scss
-@use 'ln-ashlar/scss/config/mixins' as *;
+@use 'ln-ashlar/theme/config/mixins' as *;
 
 #app-main {
 	display: grid;
@@ -55,7 +55,7 @@ Import: `@use 'ln-ashlar/scss/config/breakpoints' as *;`
 | `$cq-wide` | `--cq-wide` | 1120px | 3→4 columns |
 
 ```scss
-@use 'ln-ashlar/scss/config/mixins' as *;
+@use 'ln-ashlar/theme/config/mixins' as *;
 
 #folders { @include container(foldersgrid); }
 
@@ -79,7 +79,7 @@ value in a calc expression or when writing a non-standard query form. Prefer the
 mixin API for all standard min/max queries.
 
 ```scss
-@use 'ln-ashlar/scss/config/breakpoints' as bp;
+@use 'ln-ashlar/theme/config/breakpoints' as bp;
 
 // Calc that needs the raw value
 width: calc(100vw - #{bp.$bp-md});

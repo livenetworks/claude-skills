@@ -185,7 +185,7 @@ Derived mixins add ONLY what differs from the base. Never duplicate property def
 	border-color: transparent;
 	> input { display: none; }
 	&:has(> input:checked) { background-color: hsl(var(--color-primary)); }
-	// Hover derived from accent at this scope — see scss/config/mixins/_form.scss
+	// Hover derived from accent at this scope — see theme/config/mixins/_form.scss
 	&:hover:has(> input:checked) { background-color: var(--color-accent-hover); }
 }
 
@@ -464,7 +464,7 @@ Before writing ANY CSS, verify you're in the right place:
 
 ### Before Using a `data-ln-*` Component in HTML
 
-Read `js/ln-{name}/README.md` first. Check the Attributes table for which
+Read `components/ln-{name}/README.md` first. Check the Attributes table for which
 HTML element the attribute belongs on. Check the Examples section for correct
 HTML structure. Getting the element wrong (e.g., putting `data-ln-search` on
 a `<label>` instead of the `<input>`) triggers wrong global bindings and
@@ -482,13 +482,13 @@ Verify the architectural layer:
 
 | Layer | Path | Contains |
 |-------|------|----------|
-| Library mixin | `scss/config/mixins/` | General-purpose visual recipe |
-| Library component | `scss/components/` | Applies mixin to default selector |
-| Co-located JS SCSS | `js/ln-*/` | ONLY JS-state CSS (hide/show, open/close attributes) |
+| Library mixin | `theme/config/mixins/` | General-purpose visual recipe |
+| Library component | `theme/components/` | Applies mixin to default selector |
+| Co-located JS SCSS | `components/ln-*/` | ONLY JS-state CSS (hide/show, open/close attributes) |
 | Project SCSS | project files | Project-specific layout, ID-scoped overrides |
 
 **Stop signals:**
-- Adding visual CSS (padding, border, colors, layout) to `js/ln-*/*.scss` → belongs in mixin + component
+- Adding visual CSS (padding, border, colors, layout) to `components/ln-*/*.scss` → belongs in mixin + component
 - Scoping CSS to specific IDs inside a library file → belongs in project SCSS
 - Fighting specificity with `!important` or deeper selectors → fix the HTML structure instead
 
@@ -508,7 +508,7 @@ Verify the architectural layer:
 - Hex format for color tokens — use HSL
 - Creating new token names per theme — redefine existing tokens under parent
 - `@media` for component-level responsive when `@container` is appropriate
-- Visual styling in co-located JS SCSS (`js/ln-*/`) — belongs in mixin + component
+- Visual styling in co-located JS SCSS (`components/ln-*/`) — belongs in mixin + component
 - Project-specific CSS (ID-scoped) in library files — belongs in project SCSS
 - Creating new component features that duplicate existing components
 - Re-applying one component's recipe across bespoke selectors (`@include badge` ×N) — define once, consume the shared component class everywhere

@@ -29,7 +29,7 @@ the main  context.
 
 **Mandatory delegation** — route through this agent:
 - New mixin, mixin rewrite, or mixin refactor
-- Component binding changes (selectors in `scss/components/*.scss`)
+- Component binding changes (selectors in `theme/components/*.scss`)
 - Token additions, renames, or semantic changes
 - Form grid / form layout work
 - Responsive breakpoint / container query work

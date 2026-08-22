@@ -1,6 +1,6 @@
 ---
 name: doc-discipline
-description: "Doc-discipline pass workflow for ln-ashlar JS components. Use this skill when running a documentation cleanup/tightening pass on a component's single `js/ln-{name}/README.md` (Contract + `## 🔧 Internals`). Covers: the standard checklist, completed-component benchmarks, the architect → executor → spot-check flow, and hard rules about untouched source/demo files. Triggers on phrases like 'doc-discipline pass', 'почни ln-{name}', or any cleanup of an existing component's docs."
+description: "Doc-discipline pass workflow for ln-ashlar JS components. Use this skill when running a documentation cleanup/tightening pass on a component's single `components/ln-{name}/README.md` (Contract + `## 🔧 Internals`). Covers: the standard checklist, completed-component benchmarks, the architect → executor → spot-check flow, and hard rules about untouched source/demo files. Triggers on phrases like 'doc-discipline pass', 'почни ln-{name}', or any cleanup of an existing component's docs."
 ---
 
 # Doc-Discipline Pass
@@ -35,15 +35,15 @@ NOT for: pilot-doc rewrites of components that don't yet have a README
 
 For component `ln-{name}`:
 
-- `js/ln-{name}/README.md` — the single programmer doc, in two halves:
+- `components/ln-{name}/README.md` — the single programmer doc, in two halves:
   - **Contract** (top) — attributes, events, API, examples.
   - **`## 🔧 Internals`** (bottom) — lifecycle, internal flow, state, mechanism.
 
 ALWAYS untouched (hard rule):
 
-- `js/ln-{name}/ln-{name}.js` — source. If a real bug is found during
+- `components/ln-{name}/ln-{name}.js` — source. If a real bug is found during
   audit, FLAG it but do NOT fix in this pass — open a separate task.
-- `js/ln-{name}/ln-{name}.scss` — co-located CSS.
+- `components/ln-{name}/ln-{name}.scss` — co-located CSS.
 - `demo/admin/{name}.html` — the testing playground. Doc accuracy
   means matching what the demo shows, NOT changing the demo.
 - Any other component's docs.
@@ -117,7 +117,7 @@ can grep.
 
 Cross-check every HTML example against:
 
-- The actual code in `js/ln-{name}/ln-{name}.js`
+- The actual code in `components/ln-{name}/ln-{name}.js`
 - The demo at `demo/admin/{name}.html`
 - The CLAUDE.md project section if the component has one (Modal,
   Button, Pill, etc.)

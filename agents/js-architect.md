@@ -95,7 +95,7 @@ You receive a high-level plan from the chief architect (via a plan file) and pro
 - Read CLAUDE.md for project-specific conventions
 - Check .claude/skills/ for package skills (ln-ashlar) and read them if present — especially:
   - ln-ashlar js/component-template.md (IIFE boilerplate)
-  - ln-ashlar js/ln-core-api.md (fill, renderList, reactive)
+  - ln-ashlar components/ln-core-api.md (fill, renderList, reactive)
   - ln-ashlar components/ (relevant component implementations)
 - Read existing JS files in the project to understand current patterns
 - Identify which ln-ashlar components are already in use

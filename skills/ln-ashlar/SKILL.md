@@ -34,13 +34,13 @@ Unified frontend library: **SCSS CSS framework** + **vanilla JS components**. Ze
 
 ```
 SCSS: tokens → mixins → components
-  scss/config/_tokens.scss     → :root CSS variables
-  scss/config/mixins/_*.scss   → @mixin recipes
-  scss/components/_*.scss      → Applied to default selectors
+  theme/config/_tokens.scss     → :root CSS variables
+  theme/config/mixins/_*.scss   → @mixin recipes
+  theme/components/_*.scss      → Applied to default selectors
 
 JS: IIFE components + ln-core helpers
-  js/ln-core/                  → Shared helpers (fill, renderList, reactive)
-  js/ln-{name}/                → Self-contained IIFE component
+  components/ln-core/                  → Shared helpers (fill, renderList, reactive)
+  components/ln-{name}/                → Self-contained IIFE component
 ```
 
 ## Build
@@ -84,7 +84,7 @@ npm run dev      # Watch mode
 | `components/toggles-and-pills.md` | Pill toggles, radio-pill groups, and switch controls (styled form elements) |
 | `components/tooltip.md` | Tooltip (hover/focus hint) |
 | `js/component-template.md` | Full IIFE boilerplate for new components (naming conventions for `data-ln-*`, events, `window.ln*`) |
-| `js/ln-core-api.md` | `fill`, `renderList`, `cloneTemplate`, `reactive`, `batcher`, `dispatch` API reference |
+| `components/ln-core-api.md` | `fill`, `renderList`, `cloneTemplate`, `reactive`, `batcher`, `dispatch` API reference |
 | `patterns/edit-modal-prefill.md` | Shared create/edit modal — declarative `data-ln-fill-*` trigger prefill (no coordinator), `toFormPayload()` backend contract |
 
 ## Quick Reference
@@ -93,9 +93,9 @@ npm run dev      # Watch mode
 
 ```scss
 // Project integration
-@use 'ln-ashlar/scss/ln-ashlar';   // full framework
+@use 'ln-ashlar/theme/ln-ashlar';   // full framework
 @use 'scss/overrides';              // project tokens
-@use 'scss/components/feature';     // project components
+@use 'theme/components/feature';     // project components
 
 // Mixin on semantic selector
 #add-user { @include btn; }

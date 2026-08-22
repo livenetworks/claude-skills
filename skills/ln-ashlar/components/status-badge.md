@@ -2,7 +2,7 @@
 
 Inline semantic indicator: colored dot + label text. Used for entity status, live states, and filterable labels.
 
-Sources: `scss/config/mixins/_status-badge.scss`, `scss/components/_status-badge.scss`, `docs/css/status-badge.md`.
+Sources: `theme/config/mixins/_status-badge.scss`, `theme/components/_status-badge.scss`, `docs/css/status-badge.md`.
 
 ---
 

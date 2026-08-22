@@ -1,7 +1,7 @@
 # Chip
 
 > Canonical docs: `docs/css/chip.md`
-> Source: `scss/config/mixins/_chip.scss` + `scss/components/_chip.scss`
+> Source: `theme/config/mixins/_chip.scss` + `theme/components/_chip.scss`
 
 ---
 
@@ -65,7 +65,7 @@ The close `<button>` inside a chip uses `all: unset` to strip browser defaults. 
 ## Project usage
 
 ```scss
-// Default .ln-chip selector is applied automatically by scss/components/_chip.scss.
+// Default .ln-chip selector is applied automatically by theme/components/_chip.scss.
 // For a custom selector:
 .document-tag { @include chip; }
 ```

@@ -121,7 +121,7 @@
 | `data-ln-table-source` | Wrapper | Opt-in: Data-Driven mode |
 | `data-ln-table-selectable` | Wrapper | Enable row checkboxes |
 | `data-ln-table-col="field"` | `<th>` | Maps header to record field key |
-| `data-ln-sort="tableId"` | `<ul>` in `<th>` | Sort control root — value is the sorted table's `id`. Full attribute contract → `js/ln-sort/README.md` |
+| `data-ln-sort="tableId"` | `<ul>` in `<th>` | Sort control root — value is the sorted table's `id`. Full attribute contract → `components/ln-sort/README.md` |
 | `data-ln-table-col-filter` | Button in `<th>` | Opens filter popover |
 | `data-ln-table-filter-col="key"` | `<th>` | Maps filter key to column |
 | `data-ln-table-col-select` | `<th>` | Select-all checkbox column |

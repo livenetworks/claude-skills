@@ -1,7 +1,7 @@
 # Prose
 
 > Canonical docs: `docs/css/prose.md`
-> Source: `scss/config/mixins/_prose.scss` + `scss/components/_prose.scss`
+> Source: `theme/config/mixins/_prose.scss` + `theme/components/_prose.scss`
 
 ---
 
@@ -63,7 +63,7 @@ The binding is the CSS class `.prose` — not a data attribute.
 ## Project usage
 
 ```scss
-// Default .prose selector is applied automatically by scss/components/_prose.scss.
+// Default .prose selector is applied automatically by theme/components/_prose.scss.
 // For custom selectors:
 #document-viewer { @include prose; }
 #help-article    { @include prose; }

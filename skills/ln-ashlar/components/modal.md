@@ -77,7 +77,7 @@ A `data-ln-modal-for` trigger can also fill the modal's `[data-ln-field]` displa
 
 - `data-ln-modal-<key>` on the trigger → fills modal `[data-ln-field]` (keys camelCased: `data-ln-modal-user-name` → `userName`).
 - `data-ln-modal-mode` is set automatically: `edit` if any `data-ln-modal-*` payload, `new` if none; an explicit `data-ln-modal-mode` on the trigger wins. `[data-ln-modal-when]` spans toggle on it (co-located SCSS).
-- This is the modal **display** namespace; the **form** fill is the separate `data-ln-fill-*` namespace → `patterns/edit-modal-prefill.md`, `js/ln-fill/README.md`.
+- This is the modal **display** namespace; the **form** fill is the separate `data-ln-fill-*` namespace → `patterns/edit-modal-prefill.md`, `components/ln-fill/README.md`.
 
 ## Rules
 - `<form>` is the content root — select via `.ln-modal > form`

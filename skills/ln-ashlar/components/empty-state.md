@@ -7,7 +7,7 @@
 
 ## Attribute Component
 
-Use `data-ln-empty-state` on any container. The framework applies `@include empty-state` automatically via the default selector `[data-ln-empty-state]` in `scss/components/_empty-state.scss`.
+Use `data-ln-empty-state` on any container. The framework applies `@include empty-state` automatically via the default selector `[data-ln-empty-state]` in `theme/components/_empty-state.scss`.
 
 ---
 

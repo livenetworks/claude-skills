@@ -1,7 +1,7 @@
 # Stepper
 
 > Canonical docs: `docs/css/stepper.md`
-> Source: `scss/config/mixins/_stepper.scss` + `scss/components/_stepper.scss`
+> Source: `theme/config/mixins/_stepper.scss` + `theme/components/_stepper.scss`
 
 ---
 

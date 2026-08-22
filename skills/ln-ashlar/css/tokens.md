@@ -1,6 +1,6 @@
 # ln-ashlar — Token Reference
 
-Terse reference. All values from `scss/config/_tokens.scss` and `scss/config/_density.scss`.
+Terse reference. All values from `theme/config/_tokens.scss` and `theme/config/_density.scss`.
 For theming overrides → `css/theming.md`. For density tier values → `css/density.md`.
 
 ---

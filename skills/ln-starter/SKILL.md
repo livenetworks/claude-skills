@@ -263,7 +263,7 @@ The package provides opt-in passwordless auth. Enable with `config('ln-starter.a
 7. Define a `home` named route (or change `auth.home_route`)
 8. Publish views if you need to customize branding: `php artisan vendor:publish --tag=ln-starter-views`
 
-**Peer dependency:** `ln-ashlar` must be installed via npm — the SCSS uses `@use 'ln-ashlar/scss/config/mixins'` and `ln-ashlar/scss/config/tokens`.
+**Peer dependency:** `ln-ashlar` must be installed via npm — the SCSS uses `@use 'ln-ashlar/theme/config/mixins'` and `ln-ashlar/theme/config/tokens`.
 
 ## Stack context
 

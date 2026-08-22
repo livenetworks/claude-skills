@@ -1,6 +1,6 @@
 # ln-ashlar — Cards Mixin Reference
 
-Quick reference for card and panel mixins. Full source: `scss/config/mixins/_card.scss`.
+Quick reference for card and panel mixins. Full source: `theme/config/mixins/_card.scss`.
 
 ---
 

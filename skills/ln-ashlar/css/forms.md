@@ -1,6 +1,6 @@
 # ln-ashlar — Forms Mixin Reference
 
-Quick reference for form layout and input mixins. Full source: `scss/config/mixins/_form.scss`.
+Quick reference for form layout and input mixins. Full source: `theme/config/mixins/_form.scss`.
 For HTML structure rules → global `html` skill §7.
 
 ---
@@ -26,7 +26,7 @@ to 1 column below the `md` breakpoint (768px / `$bp-md`) via `@include cq-down(m
 ### `form-actions`
 
 Flex row, `justify-end`, `border-top`, `margin-top: var(--size-lg)`. Applied globally
-to `.form-actions` in `scss/components/_form.scss`.
+to `.form-actions` in `theme/components/_form.scss`.
 
 ---
 
@@ -36,7 +36,7 @@ to `.form-actions` in `scss/components/_form.scss`.
 
 Full-width, border, recessed bg, density-reactive padding via `--input-padding-y`.
 Applied globally to `input[type="text"]`, `email`, `password`, `number`, `tel`,
-`date`, `search`, `url`, `textarea`, `select` in `scss/components/_form.scss`.
+`date`, `search`, `url`, `textarea`, `select` in `theme/components/_form.scss`.
 Rarely applied in project SCSS — the global binding covers it.
 
 ### `form-textarea` / `form-select`
@@ -73,7 +73,7 @@ label.search { @include search; }
 
 ### `form-checkbox` / `form-radio`
 
-Custom-styled native checkbox/radio. Applied globally in `scss/components/_form.scss`.
+Custom-styled native checkbox/radio. Applied globally in `theme/components/_form.scss`.
 
 ### `pill-outline`
 
@@ -116,7 +116,7 @@ Apply to a `<ul>`.
 ### `toggle-switch`
 
 Styled `<input type="checkbox">` rendered as an iOS-style toggle track+thumb.
-Applied globally in `scss/components/_form.scss`.
+Applied globally in `theme/components/_form.scss`.
 
 ### `pill-switch` / `pills-switch`
 
@@ -141,7 +141,7 @@ Styles `<ul class="validation-errors">` (or `[data-ln-validate-errors]`):
 caption-size red text, `min-height` to prevent layout shift, `list-style: none`.
 
 ```scss
-// Applied globally in scss/components/_form.scss
+// Applied globally in theme/components/_form.scss
 .form-element .validation-errors { @include form-validate-errors; }
 ```
 

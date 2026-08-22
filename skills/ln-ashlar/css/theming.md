@@ -2,7 +2,7 @@
 
 CSS-only dark mode and consumer re-theming. No JavaScript required for theme switching.
 
-Sources: `scss/config/_theme.scss`, `docs/css/theming.md`.
+Sources: `theme/config/_theme.scss`, `docs/css/theming.md`.
 
 ---
 
