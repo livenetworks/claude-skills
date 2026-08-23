@@ -344,7 +344,7 @@ automatically inside `renderList`'s clone pass and `ln-table` row rendering.
 
 ### `renderList(container, items, templateName, keyFn, fillFn, tag)`
 
-Efficiently renders an array with DOM reuse via `data-ln-key`.
+Efficiently renders an array with DOM reuse via `data-ln-render-key`.
 
 ```javascript
 renderList(
@@ -358,7 +358,7 @@ renderList(
 ```
 
 - `keyFn` returns a stable unique identifier (database id, not array index).
-- Existing DOM nodes with matching `data-ln-key` are reused — event listeners and focus survive.
+- Existing DOM nodes with matching `data-ln-render-key` are reused — event listeners and focus survive.
 - Atomic DOM replacement: one reflow per render.
 - Calls `fillTemplate(clone, item)` automatically for newly-cloned elements.
 
