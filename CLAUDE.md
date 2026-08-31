@@ -244,6 +244,8 @@ execute. Instead:
 
 This applies to architecture discussions, spec reviews, and planning.
 For implementation tasks ("create this file", "fix this bug"), execute directly.
+**This scopes the discussion duty, not Rule Zero** (see the project `CLAUDE.md`)
+— implementation tasks still get read-first, and still never get invented names.
 
 ### Discovery Phase (before any plan)
 
@@ -274,6 +276,8 @@ First, walk through these questions:
 
 Only after these are answered → proceed to plan.
 Skip this for small fixes, bug fixes, and explicit implementation tasks.
+Skipping Discovery never skips Rule Zero: read the source first, invent
+nothing, and stop to ask when the area is unclear or has no precedent.
 
 ## Verifier Gating for Direct Executor Delegations
 

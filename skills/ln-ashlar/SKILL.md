@@ -15,6 +15,9 @@ description: "Routing skill for work on a project that uses the ln-ashlar fronte
 
 ## The one rule
 
+This is **Rule Zero** (project `CLAUDE.md`) applied to library surfaces. The law is
+defined there; this is what it means here.
+
 **Never author ln-ashlar markup, attributes, events, class names, mixins or tokens
 from memory or from this file.** Query the source below first, every time — including
 when you are confident, and including when a name "obviously" follows the convention.
