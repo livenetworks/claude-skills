@@ -1,156 +1,120 @@
 ---
 name: ln-ashlar
-description: "Implementation reference for the ln-ashlar frontend library. Use this skill when working on a project that uses ln-ashlar for CSS/JS. Covers: SCSS mixins and token values, JS component boilerplate, ln-core helpers API, icon system, naming conventions, and component-specific implementation patterns."
+description: "Routing skill for work on a project that uses the ln-ashlar frontend library. Does not contain library facts — it tells you which documentation source to query for markup, attributes, events, tokens, mixins and doctrine, in what order, and which agent and review gate each kind of task goes through. Use it whenever a task touches ln-ashlar CSS, JS or markup."
 ---
 
-# ln-ashlar — Implementation Reference
+# ln-ashlar — Routing & Process
 
-> This skill covers HOW to build with ln-ashlar.
-> For WHY and WHAT decisions → see global skills (css, js, html, ui, ux).
+> **This skill carries no library facts.** No markup, no attribute names, no mixin
+> names, no component lists, no doctrine. All of that changes with every refactor,
+> and a copy of it here would be wrong within weeks.
+>
+> What this skill does: tell you **where to look** and **who does what**.
 
 ---
 
-## What is ln-ashlar?
+## The one rule
 
-Unified frontend library: **SCSS CSS framework** + **vanilla JS components**. Zero dependencies. Used in Laravel projects via npm or git submodule.
+**Never author ln-ashlar markup, attributes, events, class names, mixins or tokens
+from memory or from this file.** Query the source below first, every time — including
+when you are confident, and including when a name "obviously" follows the convention.
 
-## 🏛️ The DOM-First Doctrine
+The library is refactored continuously. Anything you remember from a previous session
+may have been renamed, lifted into a shared module, or deleted.
 
-`ln-ashlar` is built on a simple technical reality: **the browser works natively with the DOM, not a Virtual DOM.** The framework enforces the following:
+---
 
-1. **Server-Rendered structure, client-rendered behavior:** The server generates complete, semantic HTML. The browser paints it immediately. A lightweight, native `MutationObserver` registers and binds vanilla JS components dynamically.
-2. **HTML describes WHAT, not HOW:** HTML markup should only consist of semantic tags and structural elements. Visual details belong exclusively in SCSS.
-3. **Pure SCSS Styling via `@include`:** Tailwind-style utility classes are strictly banned in markup (avoid `flex`, `grid-cols-4`, `text-red-500`). Markup is styled by applying SCSS mixins to semantic selectors (e.g., `#user-table { @include table-base; }`).
-4. **Zero Dependencies:** To ensure decades of stability and complete immunity to npm supply chain attacks, `ln-ashlar` contains zero transitive dependencies at runtime.
+## Where to look
 
-## 🧭 Four Core Philosophy Principles
+Query in this order. Stop at the first source that answers.
 
-1. **HTML describes WHAT, not HOW** — Use semantic elements only. No presentational or utility classes in markup. Visual changes happen in SCSS, never in HTML.
-2. **Style via `@include` on semantic selectors** — Projects write `#user-table { @include table-base; }`, not `<table class="table table-striped">`. The selector describes the element; the mixin describes how it looks.
-3. **Every color is a CSS variable** — Always use `hsl(var(--color-primary))`, never hardcoded hex codes like `#2737a1`. The entire design system is fully customizable at any scope via simple variable overrides.
-4. **JS is attribute-driven, zero init** — Interactivity is declared via attributes (`data-ln-modal`, `data-ln-filter`, `data-ln-toggle`). A single `MutationObserver` registers, binds, and cleans up instances automatically without boilerplate constructor calls.
+| You need | Ask |
+|---|---|
+| Which component handles this UI problem | the MCP component router, then `list_components` |
+| Canonical markup for a component | `get_markup` |
+| An attribute's contract, allowed values, who writes it | `get_attribute` |
+| Events a component emits or listens for | `get_events` |
+| Which component owns a behaviour | `who_handles` |
+| Full contract for one component | `get_component` |
+| Components that work together | `get_related` |
+| Architecture and authoring rules | `get_doctrine` |
+| A task-shaped workflow | `get_skill` |
+| Anything you cannot name precisely | `search_docs`, then `knowledge_search` |
+| The machine-readable attribute surface | `get_ln_schema` |
 
-## Architecture
+**If the MCP server is unreachable**, fall back to the repository itself, in this order:
 
-```
-SCSS: tokens → mixins → components
-  theme/config/_tokens.scss     → :root CSS variables
-  theme/config/mixins/_*.scss   → @mixin recipes
-  theme/components/_*.scss      → Applied to default selectors
+1. The component's own README — the contract for that component.
+2. The shared-primitives module's barrel export file — the authoritative list of what
+   is shared rather than component-local.
+3. The component's source directory — the DOM shell and, when present, its model file.
+4. The theme's mixin and token directories — for anything visual.
+5. The demo pages — for working markup in context.
 
-JS: IIFE components + ln-core helpers
-  components/ln-core/                  → Shared helpers (fill, renderList, reactive)
-  components/ln-{name}/                → Self-contained IIFE component
-```
+Never fall back to a compiled bundle. Never fall back to this file.
 
-## Build
+---
 
-```bash
-npm run build    # dist/ln-ashlar.css + .js + .iife.js
-npm run dev      # Watch mode
-```
+## Reading order for a new task
 
-## Sub-Skills
+1. **Doctrine before code.** Fetch the architecture rules before proposing or writing
+   anything. They are binding and they change.
+2. **Router before markup.** Pick the component before you write HTML for it.
+3. **Contract before wiring.** Fetch attributes and events before connecting components.
+4. **Grep before claiming.** If you are about to state that a behaviour, method, event
+   or attribute exists — search the source first. Trust the code, not your model of it.
 
-| File | Content |
-|------|---------|
-| `references/doctrine.md` | Core doctrine rules — DOM-first, no utility classes, attribute-driven JS; read before writing any ln-ashlar code |
-| `css/app-shell.md` | App-shell mixins (header, sidebar-drawer, main, footer, header regions) and global bindings |
-| `css/breakpoints.md` | Media vs container-query breakpoint tokens and rules |
-| `css/cards.md` | Card and panel mixin reference (`card`, `card-flush`, `panel`, etc.) |
-| `css/density.md` | Density variants (compact, default, comfortable) and token values |
-| `css/forms.md` | Form layout and input mixin reference (`form-grid`, `input`, `label`, etc.) |
-| `css/icons.md` | SVG sprite system, Tabler icons, custom icons |
-| `css/mixins.md` | Complete mixin reference with examples |
-| `css/tables.md` | Table mixin reference (`table-base`, `table-striped`, etc.) |
-| `css/theming.md` | Dark mode, theme tokens, color-scheme |
-| `css/tokens.md` | Token values (colors, spacing, radii, shadows) from `_tokens.scss` and `_density.scss` |
-| `css/visual-rules.md` | ln-ashlar specific visual rules (§1-§8 implementation) |
-| `components/chip.md` | Removable filter token / selected value (chip mixin + SCSS source) |
-| `components/data-table.md` | Data table implementation — `ln-table` JS component, store, coordinator wiring |
-| `components/empty-state.md` | Empty state implementation — markup, mixin, and zero-data handling |
-| `components/form.md` | Form component implementation — `ln-form`, `data-ln-form`, `toFormPayload()` |
-| `components/loading-state.md` | Loading state implementation — skeleton, spinner, and state toggling |
-| `components/modal.md` | Modal implementation — `data-ln-modal`, trigger/close attributes, events, fill |
-| `components/page-header.md` | Standard page title + breadcrumbs + actions |
-| `components/popover.md` | Popover / contextual overlay |
-| `components/prose.md` | Scoped long-form content typography wrapper |
-| `components/search.md` | Search implementation — `ln-search`, `data-ln-search`, client-side filtering |
-| `components/stat-card.md` | KPI stat card pattern |
-| `components/status-badge.md` | Inline semantic status indicator — colored dot + label, filterable |
-| `components/stepper.md` | Linear wizard progress indicator |
-| `components/tabs.md` | Tabs implementation — `ln-tabs`, `data-ln-tabs`, active-tab state |
-| `components/timeline.md` | Chronological event list (audit log, activity feed) |
-| `components/toggles-and-pills.md` | Pill toggles, radio-pill groups, and switch controls (styled form elements) |
-| `components/tooltip.md` | Tooltip (hover/focus hint) |
-| `js/component-template.md` | Full IIFE boilerplate for new components (naming conventions for `data-ln-*`, events, `window.ln*`) |
-| `components/ln-core-api.md` | `fill`, `renderList`, `cloneTemplate`, `reactive`, `batcher`, `dispatch` API reference |
-| `patterns/edit-modal-prefill.md` | Shared create/edit modal — declarative `data-ln-fill-*` trigger prefill (no coordinator), `toFormPayload()` backend contract |
+---
 
-## Quick Reference
+## Who does the work
 
-### CSS — Key Patterns
+| Situation | Route to |
+|---|---|
+| Discussion, architecture question, spec review | handle directly — thinking is not delegated |
+| Trivial fix, tightly scoped, obviously correct | edit directly |
+| Single-domain task (styling only / JS only / backend only) | the matching domain architect |
+| Task spanning markup, styling and behaviour together | the cross-cutting frontend architect |
+| Frontend and backend together | split by domain; sequence them yourself |
+| A plan file that already exists | straight to the implementation agent |
+| Commit, push, release | the dedicated git agents — never run git directly |
 
-```scss
-// Project integration
-@use 'ln-ashlar/theme/ln-ashlar';   // full framework
-@use 'scss/overrides';              // project tokens
-@use 'theme/components/feature';     // project components
+Domain architects produce plans. They do not execute them. The implementation agent
+executes. Verification follows execution. Git is last.
 
-// Mixin on semantic selector
-#add-user { @include btn; }
-#users article { @include card; }
+---
 
-// Color override via token
-#delete-user { --color-primary: var(--color-error); }
+## Gates
 
-// Form grid (6 columns)
-#my-form { @include form-grid; }
-#my-form .form-element { grid-column: span 3; }
+**A plan must pass review before it is executed.** Submit the finished plan file to the
+MCP plan-review tool and act on the verdict: revise and resubmit on a revise verdict,
+with the iteration counter incremented and the previous feedback attached; hand off only
+on approval, or once the iteration ceiling is reached. A revised plan is a new plan —
+review it again. There is no exemption for small or obvious.
 
-// Container query
-#folders { @include container(foldersgrid); }
-```
+If no reviewer is reachable, the gate does not block the work — but say so plainly in
+the summary. Never report an unreachable reviewer as an approval.
 
-### JS — Key Patterns
+**Finished code can be reviewed the same way** via the MCP code-review tool when the
+change is large or its correctness is not verifiable by inspection.
 
-```javascript
-// Import helpers from ln-core
-import { dispatch, fill, renderList, cloneTemplate } from '../ln-core';
-import { deepReactive, createBatcher } from '../ln-core';
+---
 
-// Open a modal programmatically (attribute is the single source of truth)
-document.getElementById('my-modal').setAttribute('data-ln-modal', 'open');
+## When a source is wrong
 
-// Declarative DOM binding
-fill(el, { name: user.name, email: user.email });
+Documentation drifts behind the code. When a source contradicts the source:
 
-// Keyed list rendering
-renderList(container, items, 'template-name', keyFn, fillFn, 'ln-component');
-```
+- Code wins over documentation. Always.
+- Report the drift — say which document is stale and what the code actually does.
+- Do not silently work around it, and do not copy the stale fact forward into new work.
+- Do not fix it inline as part of an unrelated task unless asked.
 
-### HTML — Key Patterns
+---
 
-```html
-<!-- Icon (SVG sprite) -->
-<svg class="ln-icon" aria-hidden="true"><use href="#ln-icon-plus"></use></svg>
+## What must never be added to this file
 
-<!-- Modal -->
-<div class="ln-modal" data-ln-modal id="my-modal">
-    <form>
-        <header><h3>Title</h3><button type="button" aria-label="Close" data-ln-modal-close>...</button></header>
-        <main>...</main>
-        <footer><button type="button" data-ln-modal-close>Cancel</button><button type="submit">Save</button></footer>
-    </form>
-</div>
+Markup examples. Attribute or event names. Component names. Mixin or token names.
+File paths inside the library. Doctrine or rules of any kind. Version-specific facts.
 
-<!-- Accordion -->
-<ul data-ln-accordion>
-    <li>
-        <header data-ln-toggle-for="panel1">Title</header>
-        <main id="panel1" data-ln-toggle class="collapsible">
-            <section class="collapsible-body">...</section>
-        </main>
-    </li>
-</ul>
-```
+If you find yourself wanting to write one of those here, it belongs in the documentation
+corpus instead, and this file should route to it. A skill that mirrors the library needs
+updating every time the library changes; a skill that routes does not.

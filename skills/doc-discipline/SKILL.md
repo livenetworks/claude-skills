@@ -41,9 +41,14 @@ For component `ln-{name}`:
 
 ALWAYS untouched (hard rule):
 
-- `components/ln-{name}/ln-{name}.js` — source. If a real bug is found during
-  audit, FLAG it but do NOT fix in this pass — open a separate task.
-- `components/ln-{name}/ln-{name}.scss` — co-located CSS.
+- The component's **source** — its DOM shell, plus its pure domain model when it has
+  one. If a real bug is found during audit, FLAG it but do NOT fix in this pass —
+  open a separate task.
+- The component's **co-located stylesheet**.
+- The component's **compiled bundle** — never read this to verify a contract. It is
+  minified build output; the source is the truth. Resolve which file is which from
+  the project's structure documentation rather than from memory: the layout has been
+  reorganised before, and a hardcoded path here would send the pass to the wrong file.
 - `demo/admin/{name}.html` — the testing playground. Doc accuracy
   means matching what the demo shows, NOT changing the demo.
 - Any other component's docs.
@@ -117,7 +122,7 @@ can grep.
 
 Cross-check every HTML example against:
 
-- The actual code in `components/ln-{name}/ln-{name}.js`
+- The actual component **source** — shell plus model — never the compiled bundle
 - The demo at `demo/admin/{name}.html`
 - The CLAUDE.md project section if the component has one (Modal,
   Button, Pill, etc.)

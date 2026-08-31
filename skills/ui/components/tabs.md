@@ -32,4 +32,4 @@ Tabs organize content that shares a parent context but represents different face
 - No URL hash sync (user can't bookmark or share specific tab)
 - Tabs for unrelated content (use navigation instead)
 
-> For implementation with ln-ashlar → see ln-ashlar components/tabs.md
+> For implementation in a specific design system → query that system's own documentation (in this project, via the ln-ashlar routing skill). This file covers WHAT the component must contain, not how any one library spells it.

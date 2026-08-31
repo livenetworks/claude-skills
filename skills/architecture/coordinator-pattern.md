@@ -28,48 +28,54 @@ The coordinator never calls methods directly. It sets attributes — the compone
 
 ## Two Types
 
-### Library Coordinator (ln-ashlar)
+### Library Coordinator
 
-Generic, reusable. Coordinates primitives from the same family.
+Generic and reusable, shipped with the component library. Coordinates primitives
+from the same family — a disclosure container closing its sibling panels, a form
+enabling its submit button when its fields report valid.
 
-| Coordinator | Primitives | What it does |
-|---|---|---|
-| `ln-accordion` | `ln-toggle` children | Listens `ln-toggle:open` → closes siblings via attribute |
-| `ln-form` | `ln-validate` children | Listens `ln-validate:valid/invalid` → enables/disables submit |
+You do not write these. Query the library's documentation for which ones exist
+and what they listen for; never assume from the name.
 
-Library coordinators live in ln-ashlar and are available to all projects.
+### Project Coordinator
 
-### Project Coordinator (project-specific)
+Application-specific. Connects components from different families across a page.
+This is the kind you write.
 
-Application-specific. Connects components from different families across the page.
-
-Example from ln-mixer:
-
-```
-ln-profile:switched  →  coordinator  →  sidebar[data-ln-playlist-profile] = id
-                                              │
-                                              ▼
-                                         ln-playlist reloads
-
-ln-playlist:changed  →  coordinator  →  lnProfile.persist()
-```
-
-Example for a CRUD page (coordinator / store-driven fills):
+**Use your own attribute namespace, never the library's.** Below, `data-app-*` is
+a placeholder — substitute your project's prefix. The library owns `data-{lib}-*`;
+a project coordinator writing into that namespace couples your application to
+library internals that will be refactored out from under you.
 
 ```
-ln-table:row-action      →  coordinator  →  modal[data-ln-modal] = "open"
-  (edit, record)                            lnFill(modal, record)   // fans out: form + [data-ln-fillable]
+app-profile:switched   →  coordinator  →  sidebar[data-app-active-profile] = id
+                                                │
+                                                ▼
+                                        dependent panel reloads
 
-data-ln-form-scope       →  coordinator  →  ln-data-store:request-update { id, data }
-(native submit intake)                       ln-api-connector:request-update { url, data, meta }
-
-ln-data-store:updated    →  coordinator  →  modal[data-ln-modal] = "close"
-                                            toast("Saved")
+app-panel:changed      →  coordinator  →  profileStore.persist()
 ```
 
-> **Note:** for click-triggered fills from table rows or inline buttons, the declarative `data-ln-fill-form` + `data-ln-fill-*` attributes (and `data-ln-modal-*` for modal display) handle the fill with **no coordinator code** — see `components/ln-fill/README.md`. Use the coordinator above only for programmatic / store-driven fills (e.g. conflict resolution, deep-link pre-fill).
+Example for a CRUD page (coordinator-driven, store-backed):
 
-Project coordinators live in the project's JS (e.g. `resources/js/coordinators/`), not in ln-ashlar.
+```
+<table>:row-action     →  coordinator  →  open the dialog via its state attribute
+  (edit, record)                          fill it with the record
+
+<form> submit intake   →  coordinator  →  store: request-update { id, data }
+                                          transport: request-update { url, data }
+
+store: updated         →  coordinator  →  close the dialog
+                                          notify the user
+```
+
+> **Before writing any of this, check whether it is needed at all.** Component
+> libraries increasingly express click-triggered fills, dialog opening and form
+> wiring declaratively in markup, with zero coordinator code. Query the library
+> docs first. Reserve a coordinator for genuinely programmatic or store-driven
+> flows — conflict resolution, deep-link pre-fill, cross-family sequencing.
+
+Project coordinators live in the project's own JS, not in the library.
 
 ---
 
@@ -78,7 +84,7 @@ Project coordinators live in the project's JS (e.g. `resources/js/coordinators/`
 1. **No DOM, no rendering** — coordinator is pure event wiring
 2. **No direct method calls** — set attributes, dispatch events. Never `el.lnComponent.doSomething()`
 3. **Single point of coupling** — coordinator is the only place that knows which components exist together
-4. **Replaceable components** — swap ln-profile for a different auth system → only coordinator changes
+4. **Replaceable components** — swap one component for a different implementation → only the coordinator changes
 5. **Attributes as communication** — declarative, inspectable, triggers MutationObserver
 6. **One coordinator per scope** — page-level coordinator per page, or one app-level coordinator for SPA
 

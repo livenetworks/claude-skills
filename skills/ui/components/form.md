@@ -68,4 +68,4 @@ A form is a conversation: the system asks questions (labels), the user answers (
 - Validation rules in JS config instead of HTML attributes
 - Error text hardcoded in JS instead of HTML
 
-> For implementation with ln-ashlar → see ln-ashlar components/form.md
+> For implementation in a specific design system → query that system's own documentation (in this project, via the ln-ashlar routing skill). This file covers WHAT the component must contain, not how any one library spells it.

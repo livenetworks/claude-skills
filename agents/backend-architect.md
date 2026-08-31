@@ -63,6 +63,16 @@ Sonnet should do — the exact inversion of why the chief architect delegated
 to you. Your summary should end with "Execute: @executor Implement
 .claude/plans/{file}" and nothing more.
 
+**The plan must pass `review_plan` before anyone executes it.** If the
+ln-ashlar MCP server is reachable, submit the finished plan file to
+`review_plan` (`plan_type: implementation`, with full `context`) and act on
+the verdict: on `REVISE`, revise and resubmit with `iteration` incremented
+and `previous_feedback` set; hand off only on `APPROVE`, or once
+`iteration: 3` is reached. A revised plan is a NEW plan — re-review it. No
+exemption for "small" or "obvious". If the server is unreachable or the call
+errors, the gate does not block the work — but say so plainly in your
+summary. Never report an unreachable reviewer as `APPROVE`.
+
 **2. Never call git directly.** No `git add / commit / push / tag / reset /
 diff / log / status`. Git is handled by dedicated agents:
 - Commit + push outstanding changes → `@git-push`

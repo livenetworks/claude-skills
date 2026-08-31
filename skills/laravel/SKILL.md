@@ -376,7 +376,9 @@ Eloquent's `boolean` cast returns PHP `true`/`false` which JSON-serializes to JS
 
 **When NOT to use this pattern** — prefer a dedicated `GET /{resource}/{id}/edit` route returning a server-rendered partial when: the form has nested or repeating structures, the field set differs per record, or values come from an expensive join you don't want to pay per row on index render.
 
-Frontend coordinator and full recipe: see `.claude/skills/ln-ashlar/patterns/edit-modal-prefill.md`.
+Frontend coordinator and full recipe: query the frontend library's own documentation
+(in this project, via the ln-ashlar routing skill) — the declarative attributes for
+prefill and dialog display change with the library, not with Laravel.
 
 ### Scopes — Readable Filter Chains
 

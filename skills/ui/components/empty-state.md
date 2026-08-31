@@ -24,4 +24,4 @@ Data exists, but current search/filter shows nothing.
 - Type 1 appears only once — after first item created, never again
 - Empty state must never be visually heavier than the populated state
 
-> For implementation with ln-ashlar → see ln-ashlar components/empty-state.md
+> For implementation in a specific design system → query that system's own documentation (in this project, via the ln-ashlar routing skill). This file covers WHAT the component must contain, not how any one library spells it.

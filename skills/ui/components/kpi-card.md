@@ -29,4 +29,4 @@ One metric per card. The number is the answer — label and trend are context.
 - KPI card without click-through to detail
 - Number as heading (`<h2>42</h2>`)
 
-> For implementation with ln-ashlar → see ln-ashlar components/kpi-card.md
+> For implementation in a specific design system → query that system's own documentation (in this project, via the ln-ashlar routing skill). This file covers WHAT the component must contain, not how any one library spells it.

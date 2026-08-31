@@ -60,6 +60,16 @@ Sonnet should do — the exact inversion of why the chief architect delegated
 to you. Your summary should end with "Execute: @executor Implement
 .claude/plans/{file}" and nothing more.
 
+**The plan must pass `review_plan` before anyone executes it.** If the
+ln-ashlar MCP server is reachable, submit the finished plan file to
+`review_plan` (`plan_type: implementation`, with full `context`) and act on
+the verdict: on `REVISE`, revise and resubmit with `iteration` incremented
+and `previous_feedback` set; hand off only on `APPROVE`, or once
+`iteration: 3` is reached. A revised plan is a NEW plan — re-review it. No
+exemption for "small" or "obvious". If the server is unreachable or the call
+errors, the gate does not block the work — but say so plainly in your
+summary. Never report an unreachable reviewer as `APPROVE`.
+
 **2. Never call git directly.** No `git add / commit / push / tag / reset /
 diff / log / status`. Git is handled by dedicated agents:
 - Commit + push outstanding changes → `@git-push`
@@ -92,13 +102,12 @@ You receive a high-level plan from the chief architect (via a plan file) and pro
 
 - Read the plan file referenced in your task
 - Read CLAUDE.md for project-specific conventions
-- Check .claude/skills/ for package skills (ln-ashlar) and read them if present — especially:
-  - ln-ashlar css/mixins.md (available mixins)
-  - ln-ashlar css/visual-rules.md (button architecture, motion, tokens)
-  - ln-ashlar css/icons.md (if icons involved)
-  - ln-ashlar components/ (relevant component styling)
+- Invoke the package routing skill (ln-ashlar) and follow it to the live
+  documentation for the mixins, tokens and visual rules that exist right now.
+  Never author a mixin or token name from memory or from a skill file — the
+  design system's surface is refactored continuously.
 - Read existing SCSS files in the project to understand current patterns
-- Check which ln-ashlar defaults are already applied
+- Check which library defaults are already applied
 
 **Pattern Discovery (MANDATORY before any planning):**
 
@@ -106,11 +115,11 @@ Before proposing ANY implementation, find and read at least one existing
 example of the same type of work in this project:
 
 - Writing page SCSS? → Read an existing `_page-name.scss` file. Copy the selector depth, mixin usage, nesting conventions.
-- Writing form styles? → `grep -r "form-grid\|form-element\|grid-column" resources/scss/` — find how other forms define grid spans. Match the pattern.
+- Writing form styles? → `grep -r "grid-column" resources/scss/` — find how other forms define grid spans, and match whatever form mixin they actually include. Get the current mixin names from the docs; do not grep for names you remember.
 - Writing component overrides? → Read the ln-ashlar component SCSS first, then read an existing project override. Write only the delta.
 - Writing token overrides? → Read `_tokens.scss` or `:root` block. Check if the token already exists before creating a new one.
 - Writing responsive styles? → `grep -r "@container\|@media" resources/scss/` — find if the project uses container queries or media queries. Match the existing pattern.
-- Writing button styles? → `grep -r "@include btn\|--color-primary" resources/scss/` — find how other buttons are styled. Copy the semantic selector + override pattern.
+- Writing button styles? → Read how existing buttons are styled in this project and copy the semantic selector + token-override pattern. Look up the current button mixin and accent token names in the docs rather than assuming them.
 - Writing icon styles? → Read how existing icons are sized and colored. Match the class/SVG pattern.
 - Writing a new SCSS file? → Read the main entry point (app.scss) for import order and naming convention.
 
@@ -161,8 +170,8 @@ Before finalizing ANY output (direct fix, plan, or discussion), verify:
 - Did I actually READ existing SCSS files before proposing my solution?
 - Does my selector pattern match other page SCSS files in THIS project?
 - Does my mixin usage match how other components use mixins?
-- Re-read ln-ashlar css/visual-rules.md — hover = color only? Tokens, not hardcoded?
-- Check `_tokens.scss` — does the token I need already exist?
+- Re-check the documented visual rules — hover = color only? Tokens, not hardcoded?
+- Check the token source — does the token I need already exist?
 - Does my selector target semantic HTML, not `.btn--variant` classes?
 - Am I writing only the delta, or restating what ln-ashlar already provides?
 - If I used a color value, is it `hsl(var(--color-*))` or did I hardcode a hex?

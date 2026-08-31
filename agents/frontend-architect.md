@@ -63,6 +63,16 @@ Sonnet should do — the exact inversion of why the chief architect delegated
 to you. Your summary should end with "Execute: @executor Implement
 .claude/plans/{file}" and nothing more.
 
+**The plan must pass `review_plan` before anyone executes it.** If the
+ln-ashlar MCP server is reachable, submit the finished plan file to
+`review_plan` (`plan_type: implementation`, with full `context`) and act on
+the verdict: on `REVISE`, revise and resubmit with `iteration` incremented
+and `previous_feedback` set; hand off only on `APPROVE`, or once
+`iteration: 3` is reached. A revised plan is a NEW plan — re-review it. No
+exemption for "small" or "obvious". If the server is unreachable or the call
+errors, the gate does not block the work — but say so plainly in your
+summary. Never report an unreachable reviewer as `APPROVE`.
+
 **2. Never call git directly.** No `git add / commit / push / tag / reset /
 diff / log / status`. Git is handled by dedicated agents:
 - Commit + push outstanding changes → `@git-push`
@@ -95,12 +105,12 @@ You receive a plan or concept and produce:
 
 - Read the plan file or task description
 - Read CLAUDE.md for project-specific conventions
-- Check .claude/skills/ for package skills (ln-ashlar) and read them if present:
-  - ln-ashlar css/ (mixins, visual-rules, icons)
-  - ln-ashlar js/ (component-template, ln-core-api)
-  - ln-ashlar components/ (relevant implementations)
+- Invoke the package routing skill (ln-ashlar) and follow it to the live
+  documentation for markup, attributes, events, mixins and tokens. Never author
+  any of those from memory or from a skill file — query the documented source
+  for each, every time.
 - Read existing HTML, JS, and SCSS files in the project
-- Identify which ln-ashlar components are already in use
+- Identify which library components are already in use
 
 **Pattern Discovery (MANDATORY before any planning):**
 
@@ -109,10 +119,10 @@ example of the same type of work in this project:
 
 - Writing SCSS for a page? → Read an existing page SCSS file. Copy the selector patterns, mixin usage, nesting depth.
 - Writing a Blade view? → Read an existing view. Copy the layout structure, section naming, component usage.
-- Writing a form? → `grep -r "form-grid\|data-ln-form\|data-ln-validate" resources/` — find how other forms are built. Match the grid, validation, and error markup.
+- Writing a form? → Read an existing form in the project first. Match its grid, validation, and error markup. If you need to grep, get the current form/validation attribute and mixin names from the library docs first — do not grep for names you remember.
 - Writing a JS component? → Read an existing component in this project. Copy the IIFE structure, event naming, state management.
 - Writing coordinator wiring? → Read the existing coordinator (app.js or equivalent). Copy the event listener patterns.
-- Adding icons? → `grep -r "ln-icon\|<use href" resources/` — find how other icons are used. Match the SVG sprite or class pattern.
+- Adding icons? → `grep -r "<use href" resources/` — find how other icons are used, then match the sprite reference and class pattern you actually find.
 - Adding a modal? → Read an existing modal in the project. Copy the `<form>` root, size mixin, close pattern.
 - Writing responsive styles? → Read how other components handle breakpoints. Container queries or media queries?
 
