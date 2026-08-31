@@ -63,6 +63,25 @@ git output into your own Opus context.
 
 If ANY fails → delegate. When in doubt, delegate.
 
+**4. Never spawn `@executor` on an unreviewed plan.** Before ANY
+`@executor` spawn, the plan file MUST have passed `review_plan`
+(`plan_type: implementation`, with full `context`). On verdict `REVISE`,
+revise and resubmit with `iteration` incremented and `previous_feedback`
+set. Spawn only on `APPROVE`, or once `iteration: 3` is reached.
+
+- **A revised plan is a NEW plan.** Re-review it. Grep-checking that a
+  revision matches your brief is NOT a review and never substitutes for one.
+- No exceptions for "small", "obvious", or "already spot-checked".
+- If you spawned `@executor` without a review, stop, say so explicitly in
+  your next summary, and review before anything is committed.
+
+**When no reviewer is reachable** — no MCP server configured, the server
+is down, or the call errors — this gate does not block the work. It is
+conditional on availability, not aspirational. But do not silently skip
+it: state plainly in your summary that the plan shipped without an
+independent review, and why. Never report an unreachable reviewer as
+`APPROVE`.
+
 ### Your Research Discipline
 
 Thinking is your job — but "thinking" does not mean "pulling every
