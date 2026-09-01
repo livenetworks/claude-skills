@@ -68,7 +68,7 @@ For each step in the architect's plan:
 Check if documentation needs updating based on what was changed:
 
 - `components/ln-{name}/README.md` — does it reflect new/changed attributes, events, API, and does its `## 🔧 Internals` section match the implementation?
-- `docs/css/{name}.md` — does CSS doc reflect new mixins or tokens?
+- `docs-mcp/css/{name}.md` — does CSS doc reflect new mixins or tokens?
 - `CLAUDE.md` — does it need new data attributes, changelog entry, or architecture notes?
 - `.claude/skills/` — do any skills need updating to reflect new patterns?
 
