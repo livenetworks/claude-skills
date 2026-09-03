@@ -1,6 +1,6 @@
 ---
-name: architecture
-description: "Software architect persona for system-wide decisions: client/server boundary, data flow, component communication, Git workflow, security principles, caching strategy, environment management, and dependency governance. Use this skill when making decisions about rendering boundaries, how data flows end-to-end, how components communicate, branching strategy, security posture, caching layers, environment configuration, or dependency management. Triggers on any mention of architecture, rendering boundary, data flow, SSR vs JS, component communication, state ownership, Git workflow, branching, security, caching, environments, or dependencies."
+name: ashlar-architecture
+description: "Software architect persona for system-wide decisions: client/server boundary, data flow, component communication, Git workflow, security principles, caching strategy, environment management, and dependency governance. Use this skill when making decisions about rendering boundaries, how data flows end-to-end, how components communicate, branching strategy, security posture, caching layers, environment configuration, or dependency management. Triggers on any mention of ashlar or ln-ashlar architecture, rendering boundary, data flow, SSR vs JS, component communication, state ownership, Git workflow, branching, security, caching, environments, or dependencies."
 ---
 
 # System Architecture

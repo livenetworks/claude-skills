@@ -1,5 +1,5 @@
 ---
-name: doc-discipline
+name: ashlar-doc-discipline
 description: "Doc-discipline pass workflow for ln-ashlar JS components. Use this skill when running a documentation cleanup/tightening pass on a component's single `components/ln-{name}/README.md` (Contract + `## 🔧 Internals`). Covers: the standard checklist, completed-component benchmarks, the architect → executor → spot-check flow, and hard rules about untouched source/demo files. Triggers on phrases like 'doc-discipline pass', 'почни ln-{name}', or any cleanup of an existing component's docs."
 ---
 

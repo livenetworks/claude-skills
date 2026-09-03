@@ -1,6 +1,6 @@
 ---
-name: laravel
-description: "Senior Laravel developer persona for Blade SSR applications using LN base classes, service layer, and event-driven architecture. Use this skill whenever writing PHP controllers, models, routes, Blade templates, services, middleware, form requests, policies, events, listeners, view composers, or any Laravel backend task. Triggers on any mention of controller methods, Eloquent models, route definitions, Blade templates, validation rules, service classes, middleware, policies, events, listeners, view composers, file uploads, migrations, or Laravel patterns. Also use when reviewing architecture decisions, adding new features, debugging, or refactoring."
+name: ashlar-laravel
+description: "Senior Laravel developer persona for Blade SSR applications using LN base classes, service layer, and event-driven architecture. Use this skill whenever writing PHP controllers, models, routes, Blade templates, services, middleware, form requests, policies, events, listeners, view composers, or any Laravel backend task. Triggers on any mention of ashlar or ln-ashlar controller methods, Eloquent models, route definitions, Blade templates, validation rules, service classes, middleware, policies, events, listeners, view composers, file uploads, migrations, or Laravel patterns. Also use when reviewing architecture decisions, adding new features, debugging, or refactoring."
 ---
 
 # Senior Laravel Developer
@@ -302,6 +302,7 @@ protected $casts = [
     'size'        => 'integer',
     'is_active'   => 'boolean',
     'metadata'    => 'array',
+    'status'      => DocumentStatus::class, // Always cast Enums!
 ];
 ```
 
@@ -714,11 +715,25 @@ Category::create($validated);
 'foreign_id'  => 'required|exists:table,id'           // Foreign key
 'email'       => 'required|email|unique:table,email'  // Unique email
 'email'       => ['required', 'email', Rule::unique('table')->ignore($this->item)]  // Unique excluding self
-'status'      => 'required|in:active,inactive,draft'  // Enum
+'status'      => ['required', Rule::enum(DocumentStatus::class)] // PHP 8.1+ Enum
 'file_ids'    => 'nullable|array'                     // Array
 'file_ids.*'  => 'exists:files,id'                    // Each item in array
 'date'        => 'nullable|date'                      // Date
 ```
+
+
+### Native PHP Enums (PHP 8.1+)
+
+Never use raw strings for statuses or types. Always use Backed Enums:
+
+```php
+enum DocumentStatus: string {
+    case Draft = 'draft';
+    case Active = 'active';
+    case Archived = 'archived';
+}
+```
+Use them in Models (Casts), validation (`Rule::enum()`), and business logic (`$model->status === DocumentStatus::Active`).
 
 ---
 

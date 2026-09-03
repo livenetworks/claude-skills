@@ -14,7 +14,9 @@ color: blue
 effort: high
 permissionMode: bypassPermissions
 skills:
+  - ashlar-js
   - js
+  - ashlar-html
   - html
 ---
 

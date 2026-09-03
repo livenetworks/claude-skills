@@ -1,5 +1,5 @@
 ---
-name: ln-ashlar
+name: ashlar-routing
 description: "Routing skill for work on a project that uses the ln-ashlar frontend library. Does not contain library facts — it tells you which documentation source to query for markup, attributes, events, tokens, mixins and doctrine, in what order, and which agent and review gate each kind of task goes through. Use it whenever a task touches ln-ashlar CSS, JS or markup."
 ---
 
@@ -29,21 +29,7 @@ may have been renamed, lifted into a shared module, or deleted.
 
 ## Where to look
 
-Query in this order. Stop at the first source that answers.
-
-| You need | Ask |
-|---|---|
-| Which component handles this UI problem | the MCP component router, then `list_components` |
-| Canonical markup for a component | `get_markup` |
-| An attribute's contract, allowed values, who writes it | `get_attribute` |
-| Events a component emits or listens for | `get_events` |
-| Which component owns a behaviour | `who_handles` |
-| Full contract for one component | `get_component` |
-| Components that work together | `get_related` |
-| Architecture and authoring rules | `get_doctrine` |
-| A task-shaped workflow | `get_skill` |
-| Anything you cannot name precisely | `search_docs`, then `knowledge_search` |
-| The machine-readable attribute surface | `get_ln_schema` |
+**Always use the ln-ashlar MCP server first.** The MCP server exposes tools to query the documentation RAG (Retrieval-Augmented Generation) for markup, attributes, events, components, and doctrine. Review the available tools provided by the MCP server and use the most appropriate ones to find the exact rules and syntax. Stop at the first source that answers your question.
 
 **If the MCP server is unreachable**, fall back to the repository itself, in this order:
 

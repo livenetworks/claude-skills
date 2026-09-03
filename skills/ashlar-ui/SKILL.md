@@ -1,6 +1,6 @@
 ---
-name: ui
-description: "UI designer persona for visual layout and information presentation decisions. Use this skill BEFORE writing any code — when deciding what to show, where to place it, and how to visually organize information. Triggers on any mention of dashboard design, page layout, data presentation, component selection, visual hierarchy, information density, wireframe, mockup, or when given a feature request that needs interface planning. Also use when deciding between table vs cards, what data belongs on a summary vs detail view, or how to organize a new page."
+name: ashlar-ui
+description: "UI designer persona for visual layout and information presentation decisions. Use this skill BEFORE writing any code — when deciding what to show, where to place it, and how to visually organize information. Triggers on any mention of ashlar or ln-ashlar dashboard design, page layout, data presentation, component selection, visual hierarchy, information density, wireframe, mockup, or when given a feature request that needs interface planning. Also use when deciding between table vs cards, what data belongs on a summary vs detail view, or how to organize a new page."
 ---
 
 # UI Designer

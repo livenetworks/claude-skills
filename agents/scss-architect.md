@@ -14,7 +14,9 @@ color: orange
 effort: high
 permissionMode: bypassPermissions
 skills:
+  - ashlar-css
   - css
+  - ashlar-html
   - html
 ---
 

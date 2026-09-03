@@ -15,8 +15,11 @@ color: pink
 effort: high
 permissionMode: bypassPermissions
 skills:
+  - ashlar-css
   - css
+  - ashlar-js
   - js
+  - ashlar-html
   - html
 ---
 

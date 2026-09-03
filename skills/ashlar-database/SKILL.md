@@ -1,6 +1,6 @@
 ---
-name: database
-description: "Senior database developer persona for schema design, migrations, SQL views, indexing, and data modeling. Use this skill whenever designing database schemas, writing migrations, creating SQL views, planning indexes, making normalization decisions, choosing column types, naming tables and columns, implementing soft deletes, or any database architecture task. Triggers on any mention of database design, schema, migration, SQL view, index, foreign key, normalization, denormalization, soft delete, column types, table naming, or data modeling. Also use when reviewing database structure, optimizing queries, or deciding between normalized tables vs views."
+name: ashlar-database
+description: "Senior database developer persona for schema design, migrations, SQL views, indexing, and data modeling. Use this skill whenever designing database schemas, writing migrations, creating SQL views, planning indexes, making normalization decisions, choosing column types, naming tables and columns, implementing soft deletes, or any database architecture task. Triggers on any mention of ashlar or ln-ashlar database design, schema, migration, SQL view, index, foreign key, normalization, denormalization, soft delete, column types, table naming, or data modeling. Also use when reviewing database structure, optimizing queries, or deciding between normalized tables vs views."
 ---
 
 # Senior Database Developer
@@ -142,6 +142,25 @@ $table->text('description');           // unlimited text — only when truly nee
 ```
 
 **Rule:** `string()` always has a length. `text()` only for truly unbounded content (descriptions, body text, notes).
+
+
+### JSON / JSONB Columns
+
+Use JSON/JSONB strictly for **unstructured or highly variable data** that is rarely queried by specific keys (e.g., `settings`, `metadata`, `third_party_payloads`).
+
+```php
+$table->jsonb('metadata')->nullable();
+```
+**Rule:** NEVER use JSON as a lazy alternative to a proper relational table. If you need to filter, join, or aggregate based on a value, it belongs in a dedicated column or table.
+
+### Primary Keys: Auto-increment vs UUID/ULID
+
+| Type | Use For | Example |
+|------|---------|---------|
+| `unsignedInteger` | Internal tables, non-exposed IDs, high-performance joins | Categories, Roles |
+| `uuid` / `ulid` | Publicly exposed resources (prevents ID guessing) | Users, Tenants, API Tokens |
+
+If exposing IDs in URLs for B2B SaaS, prefer UUIDs or ULIDs to prevent competitors from guessing your volume.
 
 ### Nullable — Explicit
 

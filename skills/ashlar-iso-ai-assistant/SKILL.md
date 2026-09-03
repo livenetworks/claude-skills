@@ -1,10 +1,10 @@
 ---
-name: iso-ai-assistant
+name: ashlar-iso-ai-assistant
 description: >
   ISO-compliant AI assistant integration workflow for organizations with ISO 9001, ISO/IEC 20000-1,
   and ISO/IEC 27001 management systems. Use this skill whenever the user needs to create, review,
   or update documentation for AI assistant usage (OpenClaw, ChatGPT, Claude, Copilot, or any LLM-based tool)
-  within a certified management system. Triggers on any mention of: AI policy, AI procedure, AI risk assessment,
+  within a certified management system. Triggers on any mention of ashlar or ln-ashlar: AI policy, AI procedure, AI risk assessment,
   AI acceptable use, AI access control, LLM governance, AI in ISO, chatbot compliance, AI SLA,
   AI incident management, or integrating AI tools into QMS/ISMS/SMS. Also use when auditing or
   reviewing existing AI usage documentation for ISO compliance gaps.

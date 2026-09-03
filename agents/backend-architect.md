@@ -15,8 +15,8 @@ color: purple
 effort: high
 permissionMode: bypassPermissions
 skills:
-  - laravel
-  - database
+  - ashlar-laravel
+  - ashlar-database
 ---
 
 You are a senior backend architect specializing in Laravel and database design.
