@@ -75,10 +75,14 @@ executes. Verification follows execution. Git is last.
 ## Gates
 
 **A plan must pass review before it is executed.** Submit the finished plan file to the
-MCP plan-review tool and act on the verdict: revise and resubmit on a revise verdict,
-with the iteration counter incremented and the previous feedback attached; hand off only
-on approval, or once the iteration ceiling is reached. A revised plan is a new plan —
-review it again. There is no exemption for small or obvious.
+MCP plan-review tool (`review_plan`) **always asynchronously** (`async: true`) to prevent
+HTTP/MCP connection timeouts. Retrieve the critique and verdict via `get_review_result`
+using the returned `job_id` (polling until finished). Act on the verdict: revise and
+resubmit on a revise verdict (always with `async: true`, the iteration counter
+incremented, and the previous feedback attached; retrieve via `get_review_result`);
+hand off only on approval, or once the iteration ceiling is reached. A revised plan is a
+new plan — review it again (always asynchronously). There is no exemption for small or
+obvious.
 
 If no reviewer is reachable, the gate does not block the work — but say so plainly in
 the summary. Never report an unreachable reviewer as an approval.

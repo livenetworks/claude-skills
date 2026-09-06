@@ -65,12 +65,17 @@ If ANY fails → delegate. When in doubt, delegate.
 
 **4. Never spawn `@executor` on an unreviewed plan.** Before ANY
 `@executor` spawn, the plan file MUST have passed `review_plan`
-(`plan_type: implementation`, with full `context`). On verdict `REVISE`,
-revise and resubmit with `iteration` incremented and `previous_feedback`
-set. Spawn only on `APPROVE`, or once `iteration: 3` is reached.
+(`plan_type: implementation`, with full `context`, and ALWAYS `async: true`).
+**Always run plan review asynchronously** (`async: true`) — synchronous calls
+risk timing out HTTP/MCP connections during model evaluation. Retrieve the
+critique and verdict via `get_review_result(job_id)` (polling until complete).
+On verdict `REVISE`, revise and resubmit (always with `async: true`,
+`iteration` incremented, and `previous_feedback` set; poll via
+`get_review_result`). Spawn only on `APPROVE`, or once `iteration: 3` is reached.
 
-- **A revised plan is a NEW plan.** Re-review it. Grep-checking that a
-  revision matches your brief is NOT a review and never substitutes for one.
+- **A revised plan is a NEW plan.** Re-review it (always with `async: true`).
+  Grep-checking that a revision matches your brief is NOT a review and never
+  substitutes for one.
 - No exceptions for "small", "obvious", or "already spot-checked".
 - If you spawned `@executor` without a review, stop, say so explicitly in
   your next summary, and review before anything is committed.

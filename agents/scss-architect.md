@@ -64,11 +64,15 @@ to you. Your summary should end with "Execute: @executor Implement
 
 **The plan must pass `review_plan` before anyone executes it.** If the
 ln-ashlar MCP server is reachable, submit the finished plan file to
-`review_plan` (`plan_type: implementation`, with full `context`) and act on
-the verdict: on `REVISE`, revise and resubmit with `iteration` incremented
-and `previous_feedback` set; hand off only on `APPROVE`, or once
-`iteration: 3` is reached. A revised plan is a NEW plan — re-review it. No
-exemption for "small" or "obvious". If the server is unreachable or the call
+`review_plan` (`plan_type: implementation`, with full `context`, and ALWAYS
+`async: true`). **Always run plan review asynchronously** (`async: true`) —
+synchronous calls risk timing out HTTP/MCP connections. Retrieve the critique
+and verdict via `get_review_result(job_id)` (polling until complete). Act on
+the verdict: on `REVISE`, revise and resubmit (always with `async: true`,
+`iteration` incremented, and `previous_feedback` set; poll via
+`get_review_result`); hand off only on `APPROVE`, or once `iteration: 3` is
+reached. A revised plan is a NEW plan — re-review it (always with `async: true`).
+No exemption for "small" or "obvious". If the server is unreachable or the call
 errors, the gate does not block the work — but say so plainly in your
 summary. Never report an unreachable reviewer as `APPROVE`.
 
