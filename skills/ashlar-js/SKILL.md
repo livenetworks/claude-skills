@@ -102,7 +102,7 @@ if (event.defaultPrevented) return;
 
 ### Commands vs Queries
 
-**Mutations go through request events.** The coordinator never calls component methods for state changes — it dispatches request events. The component validates, emits before-events, and controls its own state transitions.
+**The coordinator never calls component methods for state changes.** It has two doors instead (DOCTRINE.md §2). When the operation is a state the component publishes as a `data-ln-*` attribute, write that attribute directly — `el.setAttribute('data-ln-modal', 'close')`. When the operation is a verb with no attribute form, carries a payload too large for a string, or targets a component with no host element, dispatch a request event. The component validates, emits before-events, and controls its own state transitions either way.
 
 **Reads can use direct API.** Reading a value from a component instance is allowed:
 
@@ -221,8 +221,10 @@ if (element.componentInstance) return;
 Every component exposes a `destroy()` method on its DOM instance:
 
 1. Remove event listeners (if stored as references)
-2. Emit destroyed notification event
-3. Clean up DOM instance reference (`delete element.componentInstance`)
+2. Clean up DOM instance reference (`delete element.componentInstance`)
+
+No destroyed-notification event — see ruling П2 (`plans/audit/_doctrine.md` §7).
+`DOCTRINE.md` already forbids a destroyed component from dispatching CustomEvents.
 
 ### When it runs
 
@@ -243,10 +245,13 @@ before any bail, and open the method with the instance guard
 
 **A destroyed component leaves nothing running and nothing behind.** No listeners, no
 timers, no pending promises or scheduled microtasks, no aborted-but-unreleased
-requests — and none of its *marks*: state attributes it wrote, state classes it
+requests — and none of its *marks*: state attributes it wrote, any class it
 toggled, ARIA it set, or DOM it created. If a sibling code path in the same file
 already knows how to clear one of those (a rename handler that strips the old class,
 a render helper that empties a container), `destroy()` owes the same cleanup.
+The one exception: an attribute the **author** wrote in the markup, whose value the
+component merely changed, remains with its current value — `destroy()` removes what the
+component created, not what it only touched (DOCTRINE.md §5).
 
 ---
 
@@ -270,7 +275,7 @@ a render helper that empties a container), `destroy()` owes the same cleanup.
 
 1. **Component = data layer** — state, CRUD, own DOM, request listeners, notification events. Does NOT open modals, show toasts, or read external forms.
 2. **Coordinator = UI wiring** — catches buttons/forms, dispatches request events, reacts to notifications with UI feedback (toasts, modals).
-3. **Commands → request events, Queries → direct API** — coordinator never calls component methods for mutations.
+3. **Commands → attribute write or request event, Queries → direct API** — coordinator never calls component methods for mutations. State goes in the attribute; verbs and payloads go in the event (DOCTRINE.md §2).
 
 ### Mediator Pattern
 
@@ -310,12 +315,12 @@ Flow components (toggle, tabs, accordion) live entirely at their element's DOM l
 
 1. **Dismissal listeners** — Escape / click-outside. Events originating outside the component's subtree can only be heard at `document` level.
 2. **Focus management** — Tab focus trap (catch focus leaving the subtree), focus return to the pre-open `document.activeElement`.
-3. **Body state class** — a `.ln-*` class on `<body>` (e.g. `ln-modal-open`) for page-level state like scroll lock. JS toggles the class; CSS owns the styling. If multiple instances can be open, removal is gated on "no other open instance" (refcount-by-query).
+3. **Body state attribute** — a `data-ln-{component}-*` attribute on `<body>` (e.g. `data-ln-modal-open`) for page-level state like scroll lock. JS toggles the attribute; CSS owns the styling. **Never a class** — state lives in attributes, never in classes (ruling П1). If multiple instances can be open, removal is gated on "no other open instance" (refcount-by-query).
 
 ### Hard rules
 
 - **Paired with open/close lifecycle** — document listeners are added on open, removed on close. Zero document listeners while everything is closed.
-- **`destroy()` of an open instance** releases its document listeners and the body state class.
+- **`destroy()` of an open instance** releases its document listeners and the body state attribute.
 - **Sensors, not actuators** — document listeners funnel back into the component's own attribute state machine (`setAttribute(DOM_SELECTOR, 'close')`); they never mutate foreign DOM directly.
 - **Nothing else** — any document/body touchpoint outside these three categories is off-doctrine.
 
@@ -372,7 +377,7 @@ Module-level infrastructure (`DOMContentLoaded` boot, the body MutationObserver,
 - Hand-writing the click-modifier check instead of importing the shared predicate
 - Reading an attribute at runtime without declaring it as an observed reaction
 - `destroy()` that assumes a fully-built instance, or that leaves behind state
-  attributes, state classes, ARIA, or DOM the component created
+  attributes, ARIA, classes, or DOM the component created
 - Patching a native API (`console.*`, `history.*`, `window.fetch`) or injecting a node
   into `<body>` at module load — if it must happen, install it on first instance and
   remove it with the last one

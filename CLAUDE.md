@@ -229,6 +229,25 @@ as truth:
   error to the user. Do NOT try to work around it with direct git
   commands.
 
+## Scope — do exactly what was asked
+
+**The asked scope is the whole scope.** This holds for me and for every brief
+I write for subagents.
+
+- Don't pull in neighbouring files, registers, plans or "related context" the
+  user didn't mention. If the task says "check the audit against the code" —
+  that's exactly two sources, nothing third.
+- **Don't produce new findings.** A finding I run into while working gets
+  reported in **one sentence** at the end, and that's it. It doesn't get
+  solved, doesn't get investigated, doesn't enter the report as an item.
+- Process weight is measured against the task. A check needs no plan file, no
+  `review_plan`, no new artifact unless one was asked for.
+- Before starting: state the scope in one line. If that line names more sources
+  than the user listed — the scope has widened, go back.
+
+This is a recurring drift of mine: I start from what was asked and get stuck in
+neighbouring findings. The user calls that going off-topic.
+
 ## Working Mode
 
 When I share plans, specs, or ask architectural questions — DON'T immediately
@@ -316,3 +335,6 @@ verification". It means cheaper verification matched to the risk profile.
 - No inline `style=""` attributes
 - No presentational classes in HTML
 - No inline event handlers (`onclick=""`, `onchange=""`, `onsubmit=""`, etc.) in production HTML — consume `data-ln-*` JS components or attach listeners in script files instead. **Exception:** demo testing pages (`demo/admin/**`, `demo/docuflow/**`) may use inline handlers for trigger/action buttons that exist solely to exercise the library. Demo HTML is the testing playground, not a production-pattern reference; inline handlers there don't propagate into consumer projects. Library mixins, components, and consumer-facing HTML stay strict.
+# graphify
+- **graphify** (`.claude/skills/graphify/SKILL.md`) - any input to knowledge graph. Trigger: `/graphify`
+When the user types `/graphify`, use the installed graphify skill or instructions before doing anything else.
