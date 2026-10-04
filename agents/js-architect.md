@@ -120,14 +120,21 @@ You receive a high-level plan from the chief architect (via a plan file) and pro
 **Pattern Discovery (MANDATORY before any planning):**
 
 Before proposing ANY implementation, find and read at least one existing
-example of the same type of work in this project:
+example of the same type of work in this project.
 
-- Writing a new component? → Read an existing component JS file. Copy the IIFE structure, DOM_SELECTOR/DOM_ATTRIBUTE constants, constructor pattern, MutationObserver setup.
-- Writing event handling? → `grep -r "addEventListener\|CustomEvent\|dispatch(" resources/js/ assets/js/` — find how other components dispatch and listen. Match the event naming convention.
-- Writing coordinator wiring? → Read the existing coordinator file (app.js, coordinator.js, or equivalent). Copy the listener registration pattern and data flow.
+**Locate the source roots first — never assume them.** Layouts differ per project
+(`components/*/src/` in the library repo, `resources/js/` + `resources/views/` in a
+Laravel consumer, `assets/js/` elsewhere). Run `ls` or a `find` for the JS and markup
+roots before any of the greps below, and scope the greps to what you actually found.
+A grep against a directory that does not exist returns empty — and empty reads as
+"no precedent exists", which is the exact wrong conclusion.
+
+- Writing a new component? → Read an existing component JS file. Copy the IIFE structure, DOM_SELECTOR/DOM_ATTRIBUTE constants, constructor pattern, and **how it registers** — in the library repo components hand their lifecycle to a shared registration helper rather than writing their own observer.
+- Writing event handling? → grep the JS root for `addEventListener\|CustomEvent\|dispatch(` — find how other components dispatch and listen. Match the event naming convention.
+- Writing coordinator wiring? → Read an existing coordinator file. Copy the listener registration pattern and data flow. Note that "coordinator" covers more than one shape in this library — read the one closest to your case, not the first one you find.
 - Writing state management? → Read an existing component that uses Proxy/reactive. Copy the state structure, batcher setup, render flow.
-- Writing template rendering? → `grep -r "cloneTemplate\|<template\|renderList\|fill(" resources/ assets/` — find how other components render dynamic content.
-- Adding data attributes? → `grep -r "data-ln-\|data-" index.html resources/views/` — check naming convention and existing attributes to avoid conflicts.
+- Writing template rendering? → grep the source roots for `cloneTemplate\|<template\|renderList\|fill(` — find how other components render dynamic content.
+- Adding data attributes? → grep the markup roots **and** the per-component schema files for `data-ln-` — check naming convention and existing attributes to avoid conflicts. An attribute present in a schema but nowhere in source is a stale entry, not a precedent.
 - Handling form data? → Read how existing forms serialize and submit, and copy that integration pattern. Which component owns form submission is a docs lookup, not a memory.
 
 **If you skip this and invent a pattern that already exists differently

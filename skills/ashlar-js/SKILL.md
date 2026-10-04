@@ -102,7 +102,7 @@ if (event.defaultPrevented) return;
 
 ### Commands vs Queries
 
-**Mutations go through request events.** The coordinator never calls component methods for state changes — it dispatches request events. The component validates, emits before-events, and controls its own state transitions.
+**The coordinator never calls component methods for state changes.** It has two doors instead (DOCTRINE.md §2). When the operation is a state the component publishes as a `data-ln-*` attribute, write that attribute directly — `el.setAttribute('data-ln-modal', 'close')`. When the operation is a verb with no attribute form, carries a payload too large for a string, or targets a component with no host element, dispatch a request event. The component validates, emits before-events, and controls its own state transitions either way.
 
 **Reads can use direct API.** Reading a value from a component instance is allowed:
 
@@ -122,20 +122,47 @@ import { profileStore } from './profile.js';
 
 ---
 
-## 5. MutationObserver — Auto-Init
+## 5. Auto-Init — the shared registration helper
 
-Every component includes a MutationObserver to auto-initialize elements in two scenarios:
+A component does **not** write its own MutationObserver. The library's shared
+registration helper owns both halves of auto-init and hands the component
+declarative hooks instead:
 
-1. **`childList`** — new element added to DOM (AJAX, innerHTML, appendChild)
-2. **`attributes`** — data attribute added to an existing element
+1. **`childList`** — an element enters the DOM (AJAX, `innerHTML`, `appendChild`)
+   → the helper constructs the instance, and tears it down when the node leaves.
+2. **`attributes`** — an observed attribute changes on a live element
+   → the helper invokes the component's attribute-change hook.
+
+A private observer is a **rare, sanctioned exception** — a handful of components keep
+one and each has a written reason (reading an attribute on a *parent*; a bundle-size
+floor that forbids any import; a bespoke `childList` lifecycle). If you think you need
+one, first check whether the helper's subtree-change hook covers your case, then read
+the exception list. Do not add a fourth from scratch.
 
 ### Key Rules
 
-- **`attributeFilter` is mandatory** — without it, the observer fires on EVERY attribute change (performance issue)
-- **Observe every attribute the bridge reads** — the observed-attribute list must include every self-attribute your attribute-change handler (or a helper it calls synchronously) reads as a render or derive input, not just the primary one. Read-but-not-observed means a runtime change silently no-ops. Behaviour flags checked only at a transition — read once at open/close for a side effect — are exempt. Cross-check sibling components that format the same kind of value: if one observes an input attribute, its counterpart must too.
-- **On attribute mutation**: if the element has a bridge method, call it (attribute → state sync). Otherwise, initialize.
-- **Guard against duplicate listeners** — set a flag on the element before `addEventListener`
-- **Always check `ctrlKey || metaKey || button === 1`** before `preventDefault` — allow browser shortcuts (new tab, etc.)
+- **Declare reactions, not filters.** The shared observer deliberately does **not**
+  filter by attribute name — filtering would break components that legitimately react
+  to non-`data-*` attributes (`lang`, `href`, `datetime`). The component declares
+  *which attributes it reacts to* at registration; the helper routes only those to its
+  handler. Copying an `attributeFilter` into a component is off-doctrine.
+- **Observe every attribute the bridge reads** — the declared list must include every
+  self-attribute your attribute-change handler (or a helper it calls synchronously)
+  reads as a render or derive input, not just the primary one. Read-but-not-observed
+  means a runtime change silently no-ops. Behaviour flags checked only at a transition
+  — read once at open/close for a side effect — are exempt. Cross-check sibling
+  components that format the same kind of value: if one observes an input attribute,
+  its counterpart must too.
+- **On attribute mutation**: if the element has a bridge method, call it (attribute →
+  state sync). Otherwise, initialize.
+- **Guard against duplicate listeners** — set a flag on the element before
+  `addEventListener`
+- **Never hand-roll the click guard.** The library ships a shared predicate for
+  "should this click be intercepted". It checks **all four** modifier keys and the
+  mouse button. Hand-written variants drift weaker — the common one is
+  `ctrlKey || metaKey || button === 1`, which omits `shiftKey` and `altKey` — and a
+  missed `shiftKey` silently turns the user's *open in a new window* into *navigate in
+  place*. Import the primitive; never copy the condition.
 
 ---
 
@@ -194,20 +221,37 @@ if (element.componentInstance) return;
 Every component exposes a `destroy()` method on its DOM instance:
 
 1. Remove event listeners (if stored as references)
-2. Emit destroyed notification event
-3. Clean up DOM instance reference (`delete element.componentInstance`)
+2. Clean up DOM instance reference (`delete element.componentInstance`)
 
-### When to destroy
+No destroyed-notification event — see ruling П2 (`plans/audit/_doctrine.md` §7).
+`DOCTRINE.md` already forbids a destroyed component from dispatching CustomEvents.
 
-- Before removing an element from DOM programmatically
-- When explicitly requested
+### When it runs
 
-### When NOT needed
+- **Automatically**, when the element leaves the document. The shared registration
+  helper calls `destroy()` on every instance under a removed node — after confirming
+  the node is really gone, so a temporary detach-and-reattach does not tear anything
+  down. This includes elements replaced by `innerHTML` and views swapped by a router.
+- When explicitly requested, or before you remove an element programmatically.
+- Normal page navigation needs nothing — the browser handles it.
 
-- Normal page navigation (browser handles cleanup)
-- Elements removed by `innerHTML` replacement (acceptable leak for short-lived pages)
+### Because teardown is automatic
 
-The MutationObserver does NOT auto-destroy on removal. This is intentional: elements might be temporarily detached and re-attached (e.g., DOM reordering).
+**`destroy()` must survive a half-built instance.** A constructor that bails early
+(required markup missing) still leaves its instance on the element, and the helper
+will destroy it. Assign `this.dom` as the **first statement** of the constructor,
+before any bail, and open the method with the instance guard
+(`if (!this.dom[ATTRIBUTE]) return;`).
+
+**A destroyed component leaves nothing running and nothing behind.** No listeners, no
+timers, no pending promises or scheduled microtasks, no aborted-but-unreleased
+requests — and none of its *marks*: state attributes it wrote, any class it
+toggled, ARIA it set, or DOM it created. If a sibling code path in the same file
+already knows how to clear one of those (a rename handler that strips the old class,
+a render helper that empties a container), `destroy()` owes the same cleanup.
+The one exception: an attribute the **author** wrote in the markup, whose value the
+component merely changed, remains with its current value — `destroy()` removes what the
+component created, not what it only touched (DOCTRINE.md §5).
 
 ---
 
@@ -231,7 +275,7 @@ The MutationObserver does NOT auto-destroy on removal. This is intentional: elem
 
 1. **Component = data layer** — state, CRUD, own DOM, request listeners, notification events. Does NOT open modals, show toasts, or read external forms.
 2. **Coordinator = UI wiring** — catches buttons/forms, dispatches request events, reacts to notifications with UI feedback (toasts, modals).
-3. **Commands → request events, Queries → direct API** — coordinator never calls component methods for mutations.
+3. **Commands → attribute write or request event, Queries → direct API** — coordinator never calls component methods for mutations. State goes in the attribute; verbs and payloads go in the event (DOCTRINE.md §2).
 
 ### Mediator Pattern
 
@@ -271,12 +315,12 @@ Flow components (toggle, tabs, accordion) live entirely at their element's DOM l
 
 1. **Dismissal listeners** — Escape / click-outside. Events originating outside the component's subtree can only be heard at `document` level.
 2. **Focus management** — Tab focus trap (catch focus leaving the subtree), focus return to the pre-open `document.activeElement`.
-3. **Body state class** — a `.ln-*` class on `<body>` (e.g. `ln-modal-open`) for page-level state like scroll lock. JS toggles the class; CSS owns the styling. If multiple instances can be open, removal is gated on "no other open instance" (refcount-by-query).
+3. **Body state attribute** — a `data-ln-{component}-*` attribute on `<body>` (e.g. `data-ln-modal-open`) for page-level state like scroll lock. JS toggles the attribute; CSS owns the styling. **Never a class** — state lives in attributes, never in classes (ruling П1). If multiple instances can be open, removal is gated on "no other open instance" (refcount-by-query).
 
 ### Hard rules
 
 - **Paired with open/close lifecycle** — document listeners are added on open, removed on close. Zero document listeners while everything is closed.
-- **`destroy()` of an open instance** releases its document listeners and the body state class.
+- **`destroy()` of an open instance** releases its document listeners and the body state attribute.
 - **Sensors, not actuators** — document listeners funnel back into the component's own attribute state machine (`setAttribute(DOM_SELECTOR, 'close')`); they never mutate foreign DOM directly.
 - **Nothing else** — any document/body touchpoint outside these three categories is off-doctrine.
 
@@ -325,11 +369,18 @@ Module-level infrastructure (`DOMContentLoaded` boot, the body MutationObserver,
 - Debounce on client-side search — data is in local cache, filter is synchronous
 
 ### Guards
-- Missing double-load guard
-- Missing MutationObserver for auto-init
+- Missing double-load guard, or a module that skips the IIFE wrapper entirely and
+  leaves its registry on module scope — a second bundle then silently forks the state
+- Hand-rolling a MutationObserver instead of using the shared registration helper
+- Setting `attributeFilter` on an observer — the shared one deliberately has none
 - Missing trigger re-init guard (duplicate listeners)
-- Missing `ctrlKey || metaKey || button === 1` check before `preventDefault`
-- Missing `attributeFilter` on MutationObserver
+- Hand-writing the click-modifier check instead of importing the shared predicate
+- Reading an attribute at runtime without declaring it as an observed reaction
+- `destroy()` that assumes a fully-built instance, or that leaves behind state
+  attributes, ARIA, classes, or DOM the component created
+- Patching a native API (`console.*`, `history.*`, `window.fetch`) or injecting a node
+  into `<body>` at module load — if it must happen, install it on first instance and
+  remove it with the last one
 
 ### Formatting
 - Spaces for indentation — always use tabs
