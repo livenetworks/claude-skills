@@ -243,9 +243,13 @@ execute. Instead:
    answering. If we already decided something, don't suggest the opposite.
 4. **Ask before building** — if the request is ambiguous or has multiple
    valid approaches, discuss first. Don't pick one silently.
-5. **Proactive feedback** — if you notice something I didn't ask about
-   but should have (missing state, edge case, contradiction with another
-   spec), bring it up.
+5. **Stay in scope** — do exactly what was asked. Report a problem only
+   if it is proven real (a line you can point to, reachable from a real
+   input); an imagined scenario is not a finding. A neighbouring issue is
+   one sentence, never work. Missing states and edge cases are raised only
+   when the task is to design or specify a new feature, not while fixing
+   or changing something existing. If unsure whether something is in
+   scope, it is not.
 
 This applies to architecture discussions, spec reviews, and planning.
 For implementation tasks ("create this file", "fix this bug"), execute directly.
