@@ -202,7 +202,6 @@ protected static function booted(): void
 - Multiple responsibilities in one Service
 
 ### Framework
-- Duplicating globals (ln-ashlar sets body/a/button styles — don't restate)
 - `{!! !!}` for user-provided content
 - Manual get/set for cache instead of `Cache::remember()`
 - Caching in controllers

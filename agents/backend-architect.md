@@ -15,7 +15,7 @@ color: purple
 effort: high
 permissionMode: bypassPermissions
 skills:
-  - ashlar-laravel
+  - ln-laravel
   - ashlar-database
 ---
 
