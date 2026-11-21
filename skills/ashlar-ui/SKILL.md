@@ -371,7 +371,7 @@ A page is not done until all these are addressed.
 Before implementing any styled component, follow these system-wide rules:
 
 - **Radius + spacing** — rounded elements must float (have `mx`), flush elements must be sharp
-- **Shadow vs border** — pick one as the primary signal; don't stack both
+- **Shadow vs border** — both are supported; the skin decides which one carries depth. One primary signal per design; don't stack both
 - **Icon consistency** — Tabler outline only, no mixing sets or weights
 - **Spacing scale** — token values only, never invent custom values
 - **Color = state** — never decorative, only semantic

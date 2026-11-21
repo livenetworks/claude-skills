@@ -47,18 +47,25 @@ Sharp link, full-width = CORRECT:
 
 ---
 
-## 2. Shadow + Border: Pick One
+## 2. Depth: Shadow or Border — the Skin Decides
 
-Shadows imply **elevation** (lifts off the page). Borders imply **containment** (bounded on a flat surface). Both together usually cancel each other visually.
+Shadows imply **elevation** (lifts off the page). Borders imply **containment** (bounded on a flat surface). ln-ashlar supports both. Which one carries depth depends on the type of design, and the skin (`data-skin`) owns that choice — not the component, not the page.
+
+| Design type | Depth signal for cards, panels, modals | Skin |
+|---|---|---|
+| Elevated | Shadow, optionally with a subtle border | default (no `data-skin`) |
+| Outlined | Border; no elevation shadows | `outline` (strong borders), `hairline` (quiet borders), `glass` (zero radius) |
+
+Rules that hold in every skin:
 
 | Context | Use | Reason |
 |---|---|---|
-| Cards, panels, modals | Shadow (optionally with subtle border) | They sit above the surface |
 | Inputs, selects | Border only | They sit on the surface |
 | Focused inputs | Focus indicator | Functional signal, not elevation |
-| Active/hover cards | Shadow increases | They lift further |
+| Hover | Surface color change — never added elevation (§7) | Hover signals availability, not lift |
 
-**Exception:** A very subtle border alongside a subtle shadow is acceptable — it reinforces the card edge on screens where shadows wash out.
+- **One primary signal per design.** Don't stack a strong border on a strong shadow. A very subtle border alongside a subtle shadow is acceptable — it reinforces the card edge on screens where shadows wash out.
+- **Markup and components never choose the signal.** They read the depth tokens (`--shadow-*`, `--color-border`, `--bg-*`); the skin rebinds them.
 
 ---
 
@@ -402,9 +409,9 @@ In a grid layout this is expressed by column span. The form should feel designed
 
 ### Density
 
-Dense forms reduce padding inside inputs and gap between field rows. **Font size does not change.**
+Density is one dial for the whole system: a tier moves text size, line box, padding and control height together (control height = line-height + 2 × padding-y + 2 × border). **Within one tier the type scale is constant** — never shrink text ad hoc to fit more content into a component.
 
-The typographic scale is constant across all density levels. A dense form with small text is harder to read without being faster to scan.
+The spacious tier exists for accessibility: a reader who needs it needs larger text, not just more air.
 
 | Level | Use when |
 |---|---|
@@ -604,7 +611,7 @@ Mixing striped rows with a same-weight hover produces a table where every intera
 
 ### Density
 
-Same principle as form density (§10) — padding and row gap change, font size does not.
+Same principle as form density (§10) — the tier moves padding, row gap and text together.
 
 ---
 
@@ -612,7 +619,7 @@ Same principle as form density (§10) — padding and row gap change, font size 
 
 A sticky table header that scrolls with the page must have a bottom shadow or border to visually separate it from the content scrolling beneath it. Without this, the header and body rows merge — the user loses the column labels.
 
-This is an application of §2: when elements overlap due to scroll, a shadow or border signals elevation and maintains the reading boundary. A `box-shadow` on the header's bottom edge is the minimal correct treatment.
+This is an application of §2: when elements overlap due to scroll, a shadow or border signals elevation and maintains the reading boundary. The skin's depth signal decides which — a bottom `box-shadow` in an elevated skin, a bottom border in an outlined or flat one.
 
 ---
 
@@ -949,7 +956,7 @@ Three decisions remain viewport-dependent because they affect the page structure
 
 ### What does not change across breakpoints
 
-**Font size does not change.** The typographic scale is constant — same rule as density (§10, §11). A component at `sm` has less space, not smaller text. Reducing font size to fit more content into less space defeats the purpose of responsive design — it makes content harder to read without reducing its quantity.
+**Font size does not change.** A breakpoint never moves the type scale — only the density tier does (§10). A component at `sm` has less space, not smaller text. Reducing font size to fit more content into less space defeats the purpose of responsive design — it makes content harder to read without reducing its quantity.
 
 **Color and state signals do not change.** Focus rings, error treatment, hover behavior, selection states — all remain identical regardless of container size. A focused input at `sm` looks the same as a focused input at `lg`, minus the width.
 
